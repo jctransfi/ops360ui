@@ -1,0 +1,26 @@
+{
+  "name": "op360node",
+  "version": "1.0.0",
+  "description": "op360 server",
+  "main": "server.js",
+  "scripts": {
+    "test": "grunt nodeunit",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jctransfi/op360node.git"
+  },
+  "keywords": [
+    "op360"
+  ],
+  "author": "JC Transfiguracion",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jctransfi/op360node/issues"
+  },
+  "homepage": "https://github.com/jctransfi/op360node",
+  "dependencies": {
+    "express": "^4.12.3"
+  }
+}
