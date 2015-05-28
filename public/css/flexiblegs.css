@@ -19,7 +19,7 @@
   font-size: 1rem;
   vertical-align: top;
 }
-.flexbox {
+.flexbox-fgs {
   -webkit-justify-content: center;
   justify-content: center;
   -webkit-align-content: flex-start;

@@ -110,8 +110,8 @@ body {
 }
 
 .header {
-    background: #2c3e50;
-    background-image: url(../img/bg-header.png);
+    background: #000;
+    /*background-image: url(../img/bg-header.png);*/
     background-position: left center;
     background-repeat: no-repeat;
     color: #fff;
@@ -139,7 +139,7 @@ body {
 }
 
 .navigation {
-    background: #16a085;
+    background: orange;
     color: #fff !important; 
     font-size: 0.875em;
     clear: both;
@@ -160,7 +160,7 @@ body {
 
 .footer {
     width: 100%;
-    background: #2c3e50;
+    background: #000;
     color: #fff;
     text-align: center;
     font-size: 0.750em;
@@ -171,6 +171,11 @@ body {
     background-repeat: no-repeat;
     background-position: left;
     padding-left: 20px;
+}
+
+.nav-icon a {
+    color: #fff;
+    text-decoration: none;
 }
 
 .icon-config {
