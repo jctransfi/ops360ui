@@ -28,8 +28,8 @@
 var express = require('express');
 var app = express();
 
-// var port = process.env.PORT || 8090; // dev port
-var port = process.env.PORT || 80; // set our port
+var port = process.env.PORT || 8090; // dev port
+// var port = process.env.PORT || 80; // set our port
 
 // create our router
 var router = express.Router();
