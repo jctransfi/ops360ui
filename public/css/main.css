@@ -181,7 +181,7 @@ body {
 .card {
     border: 1px solid #aaa;
     background-color: #fff;
-    box-shadow: 1px 1px 3px #666;
+    box-shadow: 1px 1px 3px #222;
     margin: 10px 0;
     padding: 10px 0;
     display: block;
