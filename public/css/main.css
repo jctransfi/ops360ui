@@ -107,6 +107,7 @@ html, body {
 
 body {
     overflow-x: hidden;
+    background: #ccc;
 }
 
 .header {
@@ -165,6 +166,25 @@ body {
     text-align: center;
     font-size: 0.750em;
     padding: 0.375em;
+}
+
+.sidebar {
+    width: 5%;
+    background-color: blue;
+    height: 100%;
+}
+
+.cardui {
+    /*float: left;*/
+}
+
+.card {
+    border: 1px solid #aaa;
+    background-color: #fff;
+    box-shadow: 1px 1px 3px #666;
+    margin: 10px 0;
+    padding: 10px 0;
+    display: block;
 }
 
 .nav-icon {
@@ -234,6 +254,8 @@ body {
 
 .app {
     /*padding: 10px;*/
+    padding-left: 6px;
+    padding-right: 12px;
 }
 
 .padme {

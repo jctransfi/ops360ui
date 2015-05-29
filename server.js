@@ -25,6 +25,39 @@
 
 // http.request(options, callback).end();
 
+// if the results object can be constructed with an identifier then just create and object
+// otherwise just create and array of objects
+var resultobj = {
+  "item-1" : {
+    "customer-info" : {
+      "acg" : 1234456
+      //and so on
+    },
+    "site-info" : {
+      "vlid" : "CAEDUB23"
+      //and so on
+    },
+    "escalation" : {
+      "escalation" : "big chunk of text"
+    }
+    //other elements as objects go here
+  },
+  "item-2" : {
+    "customer-info" : {
+      "acg" : 1234456
+      //and so on
+    },
+    "site-info" : {
+      "vlid" : "CAEDUB23"
+      //and so on
+    },
+    "escalation" : {
+      "escalation" : "big chunk of text"
+    }
+    //other elements as objects go here
+  }
+}
+
 var express = require('express');
 var app = express();
 
