@@ -169,13 +169,28 @@ body {
 }
 
 .sidebar {
-    width: 5%;
+    display: inline-block;
+    width: 60px;
     background-color: blue;
-    height: 100%;
+}
+
+.side-list {
+    margin: 0;
+    padding: 0;
+}
+
+.side-icon {
+    list-style: none;
+    font-size: 10px;
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
 }
 
 .cardui {
     /*float: left;*/
+    display: inline-block;
+    width: 94%;
 }
 
 .card {
@@ -191,6 +206,10 @@ body {
     background-repeat: no-repeat;
     background-position: left;
     padding-left: 20px;
+    font-weight: 700;
+    text-shadow: 1px 1px 1px #FF7719;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .nav-icon a {
@@ -253,9 +272,7 @@ body {
 }
 
 .app {
-    /*padding: 10px;*/
-    padding-left: 6px;
-    padding-right: 12px;
+
 }
 
 .padme {
@@ -551,6 +568,51 @@ body {
 /* ==========================================================================
    Helper classes
    ========================================================================== */
+
+.flex-container {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-align-content: flex-start;
+    -ms-flex-line-pack: start;
+    align-content: flex-start;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+}
+
+.flex-item:nth-child(1) {
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    -webkit-align-self: auto;
+    -ms-flex-item-align: auto;
+    align-self: auto;
+    }
+
+.flex-item:nth-child(2) {
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    -webkit-align-self: auto;
+    -ms-flex-item-align: auto;
+    align-self: auto;
+    }
 
 /*
  * Hide visually and from screen readers:
