@@ -19,7 +19,7 @@
         <link rel="stylesheet" href="css/angular-busy.css">
     <!--<script src="js/vendor/modernizr-2.8.3.min.js"></script>-->
     </head>
-    <body ng-controller="paController">
+    <body ng-controller="dashboardController">
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -47,7 +47,7 @@
                 <div class="nav-icon"><a href="#contact">Provisioning</a></div>
                 <div class="nav-icon"><a href="#contact">PST</a></div>
             </div>
-            <div class="app" ng-view>
+            <div class="app">
                 <div class="sidebar">
                     <ul class="side-list">
                         <li class="side-icon">Search</li>
@@ -55,38 +55,13 @@
                         <li class="side-icon">Send to Ticket</li>
                     </ul>
                 </div>
-                <div class="cardui">
-                    <div class="wrap gutter-5-xl gutter-10-xs gutter-out-xs">
-                        <div class="xl-2-8 lg-4-8 md-3-6 sm-2-4 xs-1-1">
-                            <div class="card">card 1</div>
-                        </div>
-                        <div class="xl-2-8 lg-4-8 md-3-6 sm-2-4 xs-1-1">
-                            <div class="card">card 2</div>
-                        </div>
-                        <div class="xl-2-8 lg-4-8 md-3-6 sm-2-4 xs-1-1">
-                            <div class="card">card 3</div>
-                        </div>
-                        <div class="xl-2-8 lg-4-8 md-3-6 sm-2-4 xs-1-1">
-                            <div class="card">card 4</div>
-                        </div>
-                        <div class="xl-4-8 lg-1-1 md-1-1 sm-1-1 xs-1-1">
-                            <div class="card">
-                                <div 
-                            </div>
-                        </div>
-                        <div class="xl-4-8 lg-1-1 md-1-1 sm-1-1 xs-1-1">
-                            <div class="card">card 6</div>
-                        </div>
-                        <div class="xl-3-8 lg-1-1 md-1-1 sm-1-1 xs-1-1">
-                            <div class="card">card 7</div>
-                        </div>
-                        <div class="xl-4-8 lg-1-1 md-1-1 sm-1-1 xs-1-1">
-                            <div class="card">card 8</div>
-                        </div>
-                        <div class="xl-1-8 lg-1-1 md-1-1 sm-1-1 xs-1-1">
-                            <div class="card">card 9</div>
-                        </div>
-                    </div>
+                <div class="panel-container">
+                    <div class="filter-box__form-element">
+                        <input ng-model="searchTerm" class="filter-box__text-input" type="text" placeholder="CABRCV1-CROCS-RTR-1" />
+                    </div><!--
+                    --><button class="btn-red" ng-click="search(searchTerm)">SEARCH</button>
+                </div>
+                <div class="cardui" ng-view>
                 </div>
             </div>
             <!-- <div class="push"></div> -->
