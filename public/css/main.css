@@ -218,7 +218,7 @@ body {
     background-color: #fff;
     box-shadow: 1px 1px 3px #222;
     margin: 10px 0;
-    padding: 10px 0;
+    padding: 10px;
     display: block;
 }
 
@@ -360,9 +360,10 @@ body {
     /*font-weight: 700;*/
 }
 
-.circuit-table {
+.circuit-table, .interface-table {
     font-size: 11px;
     width: 100%;
+    text-align: left;
 }
 
 .data-summary {

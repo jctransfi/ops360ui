@@ -15,6 +15,23 @@
     </div>
     <div class="xl-4-8 lg-1-1 md-1-1 sm-1-1 xs-1-1">
         <div class="card">
+            <h2>Interface Information</h2>
+            <table class="interface-table">
+                <tr>
+                    <td>VHID</td>
+                    <td>Status</td>
+                    <td>Mgt Status</td>
+                    <td>IP</td>
+                    <td>SNMP String</td>
+                </tr>
+                <tr>
+                    <td>{{ifData.HOST_NAME}}</td>
+                    <td>{{ifData.STATUS}}</td>
+                    <td>{{ifData.MANAGEMENT_STATE}}</td>
+                    <td>{{ifData.ADDRESS}}</td>
+                    <td>{{ifData.SNMPCOMMSTR}}</td>
+                </tr>
+            </table>
         </div>
     </div>
     <div class="xl-4-8 lg-1-1 md-1-1 sm-1-1 xs-1-1">
