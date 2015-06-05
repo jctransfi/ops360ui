@@ -43,7 +43,7 @@ myApp.service('searchService', function($http) {
     delete $http.defaults.headers.common['X-Requested-With'];
     this.getData = function(apiURL, searchTerm) {
         // $http() returns a $promise that we can add handlers with .then()
-        var urlpath = "http://dcoeng1-nmswebdev-1" + apiURL + searchTerm
+        var urlpath = "http://dcoeng1-nmswebdev-1:8080" + apiURL + searchTerm
         console.log(urlpath);
         return $http({
             method: 'GET',
@@ -73,13 +73,22 @@ myApp.controller('dashboardController', function($scope, searchService) {
       var firstPromise = searchService.getData("/api/v1/nms/vcid/", $scope.searchTerm)
   		$scope.promise = searchService.getData("/api/v1/nms/vcid/", $scope.searchTerm).then(function(dataResponse) {
   			console.log(dataResponse.data);
-        $scope.circuit = dataResponse.data;
-        vhid = dataResponse.data.ORIGVHID;
+        if(dataResponse.data){
+          $scope.circuit = dataResponse.data;
+          console.log(typeof(dataResponse.data));
+          vhid = dataResponse.data.ORIGVHID;
+        }else{
+          $(".panel-container").append("No Circuit Data");
+        }
 	    }).then(function() {
         searchService.getData("/api/v1/nms/vhid/", vhid).then(function(dataResponse) {
-          console.log(dataResponse.data);
-          $scope.ifData = dataResponse.data;
-          $(".panel-container").removeClass("panel-open");
+          console.log(typeof(dataResponse.data));
+          if(dataResponse.data){
+            $scope.ifData = dataResponse.data;
+            $(".panel-container").removeClass("panel-open");  
+          }else{
+            $(".panel-container").append("No Circuit Data");   
+          }
         });
       });
   	}
