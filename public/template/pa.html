@@ -1,41 +1,16 @@
 <div class="wrap gutter-5-xl gutter-10-xs gutter-out-xs" cg-busy="{promise:promise,message:'Loading Your Data...'}">
-    <div class="xl-2-8 lg-4-8 md-3-6 sm-2-4 xs-1-1">
+    <div class="xl-4-8 lg-4-8 md-3-6 sm-2-4 xs-1-1">
         <div class="card">
-            Card 1;
+            <h4>Customer and Site Information</h4>
         </div>
     </div>
     <div class="xl-2-8 lg-4-8 md-3-6 sm-2-4 xs-1-1">
-        <div class="card">card 2</div>
-    </div>
-    <div class="xl-2-8 lg-4-8 md-3-6 sm-2-4 xs-1-1">
-        <div class="card">card 3</div>
-    </div>
-    <div class="xl-2-8 lg-4-8 md-3-6 sm-2-4 xs-1-1">
-        <div class="card">card 4</div>
-    </div>
-    <div class="xl-4-8 lg-1-1 md-1-1 sm-1-1 xs-1-1">
         <div class="card">
-            <h4>Interface Information</h4>
-            <table class="interface-table">
-                <tr>
-                    <td>VHID</td>
-                    <td>Status</td>
-                    <td>Mgt Status</td>
-                    <td>IP</td>
-                    <td>SNMP String</td>
-                </tr>
-                <tr>
-                    <td>{{ifData.HOST_NAME}}</td>
-                    <td>{{ifData.STATUS}}</td>
-                    <td>{{ifData.MANAGEMENT_STATE}}</td>
-                    <td>{{ifData.ADDRESS}}</td>
-                    <td>{{ifData.SNMPCOMMSTR}}</td>
-                </tr>
-            </table>
+            <h4>Escalation Information</h4>
         </div>
     </div>
-    <div class="xl-4-8 lg-1-1 md-1-1 sm-1-1 xs-1-1">
-        <div class="card">card 6</div>
+    <div class="xl-2-8 lg-4-8 md-3-6 sm-2-4 xs-1-1">
+        <div ng-click="expand('card3')" class="card">card 3</div>
     </div>
     <div class="xl-6-8 lg-1-1 md-1-1 sm-1-1 xs-1-1">
         <div class="card">
@@ -66,5 +41,29 @@
     </div>
     <div class="xl-2-8 lg-1-1 md-1-1 sm-1-1 xs-1-1">
         <div class="card">card 9</div>
+    </div>
+    <div class="xl-4-8 lg-1-1 md-1-1 sm-1-1 xs-1-1">
+        <div class="card">
+            <h4>Interface Information</h4>
+            <table class="interface-table">
+                <tr>
+                    <td>VHID</td>
+                    <td>Status</td>
+                    <td>Mgt Status</td>
+                    <td>IP</td>
+                    <td>SNMP String</td>
+                </tr>
+                <tr>
+                    <td>{{ifData.HOST_NAME}}</td>
+                    <td>{{ifData.STATUS}}</td>
+                    <td>{{ifData.MANAGEMENT_STATE}}</td>
+                    <td>{{ifData.ADDRESS}}</td>
+                    <td>{{ifData.SNMPCOMMSTR}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="xl-4-8 lg-1-1 md-1-1 sm-1-1 xs-1-1">
+        <div class="card">card 6</div>
     </div>
 </div>

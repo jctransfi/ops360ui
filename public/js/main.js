@@ -1,29 +1,33 @@
 var myApp = angular.module('myApp',['cgBusy', 'ngRoute']);
 
 myApp.config(function($routeProvider) {
+    // activetab variable allows for highlighting of 
+    // current active navigational element
     $routeProvider
         // route for the home page
-        .when('/', {
-            templateUrl : 'template/pa.html',
-            controller  : 'dashboardController'
-        })
-
-        .when('/tdm', {
-            templateUrl : 'template/pa.html',
-            controller  : 'dashboardController'
+        .when('/dashboard', {
+          templateUrl : 'template/pa.html',
+          controller  : 'dashboardController',
+          activetab : 'dashboard'
         })
 
         // route for the about page
         .when('/about', {
-            templateUrl : 'template/about.html',
-            controller  : 'aboutController'
+          templateUrl : 'template/about.html',
+          controller  : 'aboutController',
+          activetab : 'about'
         })
 
         // route for the contact page
         .when('/contact', {
-            templateUrl : 'template/contact.html',
-            controller  : 'contactController'
-        });
+          templateUrl : 'template/contact.html',
+          controller  : 'contactController',
+          activetab : 'contact'
+        })
+
+        .otherwise({
+          redirectTo: '/dashboard'
+        });;
 });
 
 myApp.service('dataService', function($http) {
@@ -52,62 +56,54 @@ myApp.service('searchService', function($http) {
     }
 });
 
-myApp.controller('aboutController', function($scope) {
+myApp.controller('aboutController', function($scope, $route) {
     $scope.message = 'Ticket Suppression';
+    $scope.$route = $route;
 });
 
-myApp.controller('contactController', function($scope) {
+myApp.controller('contactController', function($scope, $route) {
     $scope.message = 'Another Page';
+    $scope.$route = $route;
 });
 
-myApp.controller('dashboardController', function($scope, searchService) {
-    $scope.searchTerm = "CA-CAEDUB12-1"
+myApp.controller('dashboardController', function($scope, $route, searchService) {
+  $scope.$route = $route;
+  $scope.searchTerm = "CA-CAEDUB12-1"
 
-    //event listeners
+  //event listeners
 
 
-    var vhid = "";
+  var vhid = "";
 
-  	$scope.search = function (cpe){
-  		// console.log("beep")
-      var firstPromise = searchService.getData("/api/v1/nms/vcid/", $scope.searchTerm)
-  		$scope.promise = searchService.getData("/api/v1/nms/vcid/", $scope.searchTerm).then(function(dataResponse) {
-  			console.log(dataResponse.data);
+	$scope.search = function (cpe){
+		// console.log("beep")
+    var firstPromise = searchService.getData("/api/v1/nms/vcid/", $scope.searchTerm)
+		$scope.promise = searchService.getData("/api/v1/nms/vcid/", $scope.searchTerm).then(function(dataResponse) {
+			console.log(dataResponse.data);
+      if(dataResponse.data){
+        $scope.circuit = dataResponse.data;
+        console.log(typeof(dataResponse.data));
+        vhid = dataResponse.data.ORIGVHID;
+      }else{
+        $(".panel-container").append("No Circuit Data");
+      }
+    }).then(function() {
+      searchService.getData("/api/v1/nms/vhid/", vhid).then(function(dataResponse) {
+        console.log(typeof(dataResponse.data));
         if(dataResponse.data){
-          $scope.circuit = dataResponse.data;
-          console.log(typeof(dataResponse.data));
-          vhid = dataResponse.data.ORIGVHID;
+          $scope.ifData = dataResponse.data;
+          $(".panel-container").removeClass("panel-open");  
         }else{
-          $(".panel-container").append("No Circuit Data");
+          $(".panel-container").append("No Circuit Data");   
         }
-	    }).then(function() {
-        searchService.getData("/api/v1/nms/vhid/", vhid).then(function(dataResponse) {
-          console.log(typeof(dataResponse.data));
-          if(dataResponse.data){
-            $scope.ifData = dataResponse.data;
-            $(".panel-container").removeClass("panel-open");  
-          }else{
-            $(".panel-container").append("No Circuit Data");   
-          }
-        });
       });
-  	}
-
-    // $scope.promise = dataService.getData(defQ).then(function(dataResponse) {
-    // 	if(dataResponse.data._embedded){
-    // 		$scope.stats = dataResponse.data._embedded.stats;
-	   //      $scope.gridOptions.data = dataResponse.data._embedded.stats;
-	   //      dataMassage(dataResponse.data._embedded.stats);
-	   //      $scope.totals = dataSummary(dataResponse.data._embedded.stats);
-	   //      // console.log(totals);
-    // 	}else {
-    // 		console.log("NO DATA");
-    // 		// $scope.gridOptions = {};
-    // 		// $scope.gridOptions.data = {};
-    // 	}
-    // });
-
+    });
+	}
 });
+
+myApp.controller('escalationController', function($scope) {
+});
+
 
 $(".side-icon").on("click", function(){
   console.log('click')
