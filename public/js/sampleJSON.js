@@ -1,12 +1,12 @@
 var dashboardObj = {
     "customer-info" : {
-      "customer-name" : "John Doe"
+      "customer-name" : "Mondelez International, Inc"
       "acg" : 1234456,
       "csn" : 123456,
       "masteracctid" : 123456,
-      "account-mgr" : "John Doe",
-      "sales-engr" : "Bob Doe",
-      "project-mgr" : "Michael Doe"
+      "account-mgr" : "KBAYS",
+      "sales-engr" : "MRICHARD_T",
+      "project-mgr" : "EROY"
     },
     "site-info" : {
       "vlid" : "CAEDUB23",
@@ -22,26 +22,46 @@ var dashboardObj = {
       "smoke" : "graphURL",
       "performance" : "graphURL"
     },
-    "interface" : {
+    "interface" : [{
       "vhid" : "",
       "status" : "UP",
       "mgt-status" : "MANAGED",
       "IP" : "74.106.125.255"
-    },
-    "circuit" : {
-      "vcid" : "CI-CAEDUB12-1",
+    },{
+      "vhid" : "",
+      "status" : "UP",
+      "mgt-status" : "MANAGED",
+      "IP" : "74.106.125.255"
+    }],
+    "circuit" : [{
+      "vcid" : "CI-CAEDUB12-1": 
       "origvhid" : "CAEDUB12-AVIALL-RTR-2",
       "termvhid" : "CAEDUB12-AVIALL-RTR-2",
       "linktype" : "Primary",
       "speed" : "1Mbps",
-      "provided" : "ETISALAT",
+      "provider" : "ETISALAT",
       "lastmile" : "lastmile provider"
       "LEC" : "aundefinedc 314993230",
       "wnum" : "if NTT",
       "related-w" : "if NTT",
       "vrnum" : 132456,
-      "vcomlink" : "link to the VCOM url for this circuit"
-    },
+      "vcomlink" : "link to the VCOM url for this circuit",
+      "providerlink" : "link to provider escalation details as in VCOMs"
+    },{
+      "vcid" : "CI-CAEDUB12-1": 
+      "origvhid" : "CAEDUB12-AVIALL-RTR-2",
+      "termvhid" : "CAEDUB12-AVIALL-RTR-2",
+      "linktype" : "Primary",
+      "speed" : "1Mbps",
+      "provider" : "ETISALAT",
+      "lastmile" : "lastmile provider"
+      "LEC" : "aundefinedc 314993230",
+      "wnum" : "if NTT",
+      "related-w" : "if NTT",
+      "vrnum" : 132456,
+      "vcomlink" : "link to the VCOM url for this circuit",
+      "providerlink" : "link to provider escalation details as in VCOMs"
+    }],
     "hardware" : {
       "lcf-flag" : "data",
       "model" : "model number",
@@ -51,13 +71,18 @@ var dashboardObj = {
     "tickets" : {
       // Preeta to send details
     },
-    "oob" : {
+    "oob" : [{
       "vhid" : "CAEDUB12-AVIALL-RTR-2",
       "number" : "2125550614",
       "comments" : "some text",
       "last-status" : "status"
-    },
-    "nerc" : {
+    },{
+      "vhid" : "CAEDUB12-AVIALL-RTR-2",
+      "number" : "2125550614",
+      "comments" : "some text",
+      "last-status" : "status"
+    }],
+    "nerc" : [{
       "vhid" : "CAEDUB12-AVIALL-RTR-2",
       "date" : "date object",
       "wnum" : "if NTT",
@@ -65,7 +90,15 @@ var dashboardObj = {
       "event-subtype" : "subtype",
       "source" : "source",
       "ticket" : "ticket number"
-    },
+    },{
+      "vhid" : "CAEDUB12-AVIALL-RTR-2",
+      "date" : "date object",
+      "wnum" : "if NTT",
+      "event-type" : "event type",
+      "event-subtype" : "subtype",
+      "source" : "source",
+      "ticket" : "ticket number"
+    }],
     "comments" : {
       "commentid" : {
         "date" : "date object",

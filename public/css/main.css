@@ -182,7 +182,12 @@ body {
     display: inline-block;
     /*margin: auto 8px;*/
     padding: 8px;
+    padding-top: 5px;
     cursor: pointer;
+}
+
+.active{
+    border-top: 3px solid #fff;
 }
 
 .footer {
@@ -790,6 +795,18 @@ body {
     /* Style adjustments for high resolution devices */
 }
 
+@media (max-width: 1600px) {
+    .cardui {
+        width: 95%;
+    }
+}
+
+@media (max-width: 1366px) {
+    .cardui {
+        width: 94%;
+    }
+}
+
 @media (max-width: 1024px) {
     .cardui {
         width: 90%;
@@ -802,6 +819,23 @@ body {
         width: 88%;
     }
 }
+
+@media (max-width: 667px) {
+    .cardui {
+        width: 86%;
+    }
+}
+
+@media (max-width: 414px) {
+    .cardui {
+        width: 84%;
+    }
+
+    .navigation > .nav-icon {
+        display: block;
+    }    
+}
+
 
 /* ==========================================================================
    Print styles.
