@@ -42,6 +42,12 @@ var dashboardObj = {
       "vrnum" : 132456,
       "vcomlink" : "link to the VCOM url for this circuit"
     },
+    "hardware" : {
+      "lcf-flag" : "data",
+      "model" : "model number",
+      "serial" : "serial number",
+      "type" : "hardware type"
+    }
     "tickets" : {
       // Preeta to send details
     },
