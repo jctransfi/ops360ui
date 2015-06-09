@@ -2,6 +2,19 @@
     <div class="xl-4-8 lg-4-8 md-3-6 sm-2-4 xs-1-1">
         <div class="card">
             <h4>Customer and Site Information</h4>
+            <div>
+                <div class="vlid-select">CAEDUB23</div><!--
+                --><div class="wrapper-demo"><!--
+                    --><div id="dd" class="wrapper-dropdown-1" tabindex="1"><!--
+                        --><span>CAEDUB12-AVIALL-RTR-2</span><!--
+                        --><ul class="dropdown" tabindex="1">
+                            <!-- add an ng-click to trigger search when selecting from this list -->
+                            <li><a href="#">CAEDUB12-AVIALL-RTR-3</a></li>
+                            <li><a href="#">CAEDUB12-MONDELEZ-RTR-4</a></li>
+                        </ul>
+                    </div>
+                ​</div>
+            </div>
         </div>
     </div>
     <div class="xl-2-8 lg-4-8 md-3-6 sm-2-4 xs-1-1">
@@ -16,25 +29,25 @@
         <div class="card">
             <h4>Circuit Information</h4>
             <table class="circuit-table">
-                <tr>
-                    <td>VCID</td>
-                    <td>Orig VHID</td>
-                    <td>Term VHID</td>
-                    <td>Link</td>
-                    <td>Speed</td>
-                    <td>Provider</td>
-                    <td>Last Mile</td>
-                    <td>LEC Circuit ID</td>
+                <tr class="belieze-hole">
+                    <th>VCID</th>
+                    <th>Orig VHID</th>
+                    <th>Term VHID</th>
+                    <th>Link</th>
+                    <th>Speed</th>
+                    <th>Provider</th>
+                    <th>Last Mile</th>
+                    <th>LEC Circuit ID</th>
                 </tr>
-                <tr>
-                    <td>{{circuit.VCID}}</td>
-                    <td>{{circuit.ORIGVHID}}</td>
-                    <td>{{circuit.TERMVHID}}</td>
-                    <td>{{circuit.LINK}}</td>
-                    <td>{{circuit.SPEED}}</td>
-                    <td>{{circuit.PROVIDER}}</td>
-                    <td>{{circuit.LASTMILE}}</td>
-                    <td>{{circuit.LECCIRCUITID}}</td>
+                <tr ng-repeat="circuit in circuits" ng-class-even="'even'">
+                    <td><a href="{{circuit.vcomlink}}">{{circuit.vcid}}</a></td>
+                    <td>{{circuit.origvhid}}</td>
+                    <td>{{circuit.termvhid}}</td>
+                    <td>{{circuit.linktype}}</td>
+                    <td>{{circuit.speed}}</td>
+                    <td>{{circuit.provider}}</td>
+                    <td>{{circuit.lastmile}}</td>
+                    <td>{{circuit.LEC}}</td>
                 </tr>
             </table>
         </div>
@@ -46,19 +59,17 @@
         <div class="card">
             <h4>Interface Information</h4>
             <table class="interface-table">
-                <tr>
-                    <td>VHID</td>
-                    <td>Status</td>
-                    <td>Mgt Status</td>
-                    <td>IP</td>
-                    <td>SNMP String</td>
+                <tr class="belieze-hole">
+                    <th>VHID</th>
+                    <th>Status</th>
+                    <th>Mgt Status</th>
+                    <th>IP</th>
                 </tr>
-                <tr>
-                    <td>{{ifData.HOST_NAME}}</td>
-                    <td>{{ifData.STATUS}}</td>
-                    <td>{{ifData.MANAGEMENT_STATE}}</td>
-                    <td>{{ifData.ADDRESS}}</td>
-                    <td>{{ifData.SNMPCOMMSTR}}</td>
+                <tr ng-repeat="ifData in ifData" ng-class-even="'even'">
+                    <td>{{ifData.vhid}}</td>
+                    <td>{{ifData.status}}</td>
+                    <td>{{ifData.mgtstatus}}</td>
+                    <td>{{ifData.IP}}</td>
                 </tr>
             </table>
         </div>
@@ -66,4 +77,75 @@
     <div class="xl-4-8 lg-1-1 md-1-1 sm-1-1 xs-1-1">
         <div class="card">card 6</div>
     </div>
+    <div class="xl-6-8 lg-1-1 md-1-1 sm-1-1 xs-1-1">
+        <div class="card">
+            <h4>Maintenance Tickets</h4>
+        </div>
+    </div>
+    <div class="xl-2-8 lg-1-1 md-1-1 sm-1-1 xs-1-1">
+        <div class="card">
+            <h4>Comments</h4>
+            <table class="interface-table">
+                <tr class="peter-river">
+                    <th width="20%">Date</th>
+                    <th>Comment</th>
+                    <th width="20%">User</th>
+                </tr>
+                <tr ng-repeat="comment in comments | limitTo:-4" ng-class-even="'even'">
+                    <td>{{comment.date | date:'d-MMM-yy'}}</td>
+                    <td>{{comment.comment}}</td>
+                    <td>{{comment.user}}</td>
+                </tr>
+            </table>
+            <div class="add-comment">
+                <input class="filter-box__text-input" ng-model="newcomment" type="text"/>
+                <button class="btn orange" ng-click="addComment(newcomment)">Add</button>
+            </div>
+        </div>
+    </div>
 </div>
+<script type="text/javascript">
+function DropDown(el) {
+    this.dd = el;
+    this.placeholder = this.dd.children('span');
+    this.opts = this.dd.find('ul.dropdown > li');
+    this.val = '';
+    this.index = -1;
+    this.initEvents();
+}
+
+DropDown.prototype = {
+    initEvents : function() {
+        var obj = this;
+
+        obj.dd.on('click', function(event){
+            $(this).toggleClass('active');
+            return false;
+        });
+
+        obj.opts.on('click',function(){
+            var opt = $(this);
+            obj.val = opt.text();
+            obj.index = opt.index();
+            obj.placeholder.text(obj.val);
+        });
+    },
+    getValue : function() {
+        return this.val;
+    },
+    getIndex : function() {
+        return this.index;
+    }
+}
+
+$(function() {
+
+    var dd = new DropDown( $('#dd') );
+
+    $(document).click(function() {
+        // all dropdowns
+        $('.wrapper-dropdown-1').removeClass('active');
+    });
+
+});
+</script>

@@ -77,11 +77,13 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
 
 	$scope.search = function (cpe){
 		// console.log("beep")
-    var firstPromise = searchService.getData("/api/v1/nms/vcid/", $scope.searchTerm)
-		$scope.promise = searchService.getData("/api/v1/nms/vcid/", $scope.searchTerm).then(function(dataResponse) {
+    var firstPromise = searchService.getData("/api/v1/nms/vcid/", cpe)
+		$scope.promise = searchService.getData("/api/v1/nms/vcid/", cpe).then(function(dataResponse) {
 			console.log(dataResponse.data);
       if(dataResponse.data){
-        $scope.circuit = dataResponse.data;
+        $scope.circuits = dashboardObj.circuit;
+        $scope.comments = dashboardObj.comments;
+        console.log($scope.circuits);
         console.log(typeof(dataResponse.data));
         vhid = dataResponse.data.ORIGVHID;
       }else{
@@ -91,7 +93,8 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
       searchService.getData("/api/v1/nms/vhid/", vhid).then(function(dataResponse) {
         console.log(typeof(dataResponse.data));
         if(dataResponse.data){
-          $scope.ifData = dataResponse.data;
+          // $scope.ifData = dataResponse.data;
+          $scope.ifData = dashboardObj.interface;
           $(".panel-container").removeClass("panel-open");  
         }else{
           $(".panel-container").append("No Circuit Data");   
@@ -99,6 +102,16 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
       });
     });
 	}
+
+  $scope.addComment = function (comment) {
+    /* integration notes 
+        DOM update happens on success handler of
+        writing to DB
+    */
+    var now = moment().format("D-MMM-YY");
+    var newcomment = { "date" : now , "comment" : comment, "user" : "JC Transfiguracion"}
+    dashboardObj.comments.push(newcomment);
+  }
 });
 
 myApp.controller('escalationController', function($scope) {

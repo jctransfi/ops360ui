@@ -92,6 +92,10 @@ h1, h2, h3, h4, h5 {
     margin-bottom: 4px;
 }
 
+input {
+    vertical-align: middle;
+}
+
 /* ==========================================================================
    Browser Upgrade Prompt
    ========================================================================== */
@@ -186,7 +190,7 @@ body {
     cursor: pointer;
 }
 
-.active{
+.navactive{
     border-top: 3px solid #fff;
 }
 
@@ -232,17 +236,18 @@ body {
     display: inline-block;
     width: 93%;
     margin-left: 70px;
-    margin-top: 90px;
+    margin-top: 95px;
 }
 
 .card {
     /*border: 1px solid #aaa;*/
     background-color: #fff;
     box-shadow: 1px 1px 1px #222;
-    margin: 10px 0;
+    margin: 5px 0;
     padding: 10px;
     display: block;
     text-align: left;
+    vertical-align: middle;
 }
 
 .nav-icon {
@@ -293,16 +298,34 @@ body {
     font-size: 1.5em;
 }
 
-.wrapper-demo {
-    background: url(../img/navicon.png);
+.vlid-select {
+    background-color: #85DB18;
     background-repeat: no-repeat;
     background-position: 99% 43%;
-    width: 40%;
-    font-size: 1.5em;
-    float: left;
-    height: 56px;
-    margin-left: 12%;
-    padding-top: 10px;
+    font-size: 0.875em;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 1px #aaa; /*85DB18*/
+    width: 120px;
+    height: 17px;
+    color: #fff;
+    padding: 4px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.wrapper-demo {
+    display: inline-block;
+    background-color: #92ED1F;
+    background-repeat: no-repeat;
+    background-position: 99% 43%;
+    font-size: 0.875em;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 1px #aaa; /*85DB18*/
+    /*width: 216px;*/
+    height: 25px;
+    vertical-align: middle;
 }
 
 .dropdown {
@@ -389,10 +412,16 @@ body {
     text-align: left;
 }
 
-.data-summary {
-    width: 28%;
-    margin-bottom: 12px;
-    float: right;
+.card table td {
+    padding: 2px;
+}
+
+.card table th {
+    padding: 2px;
+}
+
+.even {
+    background-color: #EAEAEA;
 }
 
 .data-summary__header {
@@ -416,9 +445,24 @@ body {
     /*border-right: 1px solid #16a085;*/
 }
 
+.add-comment {
+    border-top: 1px solid #000;
+    margin-top: 8px;
+    padding-top: 8px;
+}
+
 #grid1 {
     width: 100%;
     height: 400px;
+}
+
+.btn {
+    border: none;
+    font-weight: 700;
+    padding: 7px 10px;
+    font-size: 0.875em;
+    vertical-align: middle;
+    text-transform: uppercase;
 }
 
 .btn-red {
@@ -427,6 +471,7 @@ body {
     padding: 6px 14px;
     color: #fff;
     font-weight: 700;
+    vertical-align: middle;
     /*letter-spacing: 1px;*/
 }
 
@@ -480,6 +525,7 @@ body {
 .filter-box__form-element {
     display: inline-block;
     margin-right: 4px;
+    vertical-align: middle;
 }
 
 
@@ -545,14 +591,21 @@ body {
 
 .belieze-hole {
     background-color: #2980b9;
+    color: #fff;
 }
 
 .peter-river {
     background-color: #3498db;
+    color: #fff;
 }
 
 .midnight-blue {
     background-color: #2c3e50;
+}
+
+.orange {
+    background-color: #FF8000;
+    color: #fff;
 }
 
 /* ==========================================================================
@@ -570,7 +623,6 @@ body {
 
     /* Styles */
     /*background: #9bc7de;*/
-    border: 2px solid #fff;
     color: #fff;
     outline: none;
     cursor: pointer;
@@ -610,8 +662,9 @@ body {
 .wrapper-dropdown-1 .dropdown li a {
     display: block;
     text-decoration: none;
-    color: #9e9e9e;
-    padding: 10px 20px;
+    color: #fff;
+    padding: 4px;
+    background-color: #92ED1F;
 }
 
 /* Hover state */
