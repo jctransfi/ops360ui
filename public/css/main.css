@@ -406,14 +406,34 @@ body {
     /*font-weight: 700;*/
 }
 
-.circuit-table, .interface-table {
+.circuit-table, .interface-table, .comments-table {
     font-size: 11px;
     width: 100%;
     text-align: left;
 }
 
+.comments-table td {
+    transition: opacity .25s ease-in-out;
+}
+
+.comment-box {
+    vertical-align: middle;
+    width: 75%;
+    height: 45px;
+
+}
+
+.btn-comment {
+    padding: 17px;
+}
+
+.comment-visible {
+    opacity: 1
+}
+
 .card table td {
     padding: 2px;
+    vertical-align: top;
 }
 
 .card table th {
@@ -446,7 +466,7 @@ body {
 }
 
 .add-comment {
-    border-top: 1px solid #000;
+    border-top: 1px solid #ddd;
     margin-top: 8px;
     padding-top: 8px;
 }
@@ -459,7 +479,6 @@ body {
 .btn {
     border: none;
     font-weight: 700;
-    padding: 7px 10px;
     font-size: 0.875em;
     vertical-align: middle;
     text-transform: uppercase;
@@ -848,13 +867,13 @@ body {
     /* Style adjustments for high resolution devices */
 }
 
-@media (max-width: 1600px) {
+@media (max-width: 1920px) {
     .cardui {
         width: 95%;
     }
 }
 
-@media (max-width: 1366px) {
+@media (max-width: 1600px) {
     .cardui {
         width: 94%;
     }

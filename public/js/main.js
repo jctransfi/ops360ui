@@ -80,15 +80,16 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
     var firstPromise = searchService.getData("/api/v1/nms/vcid/", cpe)
 		$scope.promise = searchService.getData("/api/v1/nms/vcid/", cpe).then(function(dataResponse) {
 			console.log(dataResponse.data);
-      if(dataResponse.data){
-        $scope.circuits = dashboardObj.circuit;
-        $scope.comments = dashboardObj.comments;
-        console.log($scope.circuits);
-        console.log(typeof(dataResponse.data));
-        vhid = dataResponse.data.ORIGVHID;
-      }else{
-        $(".panel-container").append("No Circuit Data");
-      }
+      // if(dataResponse.data){
+      //   $scope.circuits = dashboardObj.circuit;
+      //   $scope.comments = dashboardObj.comments;
+      //   $scope.oob = dashboardObj.oob;
+      //   console.log($scope.circuits);
+      //   console.log(typeof(dataResponse.data));
+      //   vhid = dataResponse.data.ORIGVHID;
+      // }else{
+      //   $(".panel-container").append("No Circuit Data");
+      // }
     }).then(function() {
       searchService.getData("/api/v1/nms/vhid/", vhid).then(function(dataResponse) {
         console.log(typeof(dataResponse.data));
@@ -101,6 +102,13 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
         }
       });
     });
+    $scope.circuits = dashboardObj.circuit;
+    $scope.comments = dashboardObj.comments;
+    $scope.oob = dashboardObj.oob;
+    $scope.ifData = dashboardObj.interface;
+    $scope.hardware = dashboardObj.hardware;
+    $scope.nerc = dashboardObj.nerc;
+    $(".panel-container").removeClass("panel-open");  
 	}
 
   $scope.addComment = function (comment) {

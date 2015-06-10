@@ -1,5 +1,5 @@
 var dashboardObj = {
-    "customer-info": {
+    "customer_info": {
         "customer-name": "Mondelez International, Inc",
         "acg": 1234456,
         "csn": 123456,
@@ -73,45 +73,45 @@ var dashboardObj = {
             "providerlink": "link to provider escalation details as in VCOMs"
         }
     ],
-    "hardware": {
+    "hardware": [{
         "lcf_flag": "data",
         "model": "model number",
         "serial": "serial number",
         "type": "hardware type"
-    },
+    }],
     "tickets": {},
     "oob": [
         {
             "vhid": "CAEDUB12-AVIALL-RTR-2",
             "number": "2125550614",
-            "comments": "some text",
-            "last-status": "status"
+            "comments": "OOB Tested.",
+            "last_status": "status"
         },
         {
-            "vhid": "CAEDUB12-AVIALL-RTR-2",
-            "number": "2125550614",
+            "vhid": "DOKTUL1-MONDELEZ-SWTH-1",
+            "number": "19182950276",
             "comments": "some text",
-            "last-status": "status"
+            "last_status": "status"
         }
     ],
     "nerc": [
         {
             "vhid": "CAEDUB12-AVIALL-RTR-2",
-            "date": "date object",
+            "date": "2014-03-12T13:37:27+00:00",
             "wnum": "if NTT",
-            "event-type": "event type",
-            "event-subtype": "subtype",
-            "source": "source",
-            "ticket": "ticket number"
+            "type": "Performance",
+            "subtype": "Utilization",
+            "source": "VRTG",
+            "ticket": "123456789"
         },
         {
             "vhid": "CAEDUB12-AVIALL-RTR-2",
-            "date": "date object",
+            "date": "2014-03-12T13:37:27+00:00",
             "wnum": "if NTT",
-            "event-type": "event type",
-            "event-subtype": "subtype",
-            "source": "source",
-            "ticket": "ticket number"
+            "type": "Up",
+            "subtype": "Node",
+            "source": "proxy_ping@virtela.net",
+            "ticket": "123456789"
         }
     ],
     "comments": [
