@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp',['cgBusy', 'ngRoute']);
+var myApp = angular.module('myApp',['cgBusy', 'ngRoute', 'ngDropdowns']);
 
 myApp.config(function($routeProvider) {
     // activetab variable allows for highlighting of 
@@ -47,7 +47,7 @@ myApp.service('searchService', function($http) {
     delete $http.defaults.headers.common['X-Requested-With'];
     this.getData = function(apiURL, searchTerm) {
         // $http() returns a $promise that we can add handlers with .then()
-        var urlpath = "http://dcoeng1-nmswebdev-1:8080" + apiURL + searchTerm
+        var urlpath = "http://172.16.92.73" + apiURL + searchTerm
         console.log(urlpath);
         return $http({
             method: 'GET',
@@ -68,7 +68,7 @@ myApp.controller('contactController', function($scope, $route) {
 
 myApp.controller('dashboardController', function($scope, $route, searchService) {
   $scope.$route = $route;
-  $scope.searchTerm = "CA-CAEDUB12-1"
+  $scope.searchTerm = "CTWTAO9-NTT2989SONY-RTR-1"
 
   //event listeners
 
@@ -77,31 +77,28 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
 
 	$scope.search = function (cpe){
 		// console.log("beep")
-    var firstPromise = searchService.getData("/api/v1/nms/vcid/", cpe)
-		$scope.promise = searchService.getData("/api/v1/nms/vcid/", cpe).then(function(dataResponse) {
+    var firstPromise = searchService.getData("/api/v1/nms/vhid/", cpe)
+		$scope.promise = searchService.getData("/api/v1/nms/vhid/", cpe).then(function(dataResponse) {
 			console.log(dataResponse.data);
-      // if(dataResponse.data){
-      //   $scope.circuits = dashboardObj.circuit;
-      //   $scope.comments = dashboardObj.comments;
-      //   $scope.oob = dashboardObj.oob;
-      //   console.log($scope.circuits);
-      //   console.log(typeof(dataResponse.data));
-      //   vhid = dataResponse.data.ORIGVHID;
-      // }else{
-      //   $(".panel-container").append("No Circuit Data");
-      // }
-    }).then(function() {
-      searchService.getData("/api/v1/nms/vhid/", vhid).then(function(dataResponse) {
-        console.log(typeof(dataResponse.data));
-        if(dataResponse.data){
-          // $scope.ifData = dataResponse.data;
-          $scope.ifData = dashboardObj.interface;
-          $(".panel-container").removeClass("panel-open");  
-        }else{
-          $(".panel-container").append("No Circuit Data");   
-        }
-      });
+      if(dataResponse.data){
+        console.log(dataResponse.data["customer-info"])
+        $scope.customer = dataResponse.data["customer-info"];
+      }else{
+        // $(".panel-container").append("No Circuit Data");
+      }
     });
+    // .then(function() {
+    //   searchService.getData("/api/v1/nms/vhid/", vhid).then(function(dataResponse) {
+    //     console.log(typeof(dataResponse.data));
+    //     if(dataResponse.data){
+    //       // $scope.ifData = dataResponse.data;
+    //       $scope.ifData = dashboardObj.interface;
+    //       $(".panel-container").removeClass("panel-open");  
+    //     }else{
+    //       $(".panel-container").append("No Circuit Data");   
+    //     }
+    //   });
+    // });
     $scope.circuits = dashboardObj.circuit;
     $scope.comments = dashboardObj.comments;
     $scope.oob = dashboardObj.oob;
@@ -120,6 +117,27 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
     var newcomment = { "date" : now , "comment" : comment, "user" : "JC Transfiguracion"}
     dashboardObj.comments.push(newcomment);
   }
+
+  $scope.handle = function (){
+    console.log("woot");
+  }
+
+  $scope.ddMenuOptions2 = [
+    {
+      name: 'Option2-1 Name',
+      iconCls: 'someicon'
+    }, {
+      name: 'Option2-2 Name'
+    }, {
+      divider: true
+    }, {
+      name: 'A link',
+      href: 'http://www.google.com'
+    }
+  ];
+
+  $scope.ddMenuSelected2 = {};
+
 });
 
 myApp.controller('escalationController', function($scope) {
