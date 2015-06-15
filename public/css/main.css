@@ -321,6 +321,26 @@ body {
     text-decoration: none;
 }
 
+.doc-item {
+    display: inline-block;
+    width: 48%;
+}
+
+.doc-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.doc-label-block {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 0.750em;
+}
+
+.doc-filename {
+    font-weight: 600;
+}
+
 .app-switcher {
     width: 40%;
     border: 2px solid #fff;

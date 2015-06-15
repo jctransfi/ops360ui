@@ -139,3 +139,5 @@ var dashboardObj = {
         }
     }
 }
+
+//map document type to a JSOS file of icon URLS

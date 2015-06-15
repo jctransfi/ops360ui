@@ -122,22 +122,6 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
     console.log("woot");
   }
 
-  $scope.ddMenuOptions2 = [
-    {
-      name: 'Option2-1 Name',
-      iconCls: 'someicon'
-    }, {
-      name: 'Option2-2 Name'
-    }, {
-      divider: true
-    }, {
-      name: 'A link',
-      href: 'http://www.google.com'
-    }
-  ];
-
-  $scope.ddMenuSelected2 = {};
-
 });
 
 myApp.controller('escalationController', function($scope) {
