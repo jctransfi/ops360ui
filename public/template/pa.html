@@ -136,15 +136,15 @@
                             <th>Type</th>
                             <th>Subtype</th>
                             <th>Source</th>
-                            <th>Ticket</th>
+                            <!-- <th>Ticket</th> -->
                         </tr>
-                        <tr ng-repeat="nerc in nerc" ng-class-even="'even'">
+                        <tr ng-repeat="nerc in nerc | limitTo:-4" ng-class-even="'even'">
                             <td>{{nerc.vhid}}</td>
-                            <td>{{nerc.date | date:'d-MMM-yy'}}</td>
-                            <td>{{nerc.type}}</td>
-                            <td>{{nerc.subtype}}</td>
-                            <td>{{nerc.source}}</td>
-                            <td>{{nerc.ticket}}</td>
+                            <td width="15%">{{nerc.date | date:'d-MMM-yy'}}</td>
+                            <td>{{nerc.evtype}}</td>
+                            <td>{{nerc.evsubtype}}</td>
+                            <td>{{nerc.sourceserv}}</td>
+                            <!-- <td>{{nerc.ticketno}}</td> -->
                         </tr>
                     </table>
                 </div>
@@ -159,24 +159,30 @@
             <div class="xl-1-1 lg-4-8 md-3-6 sm-2-4 xs-1-1">
                 <div ng-click="expand('card3')" class="card">Graph 2</div>
             </div>
-            <div class="xl-1-1 lg-1-1 md-1-1 sm-1-1 xs-1-1">
+            <div class="xl-1-1 lg-1-1 md-1-1 sm-1-1 xs-1-1" ng-controller="commentController">
                 <div class="card">
-                    <h4>Comments</h4>
-                    <table class="comments-table">
-                        <tr class="peter-river">
-                            <th width="20%">Date</th>
-                            <th>Comment</th>
-                            <th width="20%">User</th>
-                        </tr>
-                        <tr ng-repeat="comment in comments | limitTo:-4" ng-class-even="'even'">
-                            <td>{{comment.date | date:'d-MMM-yy'}}</td>
-                            <td>{{comment.comment}}</td>
-                            <td>{{comment.user}}</td>
-                        </tr>
-                    </table>
-                    <div class="add-comment">
-                        <textarea class="comment-box" ng-model="newcomment"></textarea>
-                        <button class="btn orange btn-comment" ng-click="addComment(newcomment)">Add</button>
+                    <div class="card-header">
+                        <h4>Comments</h4>
+                        <img src="img/show8.svg" class="card-handle" ng-click="handle()" />
+                    </div>
+                    <div class="clear"></div>
+                    <div class="card-content">
+                        <table class="comments-table">
+                            <tr class="peter-river">
+                                <th width="20%">Date</th>
+                                <th>Comment</th>
+                                <th width="20%">User</th>
+                            </tr>
+                            <tr ng-repeat="comment in comments | limitTo:-4" ng-class-even="'even'">
+                                <td>{{comment.date | date:'d-MMM-yy'}}</td>
+                                <td>{{comment.comment}}</td>
+                                <td>{{comment.user}}</td>
+                            </tr>
+                        </table>
+                        <div class="add-comment">
+                            <textarea class="comment-box" ng-model="newcomment"></textarea>
+                            <button class="btn orange btn-comment" ng-click="addComment(newcomment)">Add</button>
+                        </div>
                     </div>
                 </div>
             </div>

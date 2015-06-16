@@ -72,7 +72,6 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
 
   //event listeners
 
-
   var vhid = "";
 
 	$scope.search = function (cpe){
@@ -81,8 +80,19 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
 		$scope.promise = searchService.getData("/api/v1/nms/vhid/", cpe).then(function(dataResponse) {
 			console.log(dataResponse.data);
       if(dataResponse.data){
-        console.log(dataResponse.data["customer-info"])
-        $scope.customer = dataResponse.data["customer-info"];
+        console.log(dataResponse.data.nercs.length)
+        $scope.customer = dataResponse.data.customer_info;
+        var nerc_arr = [] 
+        $.each(dataResponse.data.nercs, function(key, value){
+          nerc_arr.push(this);
+          // console.log(this)
+        });
+        // console.log(nerc_arr)
+        $scope.nerc = nerc_arr;
+        /* assign result to a main object in $scope then access through the controllers via
+           $scope.mainObj.property
+        */
+
       }else{
         // $(".panel-container").append("No Circuit Data");
       }
@@ -104,10 +114,17 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
     $scope.oob = dashboardObj.oob;
     $scope.ifData = dashboardObj.interface;
     $scope.hardware = dashboardObj.hardware;
-    $scope.nerc = dashboardObj.nerc;
+    // $scope.nerc = dashboardObj.nerc;
     $(".panel-container").removeClass("panel-open");  
 	}
 
+  $scope.handle = function (){
+    console.log("woot");
+  }
+
+});
+
+myApp.controller('commentController', function($scope) {
   $scope.addComment = function (comment) {
     /* integration notes 
         DOM update happens on success handler of
@@ -119,14 +136,12 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
   }
 
   $scope.handle = function (){
-    console.log("woot");
+    console.log("comment handle");
   }
-
 });
 
 myApp.controller('escalationController', function($scope) {
 });
-
 
 $(".side-icon").on("click", function(){
   console.log('click')
