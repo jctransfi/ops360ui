@@ -63,7 +63,7 @@
                     </div><!--
                     --><button class="btn-red" ng-click="search(searchTerm)">SEARCH</button>
                 </div>
-                <div class="cardui" ng-view>
+                <div class="cardui" ng-view  cg-busy="{promise:promise,message:'Loading Your Data...'}">
                 </div>
             </div>
             <!-- <div class="push"></div> -->
