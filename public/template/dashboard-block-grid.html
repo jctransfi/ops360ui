@@ -1,59 +1,45 @@
-<!-- Flexbox Grid System -->
-
-<div class="Grid">
-    <div class="Grid-cell">
-        <div class="Grid Grid--gutters Grid--flexCells u-nested-full">
-            <div class="Grid-cell ">
-                <div class="card-flex">
-                    <div class="card-header">
-                        <h4>Customer and Site Information</h4>
-                        <img src="img/show8.svg" class="card-handle" />
+<div class="wrap gutter-5-xl gutter-10-xs gutter-out-xs" cg-busy="{promise:promise,message:'Loading Your Data...'}">
+    <div class="xl-6-8 lg-4-8 md-3-6 sm-2-4 xs-1-1">
+        <div class="wrap wrap gutter-5-xl gutter-10-xs gutter-out-xs">
+            <div class="Grid Grid--gutters Grid--flexCells">
+                <div class="Grid-cell">
+                    <div class="card-flex">
+                        <div class="card-header">
+                            <h4>Customer and Site Information</h4>
+                            <img src="img/show8.svg" class="card-handle" />
+                        </div>
+                        <div class="clear"></div>
+                        <div class="card-content">
+                            Customer Name: {{customer.customer_name}}<br/>
+                            CSN: {{customer.csn}}<br/>
+                            Master Account ID {{customer.master_acc_id}}<br/>
+                            <div class="vlid-select">CAEDUB23</div><!--
+                            --><div class="wrapper-demo"><!--
+                                --><div id="dd" class="wrapper-dropdown-1" tabindex="1"><!--
+                                    --><span>CAEDUB12-AVIALL-RTR-2</span><!--
+                                    --><ul class="dropdown" tabindex="1">
+                                        <!-- add an ng-click to trigger search when selecting from this list -->
+                                        <li><a href="#">CAEDUB12-AVIALL-RTR-3</a></li>
+                                        <li><a href="#">CAEDUB12-MONDELEZ-RTR-4</a></li>
+                                    </ul>
+                                </div>
+                            ​</div>
+                        </div>
                     </div>
-                    <div class="clear"></div>
-                    <div class="card-content">
-                        <table>
-                            <tr>
-                                <td width="33%">Customer Name:</td>
-                                <td>{{customer.customer_name}}</td>
-                            </tr>
-                            <tr>
-                                <td>CSN:</td>
-                                <td>{{customer.csn}}</td>
-                            </tr>
-                            <tr>
-                                <td width="33%">Master Account ID:</td>
-                                <td>{{customer.master_acc_id}}</td>
-                            </tr>
-                        </table>
-                        <div class="vlid-select">CAEDUB23</div><!--
-                        --><div class="wrapper-demo"><!--
-                            --><div id="dd" class="wrapper-dropdown-1" tabindex="1"><!--
-                                --><span>CAEDUB12-AVIALL-RTR-2</span><!--
-                                --><ul class="dropdown" tabindex="1">
-                                    <!-- add an ng-click to trigger search when selecting from this list -->
-                                    <li><a href="#">CAEDUB12-AVIALL-RTR-3</a></li>
-                                    <li><a href="#">CAEDUB12-MONDELEZ-RTR-4</a></li>
-                                </ul>
-                            </div>
-                        ​</div>
+                </div>
+                <div class="Grid-cell">
+                    <div class="card-flex">
+                        <div class="card-header">
+                            <h4>Escalation Information</h4>
+                            <img src="img/show8.svg" class="card-handle" />
+                        </div>
+                        <div class="clear"></div>
+                        <div class="card-content">Content</div>
                     </div>
                 </div>
             </div>
-            <div class="Grid-cell">
-                <div class="card-flex">
-                    <div class="card-header">
-                        <h4>Escalation Information</h4>
-                        <img src="img/show8.svg" class="card-handle" />
-                    </div>
-                    <div class="clear"></div>
-                    <div class="card-content">Content</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="Grid Grid--gutters Grid--flexCells u-nested-full">
-            <div class="Grid-cell ">
-                <div class="card-flex">
+            <div class="xl-1-1 lg-1-1 md-1-1 sm-1-1 xs-1-1">
+                <div class="card">
                     <h4>Circuit Information</h4>
                     <table class="circuit-table">
                         <tr class="belieze-hole">
@@ -79,31 +65,27 @@
                     </table>
                 </div>
             </div>
-        </div>
-
-        <div class="Grid Grid--gutters Grid--flexCells u-nested-full">
-            <div class="Grid-cell ">
-                <div class="card-flex">
+            <div class="xl-3-6 lg-1-1 md-1-1 sm-1-1 xs-1-1">
+                <div class="card">
                     <h4>Hardware Information</h4>
                     <table class="interface-table">
                         <tr class="belieze-hole">
-                            <th>VHID</th>
+                            <th>LCF Flag</th>
                             <th>Model</th>
-                            <th>Vendor</th>
+                            <th>Serial #</th>
                             <th>Type</th>
                         </tr>
-                        <!--<tr ng-repeat="hardware in hardware" ng-class-even="'even'">-->
-                        <tr>
-                            <td>{{hardware.vhid}}</td>
+                        <tr ng-repeat="hardware in hardware" ng-class-even="'even'">
+                            <td>{{hardware.lcf_flag}}</td>
                             <td>{{hardware.model}}</td>
-                            <td>{{hardware.vendor}}</td>
-                            <td>{{hardware.equipment_type}}</td>
+                            <td>{{hardware.serial}}</td>
+                            <td>{{hardware.type}}</td>
                         </tr>
                     </table>
                 </div>
             </div>
-            <div class="Grid-cell">
-                <div class="card-flex">
+            <div class="xl-3-6 lg-1-1 md-1-1 sm-1-1 xs-1-1">
+                <div class="card">
                     <h4>Interface Information</h4>
                     <table class="interface-table">
                         <tr class="belieze-hole">
@@ -121,19 +103,13 @@
                     </table>
                 </div>
             </div>
-        </div>
-
-        <div class="Grid Grid--gutters Grid--flexCells u-nested-full">
-            <div class="Grid-cell ">
-                <div class="card-flex">
+            <div class="xl-1-1 lg-1-1 md-1-1 sm-1-1 xs-1-1">
+                <div class="card">
                     <h4>Maintenance Tickets</h4>
                 </div>
             </div>
-        </div>
-
-        <div class="Grid Grid--gutters Grid--flexCells u-nested-full">
-            <div class="Grid-cell ">
-                <div class="card-flex">
+            <div class="xl-3-6 lg-1-1 md-1-1 sm-1-1 xs-1-1">
+                <div class="card">
                     <h4>Out of Band Information</h4>
                     <table class="interface-table">
                         <tr class="peter-river">
@@ -146,13 +122,13 @@
                             <td>{{oob.vhid}}</td>
                             <td>{{oob.number}}</td>
                             <td>{{oob.comments}}</td>
-                            <td>{{oob.lastdatetested}}</td>
+                            <td>{{oob.last_status}}</td>
                         </tr>
                     </table>
                 </div>
             </div>
-            <div class="Grid-cell">
-                <div class="card-flex">
+            <div class="xl-3-6 lg-1-1 md-1-1 sm-1-1 xs-1-1">
+                <div class="card">
                     <h4>NERC Events</h4>
                     <table class="interface-table">
                         <tr class="peter-river">
@@ -175,22 +151,17 @@
                 </div>
             </div>
         </div>
-
     </div>
-    <div class="Grid-cell u-1of4">
-        <div class="Grid-full Grid--gutters u-nested-full">
-            <div class="Grid-cell">
-                <div class="card-flex">Graph 1</div>
+    <div class="xl-2-8 lg-4-8 md-3-6 sm-2-4 xs-1-1">
+        <div class="wrap">
+            <div class="xl-1-1 lg-4-8 md-3-6 sm-2-4 xs-1-1">
+                <div ng-click="expand('card3')" class="card">Graph 1</div>
             </div>
-        </div>
-        <div class="Grid-full Grid--gutters u-nested-full">
-            <div class="Grid-cell">
-                <div class="card-flex">Graph 2</div>
+            <div class="xl-1-1 lg-4-8 md-3-6 sm-2-4 xs-1-1">
+                <div ng-click="expand('card3')" class="card">Graph 2</div>
             </div>
-        </div>
-        <div class="Grid-full Grid--gutters u-nested-full">
-            <div class="Grid-cell" ng-controller="commentController">
-                <div class="card-flex">
+            <div class="xl-1-1 lg-1-1 md-1-1 sm-1-1 xs-1-1" ng-controller="commentController">
+                <div class="card">
                     <div class="card-header">
                         <h4>Comments</h4>
                         <img src="img/show8.svg" class="card-handle" ng-click="handle()" />
@@ -216,10 +187,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="Grid-full Grid--gutters u-nested-full">
-            <div class="Grid-cell">
-                <div class="card-flex">
+            <div class="xl-1-1 lg-1-1 md-1-1 sm-1-1 xs-1-1">
+                <div class="card">
                     <h4>Documents</h4>
                     <div class="doc-item">
                         <img src="img/docx1.svg" class="doc-icon" />
@@ -240,49 +209,3 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-function DropDown(el) {
-    this.dd = el;
-    this.placeholder = this.dd.children('span');
-    this.opts = this.dd.find('ul.dropdown > li');
-    this.val = '';
-    this.index = -1;
-    this.initEvents();
-}
-
-DropDown.prototype = {
-    initEvents : function() {
-        var obj = this;
-
-        obj.dd.on('click', function(event){
-            $(this).toggleClass('active');
-            return false;
-        });
-
-        obj.opts.on('click',function(){
-            var opt = $(this);
-            obj.val = opt.text();
-            obj.index = opt.index();
-            obj.placeholder.text(obj.val);
-        });
-    },
-    getValue : function() {
-        return this.val;
-    },
-    getIndex : function() {
-        return this.index;
-    }
-}
-
-$(function() {
-
-    var dd = new DropDown( $('#dd') );
-
-    $(document).click(function() {
-        // all dropdowns
-        $('.wrapper-dropdown-1').removeClass('active');
-    });
-
-});
-</script>

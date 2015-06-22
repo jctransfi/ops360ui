@@ -12,10 +12,10 @@ myApp.config(function($routeProvider) {
         })
 
         // route for the about page
-        .when('/about', {
-          templateUrl : 'template/about.html',
-          controller  : 'aboutController',
-          activetab : 'about'
+        .when('/webconsole', {
+          templateUrl : 'template/webconsole.html',
+          controller  : 'webconsoleController',
+          activetab : 'webconsole'
         })
 
         // route for the contact page
@@ -82,13 +82,23 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
       if(dataResponse.data){
         console.log(dataResponse.data.nercs.length)
         $scope.customer = dataResponse.data.customer_info;
-        var nerc_arr = [] 
+        $scope.hardware = dataResponse.data.hardware;
+        var nerc_arr = [];
+        var oob_arr = [];
         $.each(dataResponse.data.nercs, function(key, value){
           nerc_arr.push(this);
           // console.log(this)
         });
         // console.log(nerc_arr)
         $scope.nerc = nerc_arr;
+
+        $.each(dataResponse.data.oob, function(key, value){
+          oob_arr.push(this);
+          // console.log(this)
+        });
+
+        $scope.oob = oob_arr;
+
         /* assign result to a main object in $scope then access through the controllers via
            $scope.mainObj.property
         */
@@ -111,9 +121,9 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
     // });
     $scope.circuits = dashboardObj.circuit;
     $scope.comments = dashboardObj.comments;
-    $scope.oob = dashboardObj.oob;
+    // $scope.oob = dashboardObj.oob;
     $scope.ifData = dashboardObj.interface;
-    $scope.hardware = dashboardObj.hardware;
+    // $scope.hardware = dashboardObj.hardware;
     // $scope.nerc = dashboardObj.nerc;
     $(".panel-container").removeClass("panel-open");  
 	}
@@ -141,6 +151,10 @@ myApp.controller('commentController', function($scope) {
 });
 
 myApp.controller('escalationController', function($scope) {
+});
+
+myApp.controller('webconsoleController', function($scope, $route) {
+    $scope.$route = $route;
 });
 
 $(".side-icon").on("click", function(){
