@@ -3,35 +3,74 @@
 <div class="Grid">
     <div class="Grid-cell">
         <div class="Grid Grid--gutters Grid--flexCells u-nested-full">
-            <div class="Grid-cell ">
+            <div class="Grid-cell if-details-card">
                 <div class="card-flex">
                     <div class="card-header">
-                        <h4>Customer and Site Information</h4>
-                        <img src="img/show8.svg" class="card-handle" />
+                        <h4>CNYLAT3-MONDELEZ-RTR-1</h4>
+                        <!-- <img src="img/show8.svg" class="card-handle" /> -->
                     </div>
                     <div class="clear"></div>
                     <div class="card-content">
-                        Customer Name: {{customer.customer_name}}<br/>
-                        CSN: {{customer.csn}}<br/>
-                        Master Account ID {{customer.master_acc_id}}<br/>
-                        <div class="vlid-select">CAEDUB23</div><!--
-                        --><div class="wrapper-demo"><!--
-                            --><div id="dd" class="wrapper-dropdown-1" tabindex="1"><!--
-                                --><span>CAEDUB12-AVIALL-RTR-2</span><!--
-                                --><ul class="dropdown" tabindex="1">
-                                    <!-- add an ng-click to trigger search when selecting from this list -->
-                                    <li><a href="#">CAEDUB12-AVIALL-RTR-3</a></li>
-                                    <li><a href="#">CAEDUB12-MONDELEZ-RTR-4</a></li>
-                                </ul>
-                            </div>
-                        ​</div>
+                        <table class="webconsole-details">
+                            <tr class="if-details-header">
+                                <td width="33%">Vendor</td>
+                                <td width="33%">Model</td>
+                                <td width="33%">OS</td>
+                            </tr>
+                            <tr>
+                                <td>Cisco_Systems</td>
+                                <td>cisco1921k9</td>
+                                <td>Version 15.1(4)M3</td>
+                            </tr>
+                            <tr class="if-details-header">
+                                <td>Uptime</td>
+                                <td>Management IP</td>
+                                <td>SNMP Community String</td>
+                            </tr>
+                            <tr>
+                                <td>4 weeks, 2 days, 12:43:11.84</td>
+                                <td>100.64.138.20</td>
+                                <td>s4UB36ayuZ</td>
+                            </tr>
+                            <tr class="if-details-header">
+                                <td>Last SNMP Poll</td>
+                                <td>Time at Location</td>
+                                <td>Last Transition Time</td>
+                            </tr>
+                            <tr>
+                                <td>Thu May 21 04:53:45 +0000 2015 by 207.179.3.90</td>
+                                <td>02:57:07 FNT 2015-02-21</td>
+                                <td>3 days, 4 hours, 23 seconds ago</td>
+                            </tr>
+                        </table>
                     </div>
+                </div>
+            </div>
+            <div class="Grid-cell if-location-card">
+                <div class="card-flex">
+                    <div class="card-header">
+                        <h4>Location Summary</h4>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="card-content">
+                        <table class="comments-table">
+                            <tr class="peter-river">
+                                <th>VHID</th>
+                                <th>IP Address</th>
+                                <th>SNMP String</th>
+                            </tr>
+                            <tr>
+                                <td>CNYLAT3-MONDELEZ-RTR-1</td>
+                                <td>202.90.42.151</td>
+                                <td>pingonly</td>
+                            </tr>
+                        </table></div>
                 </div>
             </div>
             <div class="Grid-cell">
                 <div class="card-flex">
                     <div class="card-header">
-                        <h4>Escalation Information</h4>
+                        <h4>Service Status Information</h4>
                         <img src="img/show8.svg" class="card-handle" />
                     </div>
                     <div class="clear"></div>
@@ -43,20 +82,22 @@
         <div class="Grid Grid--gutters Grid--flexCells u-nested-full">
             <div class="Grid-cell ">
                 <div class="card-flex">
-                    <h4>Circuit Information</h4>
+                    <h4>Interface Status Information</h4>
                     <table class="circuit-table">
                         <tr class="belieze-hole">
-                            <th>VCID</th>
-                            <th>Orig VHID</th>
-                            <th>Term VHID</th>
-                            <th>Link</th>
-                            <th>Speed</th>
-                            <th>Provider</th>
-                            <th>Last Mile</th>
-                            <th>LEC Circuit ID</th>
+                            <th>IF Admin Status</th>
+                            <th>If Oper Status</th>
+                            <th>Status Info</th>
+                            <th>IF Index</th>
+                            <th>IF Name</th>
+                            <th>IF Alias</th>
+                            <th>IF Desc</th>
+                            <th>IF Type</th>
+                            <th>IP Address</th>
+                            <th>Netmask</th>
                         </tr>
                         <tr ng-repeat="circuit in circuits" ng-class-even="'even'">
-                            <td><a href="{{circuit.vcomlink}}">{{circuit.vcid}}</a></td>
+                            <td>{{circuit.vcid}}</td>
                             <td>{{circuit.origvhid}}</td>
                             <td>{{circuit.termvhid}}</td>
                             <td>{{circuit.linktype}}</td>
@@ -64,108 +105,16 @@
                             <td>{{circuit.provider}}</td>
                             <td>{{circuit.lastmile}}</td>
                             <td>{{circuit.LEC}}</td>
+                            <td>{{circuit.LEC}}</td>
+                            <td>{{circuit.LEC}}</td>
                         </tr>
                     </table>
                 </div>
             </div>
         </div>
 
-        <div class="Grid Grid--gutters Grid--flexCells u-nested-full">
-            <div class="Grid-cell ">
-                <div class="card-flex">
-                    <h4>Hardware Information</h4>
-                    <table class="interface-table">
-                        <tr class="belieze-hole">
-                            <th>LCF Flag</th>
-                            <th>Model</th>
-                            <th>Serial #</th>
-                            <th>Type</th>
-                        </tr>
-                        <tr ng-repeat="hardware in hardware" ng-class-even="'even'">
-                            <td>{{hardware.lcf_flag}}</td>
-                            <td>{{hardware.model}}</td>
-                            <td>{{hardware.serial}}</td>
-                            <td>{{hardware.type}}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div class="Grid-cell">
-                <div class="card-flex">
-                    <h4>Interface Information</h4>
-                    <table class="interface-table">
-                        <tr class="belieze-hole">
-                            <th>VHID</th>
-                            <th>Status</th>
-                            <th>Mgt Status</th>
-                            <th>IP</th>
-                        </tr>
-                        <tr ng-repeat="ifData in ifData" ng-class-even="'even'">
-                            <td>{{ifData.vhid}}</td>
-                            <td>{{ifData.status}}</td>
-                            <td>{{ifData.mgtstatus}}</td>
-                            <td>{{ifData.IP}}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="Grid Grid--gutters Grid--flexCells u-nested-full">
-            <div class="Grid-cell ">
-                <div class="card-flex">
-                    <h4>Maintenance Tickets</h4>
-                </div>
-            </div>
-        </div>
-
-        <div class="Grid Grid--gutters Grid--flexCells u-nested-full">
-            <div class="Grid-cell ">
-                <div class="card-flex">
-                    <h4>Out of Band Information</h4>
-                    <table class="interface-table">
-                        <tr class="peter-river">
-                            <th>VHID</th>
-                            <th>Number</th>
-                            <th>Comments</th>
-                            <th>Last Status</th>
-                        </tr>
-                        <tr ng-repeat="oob in oob" ng-class-even="'even'">
-                            <td>{{oob.vhid}}</td>
-                            <td>{{oob.number}}</td>
-                            <td>{{oob.comments}}</td>
-                            <td>{{oob.last_status}}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div class="Grid-cell">
-                <div class="card-flex">
-                    <h4>NERC Events</h4>
-                    <table class="interface-table">
-                        <tr class="peter-river">
-                            <th>VHID</th>
-                            <th>Date</th>
-                            <th>Type</th>
-                            <th>Subtype</th>
-                            <th>Source</th>
-                            <!-- <th>Ticket</th> -->
-                        </tr>
-                        <tr ng-repeat="nerc in nerc | limitTo:-4" ng-class-even="'even'">
-                            <td>{{nerc.vhid}}</td>
-                            <td width="15%">{{nerc.date | date:'d-MMM-yy'}}</td>
-                            <td>{{nerc.evtype}}</td>
-                            <td>{{nerc.evsubtype}}</td>
-                            <td>{{nerc.sourceserv}}</td>
-                            <!-- <td>{{nerc.ticketno}}</td> -->
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    <div class="Grid-cell u-1of4">
+        
+    <!-- <div class="Grid-cell u-1of4">
         <div class="Grid-full Grid--gutters u-nested-full">
             <div class="Grid-cell">
                 <div class="card-flex">Graph 1</div>
@@ -226,5 +175,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>

@@ -7,7 +7,8 @@
                 <div class="card-flex">
                     <div class="card-header">
                         <h4>Customer and Site Information</h4>
-                        <img src="img/show8.svg" class="card-handle" />
+                        <div class="card-expand"></div>
+                        <!-- <img src="img/expanding2.svg" class="card-handle" /> -->
                     </div>
                     <div class="clear"></div>
                     <div class="card-content">
@@ -43,10 +44,10 @@
                 <div class="card-flex">
                     <div class="card-header">
                         <h4>Escalation Information</h4>
-                        <img src="img/show8.svg" class="card-handle" />
+                        <div class="card-expand"></div>
                     </div>
                     <div class="clear"></div>
-                    <div class="card-content">Content</div>
+                    <div class="card-content small-text" style="white-space:pre-wrap;">{{escalation}}</div>
                 </div>
             </div>
         </div>
@@ -127,6 +128,26 @@
             <div class="Grid-cell ">
                 <div class="card-flex">
                     <h4>Maintenance Tickets</h4>
+                    <table class="interface-table">
+                        <tr class="peter-river">
+                            <th>Ticket Number</th>
+                            <th>Title</th>
+                            <th>Type</th>
+                            <th>Source</th>
+                            <th>Area</th>
+                            <th>Sub-area</th>
+                            <th>Severity</th>
+                        </tr>
+                        <tr ng-repeat="maintenance in maintenance" ng-class-even="'even'">
+                            <td>{{maintenance.SR_NUM}}</td>
+                            <td>{{maintenance.SR_TITLE}}</td>
+                            <td>{{maintenance.TT_TYPE_CD}}</td>
+                            <td>{{maintenance.SOURCE_TYP_CDCE}}</td>
+                            <td>{{maintenance.SR_AREA}}</td>
+                            <td>{{maintenance.SR_SUB_AREA}}</td>
+                            <td>{{maintenance.SR_SEV_CD}}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
@@ -151,27 +172,34 @@
                     </table>
                 </div>
             </div>
-            <div class="Grid-cell">
+            <div class="Grid-cell" ng-controller="nercController" >
                 <div class="card-flex">
-                    <h4>NERC Events</h4>
-                    <table class="interface-table">
-                        <tr class="peter-river">
-                            <th>VHID</th>
-                            <th>Date</th>
-                            <th>Type</th>
-                            <th>Subtype</th>
-                            <th>Source</th>
-                            <!-- <th>Ticket</th> -->
-                        </tr>
-                        <tr ng-repeat="nerc in nerc | limitTo:-4" ng-class-even="'even'">
-                            <td>{{nerc.vhid}}</td>
-                            <td width="15%">{{nerc.date | date:'d-MMM-yy'}}</td>
-                            <td>{{nerc.evtype}}</td>
-                            <td>{{nerc.evsubtype}}</td>
-                            <td>{{nerc.sourceserv}}</td>
-                            <!-- <td>{{nerc.ticketno}}</td> -->
-                        </tr>
-                    </table>
+                    <div class="card-header">
+                        <h4>NERC Events</h4>
+                        <div class="card-expand" ng-click="handle()"></div>
+                        <!-- <img src="img/expanding2.svg" class="card-handle" ng-click="handle()" /> -->
+                    </div>
+                    <div class="clear"></div>
+                    <div class="card-content">
+                        <table class="interface-table">
+                            <tr class="peter-river">
+                                <th>VHID</th>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Subtype</th>
+                                <th>Source</th>
+                                <!-- <th>Ticket</th> -->
+                            </tr>
+                            <tr ng-repeat="nerc in nerc | limitTo:-4" ng-class-even="'even'">
+                                <td>{{nerc.vhid}}</td>
+                                <td width="15%">{{nerc.date | date:'d-MMM-yy'}}</td>
+                                <td>{{nerc.evtype}}</td>
+                                <td>{{nerc.evsubtype}}</td>
+                                <td>{{nerc.sourceserv}}</td>
+                                <!-- <td>{{nerc.ticketno}}</td> -->
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -193,11 +221,15 @@
                 <div class="card-flex">
                     <div class="card-header">
                         <h4>Comments</h4>
-                        <img src="img/show8.svg" class="card-handle" ng-click="handle()" />
+                        <div class="card-expand" ng-click="handle()"></div>
                     </div>
                     <div class="clear"></div>
                     <div class="card-content">
-                        <table class="comments-table">
+                        <div class="comment-container" ng-repeat="comment in comments | limitTo:-4" ng-class-even="'even'">
+                            <div class="comment-text">{{comment.comment}}</div>
+                            <div class="comment-details">Posted by: <strong>{{comment.user}}</strong> on <i>{{comment.date | date:'d-MMM-yy'}}</i></div>
+                        </div>
+                        <!-- <table class="comments-table">
                             <tr class="peter-river">
                                 <th width="20%">Date</th>
                                 <th>Comment</th>
@@ -208,7 +240,7 @@
                                 <td>{{comment.comment}}</td>
                                 <td>{{comment.user}}</td>
                             </tr>
-                        </table>
+                        </table> -->
                         <div class="add-comment">
                             <textarea class="comment-box" ng-model="newcomment"></textarea>
                             <button class="btn orange btn-comment" ng-click="addComment(newcomment)">Add</button>
@@ -240,6 +272,30 @@
         </div>
     </div>
 </div>
+
+<script type="text/ng-template" id="nercExpand">
+    <h4>NERC EVENTS</h4>
+    <table class="interface-table">
+        <tr class="peter-river">
+            <th>VHID</th>
+            <th>W #</th>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Subtype</th>
+            <th>Source</th>
+            <!-- <th>Ticket</th> -->
+        </tr>
+        <tr ng-repeat="nerc in nerc" ng-class-even="'even'">
+            <td>{{nerc.vhid}}</td>
+            <td>{{nerc.NMSWNum}}</td>
+            <td width="15%">{{nerc.date | date:'d-MMM-yy'}}</td>
+            <td>{{nerc.evtype}}</td>
+            <td>{{nerc.evsubtype}}</td>
+            <td>{{nerc.sourceserv}}</td>
+            <!-- <td>{{nerc.ticketno}}</td> -->
+        </tr>
+    </table>
+</script>
 
 <script type="text/javascript">
 function DropDown(el) {

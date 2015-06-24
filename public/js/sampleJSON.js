@@ -1,3 +1,64 @@
+var interfaceObj = {
+  "if_hardware" : {
+    "vendor" : "text",
+    "model" : "text",
+    "os" : "text",
+    "uptime" : "date object",
+    "management_ip" : "text",
+    "snmp_string" : "text",
+    "last_snmp_ poll" : "date object",
+    "localtime" : "date object",
+    "last_transition" : "date object"
+  },
+  "if_location" : [{
+    "vhid" : "text",
+    "ip" : "text",
+    "snmp_string" : "text"
+  },{
+    "vhid" : "text",
+    "ip" : "text",
+    "snmp_string" : "text"
+  },{
+    "vhid" : "text",
+    "ip" : "text",
+    "snmp_string" : "text"
+  }],
+  "service_status" : [{
+    "status" : "text",
+    "service_name" : "text"
+  },{
+    "status" : "text",
+    "service_name" : "text"
+  },{
+    "status" : "text",
+    "service_name" : "text"
+  }],
+  "interface_status" : [{
+    "if_admin_status" : "text",
+    "if_oper_status" : "text",
+    "status_info" : "text",
+    "if_index" : "text",
+    "if_name" : "text",
+    "if_alias" : "text",
+    "if_desc" : "text",
+    "if_type" : "text",
+    "ip" : "text",
+    "netmask" : "text"
+  },
+  {
+    "if_admin_status" : "text",
+    "if_oper_status" : "text",
+    "status_info" : "text",
+    "if_index" : "text",
+    "if_name" : "text",
+    "if_alias" : "text",
+    "if_desc" : "text",
+    "if_type" : "text",
+    "ip" : "text",
+    "netmask" : "text"
+  }]
+}
+
 var dashboardObj = {
     "customer_info": {
         "customer-name": "Mondelez International, Inc",

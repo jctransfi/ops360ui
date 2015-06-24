@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp',['cgBusy', 'ngRoute', 'ngDropdowns']);
+var myApp = angular.module('myApp',['cgBusy', 'ngRoute', 'ngDropdowns', 'ngDialog']);
 
 myApp.config(function($routeProvider) {
     // activetab variable allows for highlighting of 
@@ -48,10 +48,12 @@ myApp.service('searchService', function($http) {
     this.getData = function(apiURL, searchTerm) {
         // $http() returns a $promise that we can add handlers with .then()
         var urlpath = "http://172.16.92.73" + apiURL + searchTerm
+        var urlpathdev = apiURL + searchTerm
+        console.log(urlpathdev);
         console.log(urlpath);
         return $http({
             method: 'GET',
-            url: urlpath
+            url: urlpathdev
         });
     }
 });
@@ -85,19 +87,30 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
         $scope.hardware = dataResponse.data.hardware;
         var nerc_arr = [];
         var oob_arr = [];
+        var maint_arr = [];
         $.each(dataResponse.data.nercs, function(key, value){
           nerc_arr.push(this);
           // console.log(this)
         });
-        // console.log(nerc_arr)
-        $scope.nerc = nerc_arr;
 
         $.each(dataResponse.data.oob, function(key, value){
           oob_arr.push(this);
           // console.log(this)
         });
 
+        $.each(dataResponse.data.maintainence_tickets, function(key, value){
+          maint_arr.push(this);
+          // console.log(this)
+        });
+
         $scope.oob = oob_arr;
+        $scope.nerc = nerc_arr;
+        $scope.maintenance = maint_arr;
+        // var escal = "";
+        // escal+=dataResponse.data.escalation_text;
+        // $scope.escalation = escal.replace(/(?:\r\n|\r|\n)/g, '<br />');
+
+        $scope.escalation = dataResponse.data.escalation_text[0];
 
         /* assign result to a main object in $scope then access through the controllers via
            $scope.mainObj.property
@@ -134,7 +147,7 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
 
 });
 
-myApp.controller('commentController', function($scope) {
+myApp.controller('commentController', function($scope, ngDialog) {
   $scope.addComment = function (comment) {
     /* integration notes 
         DOM update happens on success handler of
@@ -147,6 +160,14 @@ myApp.controller('commentController', function($scope) {
 
   $scope.handle = function (){
     console.log("comment handle");
+    ngDialog.open({ template: 'templateId', className: 'ngdialog-theme-default'});
+  }
+});
+
+myApp.controller('nercController', function($scope, ngDialog) {
+  $scope.handle = function (){
+    console.log("comment handle");
+    ngDialog.open({ template: 'nercExpand', className: 'ngdialog-theme-default', scope: $scope.$parent });
   }
 });
 
@@ -155,6 +176,8 @@ myApp.controller('escalationController', function($scope) {
 
 myApp.controller('webconsoleController', function($scope, $route) {
     $scope.$route = $route;
+
+
 });
 
 $(".side-icon").on("click", function(){

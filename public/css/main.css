@@ -238,6 +238,10 @@ body {
     cursor: pointer;
 }
 
+.escalation {
+    white-space: pre-line;
+}
+
 .cardui {
     /*float: left;*/
     display: inline-block;
@@ -275,13 +279,22 @@ body {
 
 .card-header > img {
     float: right;
-    width: 16px;
-    height: 16px;
+    width: 12px;
+    height: 12px;
 }
 
 .card-handle {
     cursor: pointer;
     position: relative;
+}
+
+.card-expand {
+    float: right;
+    width: 12px;
+    height: 12px;
+    background: url(../img/expanding2.svg);
+    background-size: 12px 12px;
+    cursor: pointer;
 }
 
 .side-icon > img {
@@ -606,6 +619,22 @@ body {
     font-weight: 700;
     font-size: 3.750em;
 }
+
+/* Comments */
+
+.comment-container {
+    margin-bottom: 8px;
+    font-size: 0.875em;
+}
+
+.comment-text {
+    margin-bottom: 4px;
+}
+
+.comment-details {
+    font-size: 0.813em;
+}
+
 /* ==========================================================================
    form classes
    ========================================================================== */
@@ -1017,8 +1046,50 @@ body {
 }
 
 /* ==========================================================================
+   Web Console
+   ========================================================================== */
+
+.webconsole-details {
+    font-size: 0.813em;
+}
+
+.webconsole-details tr {
+    margin-bottom: 6px;
+}
+
+.if-details-header {
+    font-weight: 700;
+    color: #FF8000;
+    /*font-size: 0.813em;*/
+}
+
+.if-details-header + tr > td {
+    padding-bottom: 10px;
+}
+
+.if-details-card {
+    width: 40%!important;
+    -webkit-box-flex: 0!important;
+    -webkit-flex: none!important;
+    -ms-flex: none!important;
+    flex: none!important;
+}
+
+.if-location-card {
+    width: 30%!important;
+    -webkit-box-flex: 0!important;
+    -webkit-flex: none!important;
+    -ms-flex: none!important;
+    flex: none!important;
+}
+
+/* ==========================================================================
    Helper classes
    ========================================================================== */
+
+.small-text {
+    font-size: 0.875em;
+}
 
 .flex-container {
     display: -ms-flexbox;
