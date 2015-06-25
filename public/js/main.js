@@ -133,7 +133,7 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
         $scope.nerc = nerc_arr;
         $scope.maintenance = maint_arr;
         $scope.circuits = vcid_arr;
-        $scope.comments = comment_arr
+        $scope.comments = comment_arr;
         // var escal = "";
         // escal+=dataResponse.data.escalation_text;
         // $scope.escalation = escal.replace(/(?:\r\n|\r|\n)/g, '<br />');
@@ -209,7 +209,17 @@ myApp.controller('escalController', function($scope, ngDialog) {
 myApp.controller('webconsoleController', function($scope, $route) {
     $scope.$route = $route;
 
+    /*
+      there will have to be two actions to load the data for the entire dashboard
 
+      first, if on web console and vhid is exact search, then load data immediately
+      second, if partial search load only happens when the actual vhid from results is clicked
+      
+      in both cases, do not attach promise tracker to dashboard call; sort of "lazy load" it
+      in the background regardless of webconsole results;
+
+
+    */
 });
 
 $(".side-icon").on("click", function(){
