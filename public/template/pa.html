@@ -40,14 +40,14 @@
                     </div>
                 </div>
             </div>
-            <div class="Grid-cell">
+            <div class="Grid-cell" ng-controller="escalController">
                 <div class="card-flex">
                     <div class="card-header">
                         <h4>Escalation Information</h4>
-                        <div class="card-expand"></div>
+                        <div class="card-expand" ng-click="handle()"></div>
                     </div>
                     <div class="clear"></div>
-                    <div class="card-content small-text" style="white-space:pre-wrap;">{{escalation}}</div>
+                    <div class="card-content small-text" style="white-space:pre-wrap; max-height:136px; overflow: hidden;">{{escalation}}</div>
                 </div>
             </div>
         </div>
@@ -69,13 +69,13 @@
                         </tr>
                         <tr ng-repeat="circuit in circuits" ng-class-even="'even'">
                             <td><a href="{{circuit.vcomlink}}">{{circuit.vcid}}</a></td>
-                            <td>{{circuit.origvhid}}</td>
-                            <td>{{circuit.termvhid}}</td>
+                            <td>{{circuit.ORIGVHID}}</td>
+                            <td>{{circuit.TERMVHID}}</td>
                             <td>{{circuit.linktype}}</td>
-                            <td>{{circuit.speed}}</td>
-                            <td>{{circuit.provider}}</td>
+                            <td>{{circuit.SPEED}}</td>
+                            <td>{{circuit.PROVIDER}}</td>
                             <td>{{circuit.lastmile}}</td>
-                            <td>{{circuit.LEC}}</td>
+                            <td>{{circuit.LECCIRCUITID}}</td>
                         </tr>
                     </table>
                 </div>
@@ -227,7 +227,7 @@
                     <div class="card-content">
                         <div class="comment-container" ng-repeat="comment in comments | limitTo:-4" ng-class-even="'even'">
                             <div class="comment-text">{{comment.comment}}</div>
-                            <div class="comment-details">Posted by: <strong>{{comment.user}}</strong> on <i>{{comment.date | date:'d-MMM-yy'}}</i></div>
+                            <div class="comment-details">Posted by: <strong>{{comment.user_name}}</strong> on <i>{{comment.date_added | date:'d-MMM-yy'}}</i></div>
                         </div>
                         <!-- <table class="comments-table">
                             <tr class="peter-river">
@@ -295,6 +295,11 @@
             <!-- <td>{{nerc.ticketno}}</td> -->
         </tr>
     </table>
+</script>
+
+<script type="text/ng-template" id="escalationExpand">
+    <h4>Escalation Information</h4>
+    <div class="small-text" style="white-space:pre-wrap;">{{escalation}}</div>
 </script>
 
 <script type="text/javascript">

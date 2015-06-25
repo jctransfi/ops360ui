@@ -50,7 +50,7 @@ myApp.service('searchService', function($http) {
         var urlpath = "http://172.16.92.73" + apiURL + searchTerm
         var urlpathdev = apiURL + searchTerm
         console.log(urlpathdev);
-        console.log(urlpath);
+        // console.log(urlpath);
         return $http({
             method: 'GET',
             url: urlpathdev
@@ -70,7 +70,7 @@ myApp.controller('contactController', function($scope, $route) {
 
 myApp.controller('dashboardController', function($scope, $route, searchService) {
   $scope.$route = $route;
-  $scope.searchTerm = "CTWTAO9-NTT2989SONY-RTR-1"
+  $scope.searchTerm = "CCPTOR20-REDHAT-RTR-1"
 
   //event listeners
 
@@ -78,20 +78,46 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
 
 	$scope.search = function (cpe){
 		// console.log("beep")
-    var firstPromise = searchService.getData("/api/v1/nms/vhid/", cpe)
+    // var firstPromise = searchService.getData("/api/v1/nms/vhid/", cpe)
 		$scope.promise = searchService.getData("/api/v1/nms/vhid/", cpe).then(function(dataResponse) {
 			console.log(dataResponse.data);
       if(dataResponse.data){
-        console.log(dataResponse.data.nercs.length)
+        // console.log(dataResponse.data.nercs.length)
+        console.log(dataResponse.data.vcid)
         $scope.customer = dataResponse.data.customer_info;
         $scope.hardware = dataResponse.data.hardware;
         var nerc_arr = [];
         var oob_arr = [];
         var maint_arr = [];
-        $.each(dataResponse.data.nercs, function(key, value){
-          nerc_arr.push(this);
-          // console.log(this)
-        });
+        var vcid_arr = [];
+        var comment_arr = [];
+        try {
+          $.each(dataResponse.data.nercs, function(key, value){
+            nerc_arr.push(this);
+            // console.log(this)
+          });
+        }catch (e){
+          // console.log(e);
+        }
+
+        try {
+          $.each(dataResponse.data.vcid, function(key, value){
+            vcid_arr.push(this);
+            // console.log(this)
+          });
+        }catch (e){
+          // console.log(e);
+        }
+
+        try {
+          $.each(dataResponse.data.comments, function(key, value){
+            comment_arr.push(this);
+            // console.log(this)
+          });
+        }catch (e){
+          // console.log(e);
+        }
+
 
         $.each(dataResponse.data.oob, function(key, value){
           oob_arr.push(this);
@@ -106,11 +132,13 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
         $scope.oob = oob_arr;
         $scope.nerc = nerc_arr;
         $scope.maintenance = maint_arr;
+        $scope.circuits = vcid_arr;
+        $scope.comments = comment_arr
         // var escal = "";
         // escal+=dataResponse.data.escalation_text;
         // $scope.escalation = escal.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
-        $scope.escalation = dataResponse.data.escalation_text[0];
+        $scope.escalation = dataResponse.data.escalation_text;
 
         /* assign result to a main object in $scope then access through the controllers via
            $scope.mainObj.property
@@ -132,10 +160,10 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
     //     }
     //   });
     // });
-    $scope.circuits = dashboardObj.circuit;
-    $scope.comments = dashboardObj.comments;
+    // $scope.circuits = dashboardObj.circuit;
+    // $scope.comments = dashboardObj.comments;
     // $scope.oob = dashboardObj.oob;
-    $scope.ifData = dashboardObj.interface;
+    // $scope.ifData = dashboardObj.interface;
     // $scope.hardware = dashboardObj.hardware;
     // $scope.nerc = dashboardObj.nerc;
     $(".panel-container").removeClass("panel-open");  
@@ -166,12 +194,16 @@ myApp.controller('commentController', function($scope, ngDialog) {
 
 myApp.controller('nercController', function($scope, ngDialog) {
   $scope.handle = function (){
-    console.log("comment handle");
+    console.log("nerc handle");
     ngDialog.open({ template: 'nercExpand', className: 'ngdialog-theme-default', scope: $scope.$parent });
   }
 });
 
-myApp.controller('escalationController', function($scope) {
+myApp.controller('escalController', function($scope, ngDialog) {
+  $scope.handle = function (){
+    console.log("escal handle");
+    ngDialog.open({ template: 'escalationExpand', className: 'ngdialog-theme-default', scope: $scope.$parent });
+  }
 });
 
 myApp.controller('webconsoleController', function($scope, $route) {
