@@ -77,6 +77,7 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
   var vhid = "";
 
 	$scope.search = function (cpe){
+    console.log($route.current.activetab);
 		// console.log("beep")
     // var firstPromise = searchService.getData("/api/v1/nms/vhid/", cpe)
 		$scope.promise = searchService.getData("/api/v1/nms/vhid/", cpe).then(function(dataResponse) {
@@ -118,16 +119,23 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
           // console.log(e);
         }
 
+        try {
+          $.each(dataResponse.data.oob, function(key, value){
+            oob_arr.push(this);
+            // console.log(this)
+          });
+        }catch (e){
 
-        $.each(dataResponse.data.oob, function(key, value){
-          oob_arr.push(this);
-          // console.log(this)
-        });
+        }
 
-        $.each(dataResponse.data.maintainence_tickets, function(key, value){
-          maint_arr.push(this);
-          // console.log(this)
-        });
+        try {
+          $.each(dataResponse.data.maintainence_tickets, function(key, value){
+            maint_arr.push(this);
+            // console.log(this)
+          });
+        }catch (e) {
+
+        }
 
         $scope.oob = oob_arr;
         $scope.nerc = nerc_arr;
