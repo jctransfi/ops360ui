@@ -1056,6 +1056,41 @@ body {
 }
 
 /* ==========================================================================
+   Animations
+   ========================================================================== */
+
+@keyframes slideOutLeft {
+    to      { transform: translateX(-100%); }
+}
+
+@keyframes slideOutRight {
+    to      { transform: translateX(100%); }
+}
+
+
+@keyframes fadeOutRight {
+    to      { opacity: 0; }
+}
+
+@keyframes slideInRight {
+    from    { transform:translateX(100%); }
+    to      { transform: translateX(0); }
+}
+
+@keyframes slideInUp {
+    from    { opacity: 0.3; transform:translateY(100%); }
+    to      { transform: translateY(0); }
+}
+
+@keyframes scaleUp {
+    from    { opacity: 0.3; -webkit-transform: scale(0.8); }
+}
+
+.Grid-cell.ng-enter           { animation: slideInUp 0.5s both linear; z-index: 8888; }
+.Grid-cell.ng-leave           { animation: fadeOutRight 0.5s both linear; z-index: 9999; }
+
+
+/* ==========================================================================
    Web Console
    ========================================================================== */
 

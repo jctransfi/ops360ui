@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp',['cgBusy', 'ngRoute', 'ngDropdowns', 'ngDialog']);
+var myApp = angular.module('myApp',['cgBusy', 'ngRoute', 'ngDropdowns', 'ngDialog', 'ngAnimate']);
 
 myApp.config(function($routeProvider) {
     // activetab variable allows for highlighting of 
@@ -86,6 +86,9 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
         // console.log(dataResponse.data.nercs.length)
         $scope.customer = dataResponse.data.customer_info;
         $scope.hardware = dataResponse.data.hardware;
+        $scope.siteinfo = dataResponse.data.siteinfo;
+        $scope.vhids = dataResponse.data.siteinfo.vhid;
+        console.log($scope.vhids);
 
         var nerc_arr = [];
         var oob_arr = [];

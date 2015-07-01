@@ -14,9 +14,9 @@
                     <div class="card-content">
                         <table class="webconsole-details">
                             <tr class="if-details-header">
-                                <td width="40%">Customer Name</td>
-                                <td width="30%">CSN</td>
-                                <td width="30%">Master Acct ID</td>
+                                <td width="33%">Customer Name</td>
+                                <td width="33%">CSN</td>
+                                <td width="33%">Master Acct ID</td>
                             </tr>
                             <tr>
                                 <td>{{customer.customer_name}}</td>
@@ -35,17 +35,16 @@
                             </tr>
                         </table>
                         <h4>Site Information</h4>
-                        <div class="vlid-select">CAEDUB23</div><!--
-                        --><div class="wrapper-demo"><!--
-                            --><div id="dd" class="wrapper-dropdown-1" tabindex="1"><!--
-                                --><span>CAEDUB12-AVIALL-RTR-2</span><!--
-                                --><ul class="dropdown" tabindex="1">
-                                    <!-- add an ng-click to trigger search when selecting from this list -->
-                                    <li><a href="#">CAEDUB12-AVIALL-RTR-3</a></li>
-                                    <li><a href="#">CAEDUB12-MONDELEZ-RTR-4</a></li>
-                                </ul>
-                            </div>
-                        ​</div>
+                        <table class="webconsole-details">
+                            <tr class="if-details-header">
+                                <td>VLID</td>
+                                <td>VHID</td>
+                            </tr>
+                            <tr>
+                                <td>{{siteinfo.vlid}}</td>
+                                <td><select ng-model="selectedVHID" ng-change="search(selectedVHID)"><option ng-repeat="vhid in vhids track by $index">{{vhid}}</option></select></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
