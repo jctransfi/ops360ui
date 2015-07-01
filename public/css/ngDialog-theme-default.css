@@ -75,13 +75,15 @@
   border-radius: 2px;
   color: #444;
   font-family: 'Lato', sans-serif;
-  font-size: 1.1em;
-  line-height: 1.5em;
+  font-size: 1em;
+  line-height: 1.25em;
   margin: 0 auto;
   max-width: 100%;
   padding: 1em;
   position: relative;
   width: 55%;
+  height: 100%;
+  overflow-y: scroll;
 }
 
 .ngdialog.ngdialog-theme-default .ngdialog-close {

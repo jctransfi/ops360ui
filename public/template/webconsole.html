@@ -96,17 +96,17 @@
                             <th>IP Address</th>
                             <th>Netmask</th>
                         </tr>
-                        <tr ng-repeat="circuit in circuits" ng-class-even="'even'">
-                            <td>{{circuit.vcid}}</td>
-                            <td>{{circuit.origvhid}}</td>
-                            <td>{{circuit.termvhid}}</td>
-                            <td>{{circuit.linktype}}</td>
-                            <td>{{circuit.speed}}</td>
-                            <td>{{circuit.provider}}</td>
-                            <td>{{circuit.lastmile}}</td>
-                            <td>{{circuit.LEC}}</td>
-                            <td>{{circuit.LEC}}</td>
-                            <td>{{circuit.LEC}}</td>
+                        <tr ng-repeat="interface in interfaces" ng-class-even="'even'">
+                            <td>{{interface.adstat}}</td>
+                            <td>{{interface.operstat}}</td>
+                            <td>{{interface.MANAGEMENT_STATE}}</td>
+                            <td>{{interface.IFINDEX}}</td>
+                            <td>{{interface.ifname}}</td>
+                            <td>{{interface.IFALIAS}}</td>
+                            <td>{{interface.IFDESCR}}</td>
+                            <td>{{interface.iftype}}</td>
+                            <td>{{interface.ip}}</td>
+                            <td>{{interface.net}}</td>
                         </tr>
                     </table>
                 </div>

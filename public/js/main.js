@@ -84,14 +84,17 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
 			console.log(dataResponse.data);
       if(dataResponse.data){
         // console.log(dataResponse.data.nercs.length)
-        console.log(dataResponse.data.vcid)
         $scope.customer = dataResponse.data.customer_info;
         $scope.hardware = dataResponse.data.hardware;
+
         var nerc_arr = [];
         var oob_arr = [];
         var maint_arr = [];
         var vcid_arr = [];
         var comment_arr = [];
+        var interfaces_arr = [];
+
+        //try-catch segment for data in arrays/collections
         try {
           $.each(dataResponse.data.nercs, function(key, value){
             nerc_arr.push(this);
@@ -107,7 +110,7 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
             // console.log(this)
           });
         }catch (e){
-          // console.log(e);
+          console.log("VCID error");
         }
 
         try {
@@ -116,16 +119,15 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
             // console.log(this)
           });
         }catch (e){
-          // console.log(e);
+          console.log("COMMENTS error");
         }
 
         try {
           $.each(dataResponse.data.oob, function(key, value){
-            oob_arr.push(this);
-            // console.log(this)
+            oob_arr.push(this);  
           });
         }catch (e){
-
+          console.log("OOB error");
         }
 
         try {
@@ -134,7 +136,16 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
             // console.log(this)
           });
         }catch (e) {
+          console.log("TICKETS error");
+        }
 
+        try {
+          $.each(dataResponse.data.interfaces, function(key, value){
+            interfaces_arr.push(this);
+            // console.log(this)
+          });
+        }catch (e) {
+          console.log("INTERFACES error");
         }
 
         $scope.oob = oob_arr;
@@ -142,6 +153,7 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
         $scope.maintenance = maint_arr;
         $scope.circuits = vcid_arr;
         $scope.comments = comment_arr;
+        $scope.interfaces = interfaces_arr;
         // var escal = "";
         // escal+=dataResponse.data.escalation_text;
         // $scope.escalation = escal.replace(/(?:\r\n|\r|\n)/g, '<br />');
@@ -151,7 +163,6 @@ myApp.controller('dashboardController', function($scope, $route, searchService) 
         /* assign result to a main object in $scope then access through the controllers via
            $scope.mainObj.property
         */
-
       }else{
         // $(".panel-container").append("No Circuit Data");
       }
@@ -190,8 +201,8 @@ myApp.controller('commentController', function($scope, ngDialog) {
         writing to DB
     */
     var now = moment().format("D-MMM-YY");
-    var newcomment = { "date" : now , "comment" : comment, "user" : "JC Transfiguracion"}
-    dashboardObj.comments.push(newcomment);
+    var newcomment = { "date_added" : now , "comment" : comment, "user_name" : "JC Transfiguracion"}
+    $scope.comments.push(newcomment);
   }
 
   $scope.handle = function (){

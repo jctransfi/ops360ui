@@ -1061,6 +1061,7 @@ body {
 
 .webconsole-details {
     font-size: 0.813em;
+    width: 100%
 }
 
 .webconsole-details tr {

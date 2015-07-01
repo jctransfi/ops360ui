@@ -6,26 +6,35 @@
             <div class="Grid-cell ">
                 <div class="card-flex">
                     <div class="card-header">
-                        <h4>Customer and Site Information</h4>
+                        <h4>Customer Information</h4>
                         <!-- <div class="card-expand"></div> -->
                         <!-- <img src="img/expanding2.svg" class="card-handle" /> -->
                     </div>
                     <div class="clear"></div>
                     <div class="card-content">
-                        <table>
+                        <table class="webconsole-details">
+                            <tr class="if-details-header">
+                                <td width="40%">Customer Name</td>
+                                <td width="30%">CSN</td>
+                                <td width="30%">Master Acct ID</td>
+                            </tr>
                             <tr>
-                                <td width="33%">Customer Name:</td>
                                 <td>{{customer.customer_name}}</td>
-                            </tr>
-                            <tr>
-                                <td>CSN:</td>
                                 <td>{{customer.csn}}</td>
-                            </tr>
-                            <tr>
-                                <td width="33%">Master Account ID:</td>
                                 <td>{{customer.master_acc_id}}</td>
                             </tr>
+                            <tr class="if-details-header">
+                                <td>Acct Manager</td>
+                                <td>Project Manager</td>
+                                <td>Sales Engr</td>
+                            </tr>
+                            <tr>
+                                <td>{{customer.account_manager}}</td>
+                                <td>{{customer.project_manager}}</td>
+                                <td>{{customer.sales_engineer}}</td>
+                            </tr>
                         </table>
+                        <h4>Site Information</h4>
                         <div class="vlid-select">CAEDUB23</div><!--
                         --><div class="wrapper-demo"><!--
                             --><div id="dd" class="wrapper-dropdown-1" tabindex="1"><!--
@@ -47,7 +56,7 @@
                         <div class="card-expand" ng-click="handle()"></div>
                     </div>
                     <div class="clear"></div>
-                    <div class="card-content small-text" style="white-space:pre-wrap; max-height:136px; overflow: hidden;">{{escalation}}</div>
+                    <div class="card-content small-text" style="white-space:pre-wrap; max-height:144px; overflow: hidden;">{{escalation}}</div>
                 </div>
             </div>
         </div>
@@ -68,14 +77,14 @@
                             <th>LEC Circuit ID</th>
                         </tr>
                         <tr ng-repeat="circuit in circuits" ng-class-even="'even'">
-                            <td><a href="{{circuit.vcomlink}}">{{circuit.vcid}}</a></td>
-                            <td>{{circuit.ORIGVHID}}</td>
-                            <td>{{circuit.TERMVHID}}</td>
-                            <td>{{circuit.linktype}}</td>
-                            <td>{{circuit.SPEED}}</td>
-                            <td>{{circuit.PROVIDER}}</td>
-                            <td>{{circuit.lastmile}}</td>
-                            <td>{{circuit.LECCIRCUITID}}</td>
+                            <td width="12%"><a href="http://vcom4.virtela.net/vcom4/circuit/details?id={{circuit.CIRCUITID}}" target="_blank">{{circuit.VCID}}</a></td>
+                            <td width="18%">{{circuit.ORIGVHID}}</td>
+                            <td width="18%">{{circuit.TERMVHID}}</td>
+                            <td width="7%">{{circuit.CIRCUITTYPE}}</td>
+                            <td width="5%">{{circuit.SPEED}}</td>
+                            <td width="10%">{{circuit.PROVIDER}}</td>
+                            <td width="10%">{{circuit.lastmile}}</td>
+                            <td width="20%">{{circuit.LECCIRCUITID}}</td>
                         </tr>
                     </table>
                 </div>
@@ -108,16 +117,16 @@
                     <h4>Interface Information</h4>
                     <table class="interface-table">
                         <tr class="belieze-hole">
-                            <th>VHID</th>
+                            <th>IF Alias</th>
                             <th>Status</th>
                             <th>Mgt Status</th>
                             <th>IP</th>
                         </tr>
-                        <tr ng-repeat="ifData in ifData" ng-class-even="'even'">
-                            <td>{{ifData.vhid}}</td>
-                            <td>{{ifData.status}}</td>
-                            <td>{{ifData.mgtstatus}}</td>
-                            <td>{{ifData.IP}}</td>
+                        <tr ng-repeat="interface in interfaces | limitTo: 5" ng-class-even="'even'">
+                            <td>{{interface.IFALIAS}}</td>
+                            <td>{{interface.status}}</td>
+                            <td>{{interface.MANAGEMENT_STATE}}</td>
+                            <td>{{interface.ip}}</td>
                         </tr>
                     </table>
                 </div>
@@ -166,8 +175,8 @@
                         <tr ng-repeat="oob in oob" ng-class-even="'even'">
                             <td>{{oob.vhid}}</td>
                             <td>{{oob.number}}</td>
-                            <td>{{oob.comments}}</td>
-                            <td>{{oob.lastdatetested}}</td>
+                            <td width="38%">{{oob.comments}}</td>
+                            <td width="12%">{{oob.lastdatetested | date:'d-MMM-yy HH:mm:ss Z'}}</td>
                         </tr>
                     </table>
                 </div>
