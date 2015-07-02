@@ -116,14 +116,14 @@
                     <h4>Interface Information</h4>
                     <table class="interface-table">
                         <tr class="belieze-hole">
+                            <th>Index</th>
                             <th>IF Alias</th>
-                            <th>Status</th>
                             <th>Mgt Status</th>
                             <th>IP</th>
                         </tr>
                         <tr ng-repeat="interface in interfaces | limitTo: 5" ng-class-even="'even'">
+                            <td width="6%">{{interface.IFINDEX}}</td>
                             <td>{{interface.IFALIAS}}</td>
-                            <td>{{interface.status}}</td>
                             <td>{{interface.MANAGEMENT_STATE}}</td>
                             <td>{{interface.ip}}</td>
                         </tr>

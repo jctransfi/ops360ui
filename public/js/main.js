@@ -30,6 +30,19 @@ myApp.config(function($routeProvider) {
         });;
 });
 
+myApp.service('deviceService', function($http) {
+  delete $http.defaults.headers.common['X-Requested-With'];
+  this.getData = function() {
+      // $http() returns a $promise that we can add handlers with .then()
+        var urlpath = '/api/v1/nms/wc/alldevices';
+        console.log(urlpath);
+      return $http({
+          method: 'GET',
+          url: urlpath
+       });
+  }
+});
+
 myApp.service('dataService', function($http) {
 	delete $http.defaults.headers.common['X-Requested-With'];
 	this.getData = function(qString) {
@@ -68,9 +81,15 @@ myApp.controller('contactController', function($scope, $route) {
     $scope.$route = $route;
 });
 
-myApp.controller('dashboardController', function($scope, $route, searchService) {
+myApp.controller('dashboardController', function($scope, $route, searchService, deviceService) {
   $scope.$route = $route;
-  $scope.searchTerm = "CCPTOR20-REDHAT-RTR-1"
+  $scope.searchTerm = "CCPTOR20-REDHAT-RTR-1";
+
+  // deviceService.getData().then(function(dataResponse) {
+  //   console.log(dataResponse);
+  //   // localStorage.setItem('devices', dataResponse.data.Hosts);
+  //   $scope.searchautocomplete = dataResponse.data.Hosts;
+  // });
 
   //event listeners
 
