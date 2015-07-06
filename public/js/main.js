@@ -81,7 +81,7 @@ myApp.controller('contactController', function($scope, $route) {
     $scope.$route = $route;
 });
 
-myApp.controller('dashboardController', function($scope, $route, searchService, deviceService) {
+myApp.controller('dashboardController', function($scope, $route, $filter, searchService) {
   $scope.$route = $route;
   $scope.searchTerm = "CCPTOR20-REDHAT-RTR-1";
 
@@ -101,6 +101,7 @@ myApp.controller('dashboardController', function($scope, $route, searchService, 
     // var firstPromise = searchService.getData("/api/v1/nms/vhid/", cpe)
 		$scope.promise = searchService.getData("/api/v1/nms/vhid/", cpe).then(function(dataResponse) {
 			console.log(dataResponse.data);
+      // $scope.searchedVHID = cpe;
       if(dataResponse.data){
         // console.log(dataResponse.data.nercs.length)
         $scope.customer = dataResponse.data.customer_info;
@@ -182,6 +183,8 @@ myApp.controller('dashboardController', function($scope, $route, searchService, 
 
         $scope.escalation = dataResponse.data.escalation_text;
 
+        // $scope.selectedVHID = $filter('filter')($scope.options, $scope.searchedVHID);
+
         /* assign result to a main object in $scope then access through the controllers via
            $scope.mainObj.property
         */
@@ -189,29 +192,24 @@ myApp.controller('dashboardController', function($scope, $route, searchService, 
         // $(".panel-container").append("No Circuit Data");
       }
     });
-    // .then(function() {
-    //   searchService.getData("/api/v1/nms/vhid/", vhid).then(function(dataResponse) {
-    //     console.log(typeof(dataResponse.data));
-    //     if(dataResponse.data){
-    //       // $scope.ifData = dataResponse.data;
-    //       $scope.ifData = dashboardObj.interface;
-    //       $(".panel-container").removeClass("panel-open");  
-    //     }else{
-    //       $(".panel-container").append("No Circuit Data");   
-    //     }
-    //   });
-    // });
-    // $scope.circuits = dashboardObj.circuit;
-    // $scope.comments = dashboardObj.comments;
-    // $scope.oob = dashboardObj.oob;
-    // $scope.ifData = dashboardObj.interface;
-    // $scope.hardware = dashboardObj.hardware;
-    // $scope.nerc = dashboardObj.nerc;
-    $(".panel-container").removeClass("panel-open");  
+    $(".panel-container").removeClass("panel-open");
+    $(".cardui").removeClass("push");
+    $(".overlay").addClass("fade-out");
+
 	}
 
   $scope.handle = function (){
     console.log("woot");
+  }
+
+  $scope.autosuggest = function (){
+    var str = $scope.searchTerm.length;
+    if(str > 3){
+      searchService.getData("/api/v1/nms/wc/search/", $scope.searchTerm).then(function(dataResponse) {
+        console.log(dataResponse.data);
+        $scope.results = dataResponse.data.Hosts;
+      });
+    }
   }
 
 });
@@ -267,8 +265,12 @@ $(".side-icon").on("click", function(){
   console.log('click')
   if($(".panel-container").hasClass("panel-open")){
     $(".panel-container").removeClass("panel-open");
+    $(".cardui").removeClass("push");
+    $(".overlay").addClass("fade-out");
   }else{
     $(".panel-container").addClass("panel-open");
+    $(".cardui").addClass("push");
+    $(".overlay").removeClass("fade-out");
   }
 });
 
