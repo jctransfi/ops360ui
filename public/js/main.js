@@ -82,8 +82,14 @@ myApp.controller('contactController', function($scope, $route) {
 });
 
 myApp.controller('dashboardController', function($scope, $route, $filter, searchService) {
+    $scope.$route = $route;
+    // add a check when entering a controller whether session is still valid;
+});
+
+myApp.controller('initController', function($scope, $route, $filter, searchService, ngDialog) {
   $scope.$route = $route;
   $scope.searchTerm = "CCPTOR20-REDHAT-RTR-1";
+  ngDialog.open({ template: 'template/login.html', className: 'ngdialog-theme-default'});
 
   // deviceService.getData().then(function(dataResponse) {
   //   console.log(dataResponse);
@@ -204,7 +210,7 @@ myApp.controller('dashboardController', function($scope, $route, $filter, search
 
   $scope.autosuggest = function (){
     var str = $scope.searchTerm.length;
-    if(str > 3){
+    if(str > 2){
       searchService.getData("/api/v1/nms/wc/search/", $scope.searchTerm).then(function(dataResponse) {
         console.log(dataResponse.data);
         $scope.results = dataResponse.data.Hosts;

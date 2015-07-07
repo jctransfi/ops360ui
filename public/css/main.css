@@ -252,6 +252,21 @@ body {
     transition: 0.5s ease;
 }
 
+.cardui.ng-enter, .cardui.ng-leave {
+  -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+}
+
+.cardui.ng-enter {
+  opacity: 1;
+}
+.cardui.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+.cardui.ng-leave.ng-leave-active {
+  opacity: 0;
+}
+
 .push {
     margin-left: 440px;
 }
@@ -735,6 +750,63 @@ body {
 .panel-results {
     display: block;
 }
+
+.panel-results > ul {
+    margin: 0;
+    padding: 0;
+    margin-top: 8px;
+    margin-left: 8px
+}
+
+.slide-fade li {
+  transition: all 0.4s ease-out;
+  opacity: 0;
+  cursor: pointer;
+}
+.slide-fade li.show {
+  opacity: 1;
+}
+
+.result-animate-enter {
+
+}
+
+.result-animate-leave {
+
+}
+
+.animate-repeat {
+  list-style:none;
+  cursor: pointer;
+}
+
+.animate-repeat.ng-move,
+.animate-repeat.ng-enter,
+.animate-repeat.ng-leave {
+    transition: all 0.4s ease-out;
+}
+
+.animate-repeat.ng-leave.ng-leave-active,
+.animate-repeat.ng-move,
+.animate-repeat.ng-enter {
+    opacity: 0;
+}
+
+.animate-repeat.ng-leave,
+.animate-repeat.ng-move.ng-move-active,
+.animate-repeat.ng-enter.ng-enter-active {
+    opacity: 1;
+}
+
+.animate-repeat.ng-enter-stagger {
+  /* this will have a 100ms delay between each successive leave animation */
+    transition-delay: 0.1s;
+
+  /* in case the stagger doesn't work then the duration value
+   must be set to 0 to avoid an accidental CSS inheritance */
+    transition-duration: 0s;
+}
+
 
 /* ==========================================================================
    Color classes
