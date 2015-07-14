@@ -42,7 +42,7 @@
                             </tr>
                             <tr>
                                 <td>{{siteinfo.vlid}}</td>
-                                <td><select ng-model="selectedVHID" ng-change="search(selectedVHID)"><option ng-repeat="vhid in vhids track by $index">{{vhid}}</option></select></td>
+                                <td><select ng-model="selectedVHID" ng-change="search(selectedVHID)"><option ng-repeat="vhid in vhids | unique:'vhids' track by $index">{{vhid}}</option></select></td>
                             </tr>
                         </table>
                     </div>
@@ -133,29 +133,35 @@
         </div>
 
         <div class="Grid Grid--gutters Grid--flexCells u-nested-full">
-            <div class="Grid-cell ">
+            <div class="Grid-cell " ng-controller="ticketController">
                 <div class="card-flex">
-                    <h4>Maintenance Tickets</h4>
-                    <table class="interface-table">
-                        <tr class="peter-river">
-                            <th>Ticket Number</th>
-                            <th>Title</th>
-                            <th>Type</th>
-                            <th>Source</th>
-                            <th>Area</th>
-                            <th>Sub-area</th>
-                            <th>Severity</th>
-                        </tr>
-                        <tr ng-repeat="maintenance in maintenance" ng-class-even="'even'">
-                            <td>{{maintenance.SR_NUM}}</td>
-                            <td>{{maintenance.SR_TITLE}}</td>
-                            <td>{{maintenance.TT_TYPE_CD}}</td>
-                            <td>{{maintenance.SOURCE_TYP_CDCE}}</td>
-                            <td>{{maintenance.SR_AREA}}</td>
-                            <td>{{maintenance.SR_SUB_AREA}}</td>
-                            <td>{{maintenance.SR_SEV_CD}}</td>
-                        </tr>
-                    </table>
+                    <div class="card-header">
+                        <h4>Maintenance Tickets</h4>
+                        <div class="card-expand" ng-click="handle()"></div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="card-content">
+                        <table class="interface-table">
+                            <tr class="peter-river">
+                                <th>Ticket Number</th>
+                                <th>Title</th>
+                                <th>Type</th>
+                                <th>Source</th>
+                                <th>Area</th>
+                                <th>Sub-area</th>
+                                <th>Severity</th>
+                            </tr>
+                            <tr ng-repeat="maintenance in maintenance | limitTo: 5" ng-class-even="'even'">
+                                <td>{{maintenance.SR_NUM}}</td>
+                                <td>{{maintenance.SR_TITLE}}</td>
+                                <td>{{maintenance.TT_TYPE_CD}}</td>
+                                <td>{{maintenance.SOURCE_TYP_CDCE}}</td>
+                                <td>{{maintenance.SR_AREA}}</td>
+                                <td>{{maintenance.SR_SUB_AREA}}</td>
+                                <td>{{maintenance.SR_SEV_CD}}</td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -166,13 +172,13 @@
                     <h4>Out of Band Information</h4>
                     <table class="interface-table">
                         <tr class="peter-river">
-                            <th>VHID</th>
+                            <!-- <th>VHID</th> -->
                             <th>Number</th>
                             <th>Comments</th>
                             <th>Last Status</th>
                         </tr>
                         <tr ng-repeat="oob in oob" ng-class-even="'even'">
-                            <td>{{oob.vhid}}</td>
+                            <!-- <td>{{oob.vhid}}</td> -->
                             <td>{{oob.number}}</td>
                             <td width="38%">{{oob.comments}}</td>
                             <td width="12%">{{oob.lastdatetested | date:'d-MMM-yy HH:mm:ss Z'}}</td>
@@ -191,7 +197,7 @@
                     <div class="card-content">
                         <table class="interface-table">
                             <tr class="peter-river">
-                                <th>VHID</th>
+                                <!-- <th>VHID</th> -->
                                 <th>Date</th>
                                 <th>Type</th>
                                 <th>Subtype</th>
@@ -199,7 +205,7 @@
                                 <!-- <th>Ticket</th> -->
                             </tr>
                             <tr ng-repeat="nerc in nerc | limitTo:-4" ng-class-even="'even'">
-                                <td>{{nerc.vhid}}</td>
+                                <!-- <td>{{nerc.vhid}}</td> -->
                                 <td width="15%">{{nerc.date | date:'d-MMM-yy'}}</td>
                                 <td>{{nerc.evtype}}</td>
                                 <td>{{nerc.evsubtype}}</td>
@@ -305,53 +311,31 @@
     </table>
 </script>
 
+<script type="text/ng-template" id="ticketsExpand">
+    <h4>Maintenance Tickets</h4>
+    <table class="interface-table">
+        <tr class="peter-river">
+            <th>Ticket Number</th>
+            <th>Title</th>
+            <th>Type</th>
+            <th>Source</th>
+            <th>Area</th>
+            <th>Sub-area</th>
+            <th>Severity</th>
+        </tr>
+        <tr ng-repeat="maintenance in maintenance" ng-class-even="'even'">
+            <td>{{maintenance.SR_NUM}}</td>
+            <td>{{maintenance.SR_TITLE}}</td>
+            <td>{{maintenance.TT_TYPE_CD}}</td>
+            <td>{{maintenance.SOURCE_TYP_CDCE}}</td>
+            <td>{{maintenance.SR_AREA}}</td>
+            <td>{{maintenance.SR_SUB_AREA}}</td>
+            <td>{{maintenance.SR_SEV_CD}}</td>
+        </tr>
+    </table>
+</script>
+
 <script type="text/ng-template" id="escalationExpand">
     <h4>Escalation Information</h4>
     <div class="small-text" style="white-space:pre-wrap;">{{escalation}}</div>
-</script>
-
-<script type="text/javascript">
-function DropDown(el) {
-    this.dd = el;
-    this.placeholder = this.dd.children('span');
-    this.opts = this.dd.find('ul.dropdown > li');
-    this.val = '';
-    this.index = -1;
-    this.initEvents();
-}
-
-DropDown.prototype = {
-    initEvents : function() {
-        var obj = this;
-
-        obj.dd.on('click', function(event){
-            $(this).toggleClass('active');
-            return false;
-        });
-
-        obj.opts.on('click',function(){
-            var opt = $(this);
-            obj.val = opt.text();
-            obj.index = opt.index();
-            obj.placeholder.text(obj.val);
-        });
-    },
-    getValue : function() {
-        return this.val;
-    },
-    getIndex : function() {
-        return this.index;
-    }
-}
-
-$(function() {
-
-    var dd = new DropDown( $('#dd') );
-
-    $(document).click(function() {
-        // all dropdowns
-        $('.wrapper-dropdown-1').removeClass('active');
-    });
-
-});
 </script>

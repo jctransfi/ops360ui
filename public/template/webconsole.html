@@ -1,12 +1,29 @@
 <!-- Flexbox Grid System -->
 
+
 <div class="Grid">
     <div class="Grid-cell">
         <div class="Grid Grid--gutters Grid--flexCells u-nested-full">
-            <div class="Grid-cell if-details-card">
+            <div class="Grid-cell ">
+                <div class="current"><!--
+                    --><span class="current-icon"><img src="img/eye109.svg"></span><span class="history--current">{{initvars.vhidnow}}</span><!--
+                --></div><!--
+                --><div class="history"><!--
+                    --><span class="hist-icon"><img src="img/history6.svg"></span><span ng-repeat="hist in initvars.histogram | unique:'vhid' | orderBy:'date' | limitTo: -5" ng-click="search(hist.vhid)">{{hist.vhid}}</span><!--
+                --></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="Grid">
+    <div class="Grid-cell">
+        <div class="Grid Grid--gutters Grid--flexCells u-nested-full">
+            <div class="Grid-cell">
                 <div class="card-flex">
                     <div class="card-header">
-                        <h4>CNYLAT3-MONDELEZ-RTR-1</h4>
+                        <h4>{{initvars.vhidnow}}</h4>
+                        <div class="pill status" ng-class="{pillgreen: intstatus == 'UP', pillred: intstatus == 'DOWN'}">{{intstatus}}</div>
                         <!-- <img src="img/show8.svg" class="card-handle" /> -->
                     </div>
                     <div class="clear"></div>
@@ -18,35 +35,33 @@
                                 <td width="33%">OS</td>
                             </tr>
                             <tr>
-                                <td>Cisco_Systems</td>
-                                <td>cisco1921k9</td>
-                                <td>Version 15.1(4)M3</td>
+                                <td>{{intinfo.vendor}}</td>
+                                <td>{{intinfo.model}}</td>
+                                <td>{{intinfo.os}}</td>
                             </tr>
                             <tr class="if-details-header">
                                 <td>Uptime</td>
                                 <td>Management IP</td>
-                                <td>SNMP Community String</td>
+                                <td>Comm String</td>
                             </tr>
                             <tr>
-                                <td>4 weeks, 2 days, 12:43:11.84</td>
-                                <td>100.64.138.20</td>
-                                <td>s4UB36ayuZ</td>
+                                <td>{{intinfo.uptime}}</td>
+                                <td>{{intinfo.management_ip}}</td>
+                                <td>{{intinfo.commstring}}</td>
                             </tr>
                             <tr class="if-details-header">
-                                <td>Last SNMP Poll</td>
                                 <td>Time at Location</td>
                                 <td>Last Transition Time</td>
                             </tr>
                             <tr>
-                                <td>Thu May 21 04:53:45 +0000 2015 by 207.179.3.90</td>
-                                <td>02:57:07 FNT 2015-02-21</td>
-                                <td>3 days, 4 hours, 23 seconds ago</td>
+                                <td>{{intinfo.localtime}}</td>
+                                <td>{{intinfo.last_transition_time}}</td>
                             </tr>
                         </table>
                     </div>
                 </div>
             </div>
-            <div class="Grid-cell if-location-card">
+            <div class="Grid-cell">
                 <div class="card-flex">
                     <div class="card-header">
                         <h4>Location Summary</h4>
@@ -60,57 +75,58 @@
                                 <th>IP Address</th>
                                 <th>SNMP String</th>
                             </tr>
-                            <tr>
-                                <td>DOWN</td>
-                                <td>CNYLAT3-MONDELEZ-RTR-1</td>
-                                <td>202.90.42.151</td>
-                                <td>pingonly</td>
+                            <tr ng-repeat="status in locations | limitTo: 8" ng-class-even="'even'">
+                                <td><span class="mini-pill" ng-class="{pillgreen: status.status == 'UP', pillred: status.status == 'DOWN'}">{{status.status}}</span></td>
+                                <td><span class="small-vhid-link" ng-click="search(status.vhid)">{{status.vhid}}</span></td>
+                                <td>{{status.ipaddresss}}</td>
+                                <td>{{status.commstring}}</td>
                             </tr>
                         </table></div>
-                </div>
-            </div>
-            <div class="Grid-cell">
-                <div class="card-flex">
-                    <div class="card-header">
-                        <h4>Service Status Information</h4>
-                        <img src="img/show8.svg" class="card-handle" />
-                    </div>
-                    <div class="clear"></div>
-                    <div class="card-content">Content</div>
                 </div>
             </div>
         </div>
 
         <div class="Grid Grid--gutters Grid--flexCells u-nested-full">
-            <div class="Grid-cell ">
+            <div class="Grid-cell " ng-controller="wcintController">
                 <div class="card-flex">
-                    <h4>Interface Status Information</h4>
-                    <table class="circuit-table">
-                        <tr class="belieze-hole">
-                            <th>IF Admin Status</th>
-                            <th>If Oper Status</th>
-                            <th>Status Info</th>
-                            <th>IF Index</th>
-                            <th>IF Name</th>
-                            <th>IF Alias</th>
-                            <th>IF Desc</th>
-                            <th>IF Type</th>
-                            <th>IP Address</th>
-                            <th>Netmask</th>
-                        </tr>
-                        <tr ng-repeat="interface in interfaces" ng-class-even="'even'">
-                            <td>{{interface.adstat}}</td>
-                            <td>{{interface.operstat}}</td>
-                            <td>{{interface.MANAGEMENT_STATE}}</td>
-                            <td>{{interface.IFINDEX}}</td>
-                            <td>{{interface.ifname}}</td>
-                            <td>{{interface.IFALIAS}}</td>
-                            <td>{{interface.IFDESCR}}</td>
-                            <td>{{interface.iftype}}</td>
-                            <td>{{interface.ip}}</td>
-                            <td>{{interface.net}}</td>
-                        </tr>
-                    </table>
+                    <div class="card-header">
+                        <h4>Interface Status Information</h4>
+                        <!-- <div class="card-expand"></div> -->
+                        <div class="card-expand" ng-click="handle()"></div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="card-content">
+                        <table class="circuit-table">
+                            <tr class="belieze-hole">
+                                <th><span class="sortable" ng-click="sortType = 'ifadminstatus';sortReverse = !sortReverse">IF Admin<br/>Status</span><span ng-show="sortType == 'ifadminstatus' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifadminstatus' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
+                                <th>If Oper<br/>Status</th>
+                                <th>Status<br/>Info</th>
+                                <th><span class="sortable" ng-click="sortType = 'ifindex';sortReverse = !sortReverse">IF Index</span><span ng-show="sortType == 'ifindex' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifindex' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
+                                <th>IF Name</th>
+                                <th>IF Alias</th>
+                                <th><span class="sortable" ng-click="sortType = 'ifdesc';sortReverse = !sortReverse">IF Desc</span></th>
+                                <th>IF Type</th>
+                                <th>IP Address</th>
+                                <th>Netmask</th>
+                            </tr>
+                            <tr ng-repeat="devices in interfacedevices | orderBy:sortType:sortReverse | limitTo: 15" ng-class-even="'even'">
+                                <td><span class="mini-pill" ng-class="{pillgreen: devices.ifadminstatus == 'OK', pillred: devices.ifadminstatus == 'DOWN', pillred: devices.ifadminstatus == 'CRITICAL'}">{{devices.ifadminstatus}}</td>
+                                <td><span class="mini-pill" ng-class="{pillgreen: devices.ifopr == 'OK', pillred: devices.ifopr == 'DOWN', pillred: devices.ifopr == 'CRITICAL'}">{{devices.ifopr}}</td>
+                                <td><span class="mini-pill" ng-class="{pillgreen: devices.ifstatus == 'OK', pillred: devices.ifstatus == 'DOWN', pillred: devices.ifstatus == 'CRITICAL'}">{{devices.ifstatus}}</td>
+                                <td>{{devices.ifindex}}</td>
+                                <td>{{devices.ifname}}</td>
+                                <td>{{devices.ifalias}}</td>
+                                <td>{{devices.ifdesc}}</td>
+                                <td>{{devices.iftype}}</td>
+                                <td>{{devices.ipaddress}}</td>
+                                <td>{{devices.netmask}}</td>
+                            </tr>
+                            <tr ng-show="interfacedevices.length > 15">
+                                <td colspan="10" class="text-center">Expand for more data</td>
+                            </tr>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -122,68 +138,35 @@
                 </div>
             </div>
         </div>
-
-        
-    <!-- <div class="Grid-cell u-1of4">
-        <div class="Grid-full Grid--gutters u-nested-full">
-            <div class="Grid-cell">
-                <div class="card-flex">Graph 1</div>
-            </div>
-        </div>
-        <div class="Grid-full Grid--gutters u-nested-full">
-            <div class="Grid-cell">
-                <div class="card-flex">Graph 2</div>
-            </div>
-        </div>
-        <div class="Grid-full Grid--gutters u-nested-full">
-            <div class="Grid-cell" ng-controller="commentController">
-                <div class="card-flex">
-                    <div class="card-header">
-                        <h4>Comments</h4>
-                        <img src="img/show8.svg" class="card-handle" ng-click="handle()" />
-                    </div>
-                    <div class="clear"></div>
-                    <div class="card-content">
-                        <table class="comments-table">
-                            <tr class="peter-river">
-                                <th width="20%">Date</th>
-                                <th>Comment</th>
-                                <th width="20%">User</th>
-                            </tr>
-                            <tr ng-repeat="comment in comments | limitTo:-4" ng-class-even="'even'">
-                                <td>{{comment.date | date:'d-MMM-yy'}}</td>
-                                <td>{{comment.comment}}</td>
-                                <td>{{comment.user}}</td>
-                            </tr>
-                        </table>
-                        <div class="add-comment">
-                            <textarea class="comment-box" ng-model="newcomment"></textarea>
-                            <button class="btn orange btn-comment" ng-click="addComment(newcomment)">Add</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="Grid-full Grid--gutters u-nested-full">
-            <div class="Grid-cell">
-                <div class="card-flex">
-                    <h4>Documents</h4>
-                    <div class="doc-item">
-                        <img src="img/docx1.svg" class="doc-icon" />
-                        <div class="doc-label-block">
-                            <span class="doc-filename">Design Document</span><br/>
-                            <span class="doc-date">15-Jun-15</span>
-                        </div>
-                    </div>
-                    <div class="doc-item">
-                        <img src="img/docx1.svg" class="doc-icon" />
-                        <div class="doc-label-block">
-                            <span class="doc-filename">Design Document</span><br/>
-                            <span class="doc-date">15-Jun-15</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
+    </div>
 </div>
+
+<script type="text/ng-template" id="devicesExpand">
+    <h4>Maintenance Tickets</h4>
+    <table class="circuit-table">
+        <tr class="belieze-hole">
+            <th>IF Admin Status</th>
+            <th>If Oper Status</th>
+            <th>Status Info</th>
+            <th>IF Index</th>
+            <th>IF Name</th>
+            <th>IF Alias</th>
+            <th>IF Desc</th>
+            <th>IF Type</th>
+            <th>IP Address</th>
+            <th>Netmask</th>
+        </tr>
+        <tr ng-repeat="devices in interfacedevices | orderBy: 'ifindex'" ng-class-even="'even'">
+            <td>{{devices.ifadminstatus}}</td>
+            <td>{{devices.ifopr}}</td>
+            <td>{{devices.ifstatus}}</td>
+            <td>{{devices.ifindex}}</td>
+            <td>{{devices.ifname}}</td>
+            <td>{{devices.ifalias}}</td>
+            <td>{{devices.ifdesc}}</td>
+            <td>{{devices.iftype}}</td>
+            <td>{{devices.ipaddress}}</td>
+            <td>{{devices.netmask}}</td>
+        </tr>
+    </table>
+</script>

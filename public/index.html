@@ -11,6 +11,7 @@
         <!-- Place favicon.ico in the root directory -->
 
         <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,900' rel='stylesheet' type='text/css'>
         <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,600' rel='stylesheet' type='text/css'> -->
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
@@ -20,7 +21,11 @@
         <link rel="stylesheet" href="css/angular-dropdowns.css">
         <link rel="stylesheet" href="css/ngDialog.css">
         <link rel="stylesheet" href="css/ngDialog-theme-default.css">
-    <!--<script src="js/vendor/modernizr-2.8.3.min.js"></script>-->
+        <link rel="stylesheet" href="css/ngDialog-theme-webconsole.css">
+    <!--<script src="js/vendor/modernizr-2.8.3.min.js"></script>--> 
+        <!-- start Mixpanel --><script type="text/javascript">(function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
+mixpanel.init("533e4c0adb76e40df613112607da25e3");</script><!-- end Mixpanel --> 
     </head>
     <body ng-controller="initController">
         <!--[if lt IE 8]>
@@ -34,10 +39,10 @@
                 <div class="logo"><img class="logo-img" src="img/logo-white.png" /></div>
                 <div class="utility-bar">
                     <div class="profile">
-                        <div class="profile__picture"><img src="img/profile.png"></div>
-                        <div><div class="profile__name">JC Transfiguracion</div><div class="profile__role">Administrator</div></div>
+                        <div class="profile__picture"><img class="default-pic" src="img/profile5.svg"></div>
+                        <div><div class="profile__name">{{fullname}}</div><div class="profile__role">{{role}}</div></div>
                     </div>
-                    <div class="logout"><img src="img/logout.png"><br/>Logout</div>
+                    <div class="logout" ng-click="logout()"><img src="img/logout.png"><br/>Logout</div>
                 </div>
                 <div class="clear"></div>
             </div>
@@ -66,12 +71,13 @@
                     --><button class="btn-red" ng-click="search(searchTerm)">SEARCH</button>
                     <div class="panel-results">
                         <ul>
-                            <li class="animate-repeat" ng-click="search(result)" ng-repeat="result in results | limitTo: 10">{{result}}</li>
+                            <li class="animate-repeat" ng-click="search(result)" ng-repeat="result in results | limitTo: 25">{{result}}</li>
+                            <li ng-show="result == 'Error'">No entries found.</li>
                         </ul>
                     </div>
                 </div>
                 <div class="overlay fade-out"></div>
-                <div class="cardui" ng-view  cg-busy="{promise:promise,message:'Loading Your Data...'}">
+                <div class="cardui" ng-view  cg-busy="{promise:promise, message:'Loading Your Data...'}">
                 </div>
             </div>
             <!-- <div class="push"></div> -->
@@ -100,7 +106,6 @@
         <!-- templates -->
         <script type="text/ng-template" id="templateId">
             <h1>Template heading</h1>
-            <p>Content goes here</p>
         </script>
     </body>
 </html>

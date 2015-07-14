@@ -472,7 +472,7 @@ body {
 }
 
 .profile {
-    margin-right: 18px;
+    margin-right: 24px;
 }
 
 .profile__name {
@@ -484,15 +484,25 @@ body {
     font-size: 0.750em;
 }
 
+.profile__picture {
+    margin-right: 6px;
+}
+
 .profile > div {
     display: inline-block;
     vertical-align: inherit;
+}
+
+.default-pic {
+    width: 40px;
+    height: 40px;
 }
 
 .logout {
     font-size: 0.500em;
     text-transform: uppercase;
     text-align: center;
+    cursor: pointer;
 }
 
 #line-chart {
@@ -665,6 +675,86 @@ body {
 
 .comment-details {
     font-size: 0.813em;
+}
+
+.history {
+    background-color: #fff;
+    padding: 2px 10px;
+    border-radius: 4px;
+    box-shadow: 2px 2px 1px #aaa;
+    font-family: 'Roboto', sans-serif !important;
+}
+
+.history > span {
+    font-size: 0.813em;
+    cursor: pointer;
+    /*vertical-align: middle;*/
+    margin-right: 10px;
+    text-decoration: underline;
+}
+
+.current {
+    padding: 2px 10px;
+    background-color: #8e44ad;
+    border-radius: 4px;
+    margin-right: 6px;
+    box-shadow: 2px 2px 1px #aaa;
+    font-family: 'Roboto', sans-serif !important;
+}
+
+.history--current {
+    font-size: 0.813em;
+    color: #fff;
+    font-weight: 700;
+    cursor: default;
+    /*padding: 4px;*/
+    /*vertical-align: middle;*/
+}
+
+.current-icon > img {
+    width: 16px;
+    height: 16px;
+    /*vertical-align: middle;*/
+    margin-right: 6px;
+}
+
+.hist-icon {margin-right: 0px !important}
+
+.hist-icon > img {
+    width: 16px;
+    height: 16px;
+    /*vertical-align: middle;*/
+    margin-right: 6px !important;
+}
+
+/* other UI elements */
+
+.pill {
+    /*background-color: #85DB18;*/
+    display: inline-block;
+    padding: 2px 20px;
+    border-radius: 4px;
+    font-size: 0.813em;
+    margin-left: 16px;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 2px 2px 1px #ddd;
+}
+
+.mini-pill {
+    padding: 1px 3px;
+    font-family: 'Roboto', sans-serif;
+    border-radius: 2px;
+}
+
+.pillgreen {
+    color: #fff;
+    background-color: #85DB18;
+}
+
+.pillred {
+        color: #fff;
+    background-color: #c0392b;
 }
 
 /* ==========================================================================
@@ -1206,7 +1296,7 @@ body {
 }
 
 .if-details-card {
-    width: 40%!important;
+    width: 50%!important;
     -webkit-box-flex: 0!important;
     -webkit-flex: none!important;
     -ms-flex: none!important;
@@ -1214,11 +1304,16 @@ body {
 }
 
 .if-location-card {
-    width: 30%!important;
+    width: 50%!important;
     -webkit-box-flex: 0!important;
     -webkit-flex: none!important;
     -ms-flex: none!important;
     flex: none!important;
+}
+
+.small-vhid-link {
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 /* ==========================================================================
@@ -1227,6 +1322,21 @@ body {
 
 .small-text {
     font-size: 0.875em;
+}
+
+.sortable {
+    cursor: pointer;
+    text-decoration: underline;
+    -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+    -moz-user-select: none; /* mozilla browsers */
+    -khtml-user-select: none; /* webkit (konqueror) browsers */
+    -ms-user-select: none; /* IE10+ */
+}
+
+.sort-icon > img {
+    width: 8px;
+    height: 8px;
+    margin-left: 4px;
 }
 
 .flex-container {

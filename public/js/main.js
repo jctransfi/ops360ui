@@ -30,6 +30,41 @@ myApp.config(function($routeProvider) {
         });;
 });
 
+// check http://stackoverflow.com/questions/20222555/angularjs-remove-duplicate-elements-in-ng-repeat?lq=1
+// for more discussion on this filer
+myApp.filter('unique', function() {
+   return function(collection, keyname) {
+      var output = [], 
+          keys = [];
+
+      angular.forEach(collection, function(item) {
+          var key = item[keyname];
+          if(keys.indexOf(key) === -1) {
+              keys.push(key);
+              output.push(item);
+          }
+      });
+      return output;
+   };
+});
+
+
+myApp.directive('ngEnter', function () {
+  // this directive is attribute to 
+  // http://stackoverflow.com/questions/17470790/how-to-use-a-keypress-event-in-angularjs
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.ngEnter);
+                });
+
+                event.preventDefault();
+            }
+        });
+    };
+});
+
 myApp.service('deviceService', function($http) {
   delete $http.defaults.headers.common['X-Requested-With'];
   this.getData = function() {
@@ -71,31 +106,75 @@ myApp.service('searchService', function($http) {
     }
 });
 
+myApp.service('autosuggestService', function($http) {
+    delete $http.defaults.headers.common['X-Requested-With'];
+    this.getData = function(apiURL, searchTerm) {
+        // $http() returns a $promise that we can add handlers with .then()
+        var urlpath = "http://172.16.92.73" + apiURL + searchTerm
+        var urlpathdev = apiURL + searchTerm + "/25"
+        console.log(urlpathdev);
+        // console.log(urlpath);
+        return $http({
+            method: 'GET',
+            url: urlpathdev
+        });
+    }
+});
+
 myApp.controller('aboutController', function($scope, $route) {
     $scope.message = 'Ticket Suppression';
     $scope.$route = $route;
 });
 
-myApp.controller('contactController', function($scope, $route) {
-    $scope.message = 'Another Page';
-    $scope.$route = $route;
+myApp.controller('loginController', function($scope, $route, ngDialog) {
+    // $scope.$route = $route;
+    $scope.login = function (cpe){
+      // call web service and pass un/pw
+
+      //set session
+      sessionStorage.setItem("authToken", "authorized");
+      sessionStorage.setItem("username", $scope.username);
+      sessionStorage.setItem("role", "Super Admin");
+      //TODO: also add cookie option
+
+      $scope.$parent.fullname = $scope.username;
+      $scope.$parent.role = 'Super Admin';
+
+      ngDialog.closeAll();
+    }
 });
 
-myApp.controller('dashboardController', function($scope, $route, $filter, searchService) {
-    $scope.$route = $route;
-    // add a check when entering a controller whether session is still valid;
-});
-
-myApp.controller('initController', function($scope, $route, $filter, searchService, ngDialog) {
+myApp.controller('initController', function($scope, $route, $filter, searchService, ngDialog, autosuggestService) {
   $scope.$route = $route;
   $scope.searchTerm = "CCPTOR20-REDHAT-RTR-1";
-  ngDialog.open({ template: 'template/login.html', className: 'ngdialog-theme-default'});
 
-  // deviceService.getData().then(function(dataResponse) {
-  //   console.log(dataResponse);
-  //   // localStorage.setItem('devices', dataResponse.data.Hosts);
-  //   $scope.searchautocomplete = dataResponse.data.Hosts;
-  // });
+  mixpanel.identify("testuser"); // eventually place this in the event handler of login
+  mixpanel.people.set({
+      "$first_name": "Test",
+      "$last_name": "User",
+      "$role": "Super Admin"
+  });
+
+  $scope.initvars = {
+    "histogram" : [],
+    "vhidnow" : null
+  }
+
+  //Login check - turn this into a service for reusability
+  // if(sessionStorage.getItem('authToken')){
+  //   //no op
+  //   $scope.fullname = sessionStorage.getItem('username');
+  //   $scope.role = sessionStorage.getItem('role');
+  // }else {
+  //   ngDialog.open({ 
+  //     template: 'template/login.html', 
+  //     className: 'ngdialog-theme-default', 
+  //     controller: 'loginController',
+  //     closeByDocument: false,
+  //     closeByEscape: false,
+  //     showClose: false
+  //   });
+  // }
 
   //event listeners
 
@@ -103,18 +182,33 @@ myApp.controller('initController', function($scope, $route, $filter, searchServi
 
 	$scope.search = function (cpe){
     console.log($route.current.activetab);
+    var cleanStr = "";
+    cleanStr += cpe;
 		// console.log("beep")
-    // var firstPromise = searchService.getData("/api/v1/nms/vhid/", cpe)
-		$scope.promise = searchService.getData("/api/v1/nms/vhid/", cpe).then(function(dataResponse) {
-			console.log(dataResponse.data);
-      // $scope.searchedVHID = cpe;
-      if(dataResponse.data){
-        // console.log(dataResponse.data.nercs.length)
+    console.log("Calling DASHBOARD data");
+    mixpanel.track("Searched for " + cleanStr);
+		$scope.promise = searchService.getData("/api/v1/nms/dashboard/vhid/", cleanStr.trim()).then(function(dataResponse) {
+      console.log(dataResponse.data);
+      var strset = cleanStr.trim();
+      console.log("the clean string: " + strset);
+      // console.log(hist_array);
+      $scope.initvars.vhidnow = strset;
+      var timenow = new Date();
+      hist_obj = {"date": timenow, "vhid": strset};
+      $scope.initvars.histogram.push(hist_obj);
+
+      console.log("histogram length " + $scope.initvars.histogram.length);
+      
+      if(!dataResponse.data.Error){
         $scope.customer = dataResponse.data.customer_info;
         $scope.hardware = dataResponse.data.hardware;
         $scope.siteinfo = dataResponse.data.siteinfo;
-        $scope.vhids = dataResponse.data.siteinfo.vhid;
-        console.log($scope.vhids);
+        try {
+          $scope.vhids = dataResponse.data.siteinfo.vhid;  
+          console.log($scope.vhids);
+        }catch(e){
+          console.log("error fetching vhids")
+        }
 
         var nerc_arr = [];
         var oob_arr = [];
@@ -183,42 +277,111 @@ myApp.controller('initController', function($scope, $route, $filter, searchServi
         $scope.circuits = vcid_arr;
         $scope.comments = comment_arr;
         $scope.interfaces = interfaces_arr;
-        // var escal = "";
-        // escal+=dataResponse.data.escalation_text;
-        // $scope.escalation = escal.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
         $scope.escalation = dataResponse.data.escalation_text;
 
-        // $scope.selectedVHID = $filter('filter')($scope.options, $scope.searchedVHID);
 
         /* assign result to a main object in $scope then access through the controllers via
            $scope.mainObj.property
         */
-      }else{
-        // $(".panel-container").append("No Circuit Data");
+      }else {
+        alert("Invalid VHID");
       }
+    }).then(function(){
+      console.log("Calling WEB CONSOLE data");
+      searchService.getData("/api/v1/nms/wc/vhid/", cleanStr.trim()).then(function(dataResponse) {
+        console.log(dataResponse.data);
+        if(!dataResponse.data.Error){
+          var intstatus_arr = [];
+          var location_arr = [];
+
+          //try-catch segment for data in arrays/collections
+          try {
+            $.each(dataResponse.data.intstatus, function(key, value){
+              intstatus_arr.push(this);
+              // console.log(this)
+            });
+          }catch (e){
+            // console.log(e);
+          }
+
+          try {
+            $.each(dataResponse.data.location, function(key, value){
+              location_arr.push(this);
+              // console.log(this)
+            });
+          }catch (e){
+            console.log("location error");
+          }
+
+          $scope.interfacedevices = intstatus_arr;
+          $scope.locations = location_arr;
+          $scope.intinfo = dataResponse.data.info;
+          $scope.intstatus = dataResponse.data.status;
+        }else {
+          alert("Invalid VHID");
+        }
+      });
     });
+  
+    console.log("Current VHID:" + $scope.initvars.vhidnow)
+    console.log($scope.initvars.histogram)
+    
     $(".panel-container").removeClass("panel-open");
     $(".cardui").removeClass("push");
     $(".overlay").addClass("fade-out");
 
 	}
 
-  $scope.handle = function (){
-    console.log("woot");
-  }
-
   $scope.autosuggest = function (){
     var str = $scope.searchTerm.length;
     if(str > 2){
-      searchService.getData("/api/v1/nms/wc/search/", $scope.searchTerm).then(function(dataResponse) {
+      autosuggestService.getData("/api/v1/nms/search/vhid/", $scope.searchTerm).then(function(dataResponse) {
         console.log(dataResponse.data);
-        $scope.results = dataResponse.data.Hosts;
+        
+        if(dataResponse.data.Hosts){
+          $scope.results = dataResponse.data.Hosts;
+        }else if(dataResponse.data.general_message === 'Error'){
+          $scope.results = "Error";
+        }
       });
     }
   }
 
+  $scope.logout = function(){
+    sessionStorage.clear();
+    location.reload();
+  }
+
 });
+
+myApp.controller('dashboardController', function($scope, $route, $filter, searchService) {
+  $scope.$route = $route;
+  console.log($scope.$parent.initvars);
+  // $scope.search($scope.$parent.initvars.vhidnow)
+});
+
+myApp.controller('webconsoleController', function($scope, $route, $filter, searchService) {
+    $scope.$route = $route;
+    console.log($scope.$parent.initvars);
+
+    $scope.sortType     = 'ifindex'; // set the default sort type
+    $scope.sortReverse  = false;  // set the default sort order
+
+    /*
+      there will have to be two actions to load the data for the entire dashboard
+
+      first, if on web console and vhid is exact search, then load data immediately
+      second, if partial search load only happens when the actual vhid from results is clicked
+      
+      in both cases, do not attach promise tracker to dashboard call; sort of "lazy load" it
+      in the background regardless of webconsole results;
+
+
+    */
+});
+
+/* hanlde controllers */
 
 myApp.controller('commentController', function($scope, ngDialog) {
   $scope.addComment = function (comment) {
@@ -227,7 +390,7 @@ myApp.controller('commentController', function($scope, ngDialog) {
         writing to DB
     */
     var now = moment().format("D-MMM-YY");
-    var newcomment = { "date_added" : now , "comment" : comment, "user_name" : "JC Transfiguracion"}
+    var newcomment = { "date_added" : now , "comment" : comment, "user_name" : "JC Transfiguracion"};
     $scope.comments.push(newcomment);
   }
 
@@ -251,20 +414,18 @@ myApp.controller('escalController', function($scope, ngDialog) {
   }
 });
 
-myApp.controller('webconsoleController', function($scope, $route) {
-    $scope.$route = $route;
+myApp.controller('ticketController', function($scope, ngDialog) {
+  $scope.handle = function (){
+    console.log("tix handle");
+    ngDialog.open({ template: 'ticketsExpand', className: 'ngdialog-theme-webconsole', scope: $scope.$parent });
+  }
+});
 
-    /*
-      there will have to be two actions to load the data for the entire dashboard
-
-      first, if on web console and vhid is exact search, then load data immediately
-      second, if partial search load only happens when the actual vhid from results is clicked
-      
-      in both cases, do not attach promise tracker to dashboard call; sort of "lazy load" it
-      in the background regardless of webconsole results;
-
-
-    */
+myApp.controller('wcintController', function($scope, ngDialog) {
+  $scope.handle = function (){
+    console.log("interface web console handle");
+    ngDialog.open({ template: 'devicesExpand', className: 'ngdialog-theme-webconsole', scope: $scope.$parent });
+  }
 });
 
 $(".side-icon").on("click", function(){
@@ -287,4 +448,13 @@ function totalArray(arr){
 	});
 
 	return total;
+}
+
+function convertVHID(str){
+  var expression = /[A-Z]+[0-9]+-([A-Z]+-)?[A-Z]+-[0-9]+/;
+  // find the expression in the string first
+  // and then match it again with a replacement
+  var vhidster = str.match(expression);
+  console.log(vhidster);
+  var res = str.replace("")
 }
