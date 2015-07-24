@@ -1,0 +1,15 @@
+<div cg-busy="{promise:aspromise}">
+	<h3>Search Results</h3>
+	<p>Your search came up with {{aslength}} matches. Click on any result below to load more information.</p>
+	<input type="checkbox" /><label>Show me DOWN only.</label>
+
+	<table class="srp-table">
+	    <tr class="srp-click" ng-click="search(value.vhid)" ng-repeat="(key, value) in results">
+	        <td><span class="mini-pill" ng-class="{pillgreen: value.status == 'UP', pillred: value.status == 'DOWN'}">{{value.status}}</span></td>
+	        <td>{{value.vhid}}</td>
+	    </tr>
+	    <tr ng-show="results.general_message == 'Error'">
+	        <td colspan="2">No matches found.</td>
+	    </tr>
+	</table>
+</div>

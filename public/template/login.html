@@ -1,4 +1,15 @@
-<h3>Please login to use the application</h3>
-<input type="text" placeholder="Username" ng-model="username" ng-enter="login()" />
-<input type="password" placeholder="Password" ng-model="password" ng-enter="login()" />
-<button ng-click="login()">Submit</button>
+<div class="login-header"><p class="login-header--greeting">Ready to take on the day?</p></div>
+<div class="login-container">
+	<h4>Login with your AD credentials to begin using the application.</h4>
+	<div class="filter-box__form-element">
+	    <div class="filter-box__username">
+	        <input ng-model="username" class="filter-box__text-input filter-box__text-input--user" type="text" size="20" placeholder="Username" ng-enter="login()" />
+	    </div>
+	</div>
+	<div class="filter-box__form-element">
+	    <div class="filter-box__password">
+	        <input ng-model="password" class="filter-box__text-input filter-box__text-input--password" type="password" size="20" placeholder="Password" ng-enter="login()" />
+	    </div>
+	</div>
+	<button ng-click="login()" class="btn-red">Submit</button>
+</div>
