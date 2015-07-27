@@ -34,64 +34,78 @@ mixpanel.init("533e4c0adb76e40df613112607da25e3");</script><!-- end Mixpanel -->
         <![endif]-->
 
         <!-- Add your site or application content here -->
-        <div class="wrapper">
-            <div class="header">
-                <div class="hamburger"><img src="img/men25.svg"/></div>
-                <div class="logo"><img class="logo-img" src="img/logo-white.png" /></div>
-                <div class="utility-bar">
-                    <div class="profile">
-                        <div class="profile__picture"><img class="default-pic" src="img/profile5.svg"></div>
-                        <div><div class="profile__name">{{fullname}}</div><div class="profile__role">{{role}}</div></div>
+        <div id="st-container" class="st-container">
+                <nav class="st-menu st-effect-9" id="menu-9">
+                <h2 class="icon icon-lab">Applications Menu</h2>
+                <ul>
+                    <li><a class="icon icon-data" href="#">OPS360 NMS</a></li>
+                    <li><a class="icon icon-location" href="#">Predictive Analytics</a></li>
+                    <li ng-click="closeOffCanvas()">Close</li>
+                </ul>
+            </nav>
+            <div class="st-pusher">
+                <div class="st-content">
+                    <div class="wrapper">
+                        <div class="header">
+                            <div class="hamburger" ng-click="openOffCanvas()"><img src="img/men25.svg"/></div>
+                            <div class="logo"><img class="logo-img" src="img/logo-white.png" /></div>
+                            <div class="utility-bar">
+                                <div class="profile">
+                                    <div class="profile__picture"><img class="default-pic" src="img/profile5.svg"></div>
+                                    <div><div class="profile__name">{{fullname}}</div><div class="profile__role">{{role}}</div></div>
+                                </div>
+                                <div class="logout" ng-click="logout()"><img src="img/logout.png"><br/>Logout</div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="navigation">
+                            <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'dashboard'}"><a href="#dashboard">Dashboard</a></div>
+                            <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'webconsole'}"><a href="#webconsole">Web Console</a></div>
+            <!--                 <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'about'}"><a href="#about">Tickets</a></div>
+                            <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'contact'}"><a href="#contact">Graphs</a></div>
+                            <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'nerc'}"><a href="#contact">NERC Events</a></div>
+                            <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'suppression'}"><a href="#contact">Supression</a></div>
+                            <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'provisioning'}"><a href="#contact">Provisioning</a></div>
+                            <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'pst'}"><a href="#contact">PST</a></div> -->
+                        </div>
+                        <div class="app">
+                            <div class="sidebar">
+                                <ul class="side-list">
+                                    <li class="side-icon"><img src="img/search74.svg" class="side-img" /></br/>Search</li>
+            <!--                         <li class="side-icon"><img src="img/alarm31.svg" class="side-img" /></br/>Suppress Alarm</li>
+                                    <li class="side-icon"><img src="img/paper122.svg" class="side-img" /></br/>Send to Ticket</li> -->
+                                </ul>
+                            </div>
+                            <div class="panel-container">
+                                <div class="filter-box__form-element">
+                                    <input ng-model="searchTerm" ng-change="autosuggest('25');" ng-enter="search(searchTerm);" class="filter-box__text-input search-box" type="text" placeholder="CABRCV1-CROCS-RTR-1" />
+                                </div><!--
+                                --><button class="btn-red" ng-click="search(searchTerm)">SEARCH</button>
+                                <div class="panel-results" cg-busy="{promise:aspromise}">
+                                    <table class="srp-table">
+                                        <tr class="srp-click" ng-click="search(value.vhid)" ng-repeat="(key, value) in results | limitTo: 25">
+                                            <td><span class="mini-pill" ng-class="{pillgreen: value.status == 'UP', pillred: value.status == 'DOWN'}">{{value.status}}</span></td>
+                                            <td>{{value.vhid}}</td>
+                                        </tr>
+                                        <tr ng-show="results.general_message == 'Error'">
+                                            <td colspan="2">No matches found.</td>
+                                        </tr>
+                                    </table>
+            <!--                         <ul>
+                                        <li class="animate-repeat" ng-click="search(result)" ng-repeat="result in results.Hosts | limitTo: 25">{{result}}</li>
+                                        <li class="autosuggest-error" ng-show="results.general_message == 'Error'">No entries found.</li>
+                                    </ul> -->
+                                </div>
+                            </div>
+                            <div class="overlay fade-out"></div>
+                            <div class="cardui" ng-view  cg-busy="{promise:promise}">
+                            </div>
+                        </div>
+                        <!-- <div class="push"></div> -->
                     </div>
-                    <div class="logout" ng-click="logout()"><img src="img/logout.png"><br/>Logout</div>
-                </div>
-                <div class="clear"></div>
-            </div>
-            <div class="navigation">
-                <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'dashboard'}"><a href="#dashboard">Dashboard</a></div>
-                <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'webconsole'}"><a href="#webconsole">Web Console</a></div>
-<!--                 <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'about'}"><a href="#about">Tickets</a></div>
-                <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'contact'}"><a href="#contact">Graphs</a></div>
-                <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'nerc'}"><a href="#contact">NERC Events</a></div>
-                <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'suppression'}"><a href="#contact">Supression</a></div>
-                <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'provisioning'}"><a href="#contact">Provisioning</a></div>
-                <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'pst'}"><a href="#contact">PST</a></div> -->
-            </div>
-            <div class="app">
-                <div class="sidebar">
-                    <ul class="side-list">
-                        <li class="side-icon"><img src="img/search74.svg" class="side-img" /></br/>Search</li>
-<!--                         <li class="side-icon"><img src="img/alarm31.svg" class="side-img" /></br/>Suppress Alarm</li>
-                        <li class="side-icon"><img src="img/paper122.svg" class="side-img" /></br/>Send to Ticket</li> -->
-                    </ul>
-                </div>
-                <div class="panel-container">
-                    <div class="filter-box__form-element">
-                        <input ng-model="searchTerm" ng-change="autosuggest('25');" ng-enter="search(searchTerm);" class="filter-box__text-input search-box" type="text" placeholder="CABRCV1-CROCS-RTR-1" />
-                    </div><!--
-                    --><button class="btn-red" ng-click="search(searchTerm)">SEARCH</button>
-                    <div class="panel-results" cg-busy="{promise:aspromise}">
-                        <table class="srp-table">
-                            <tr class="srp-click" ng-click="search(value.vhid)" ng-repeat="(key, value) in results | limitTo: 25">
-                                <td><span class="mini-pill" ng-class="{pillgreen: value.status == 'UP', pillred: value.status == 'DOWN'}">{{value.status}}</span></td>
-                                <td>{{value.vhid}}</td>
-                            </tr>
-                            <tr ng-show="results.general_message == 'Error'">
-                                <td colspan="2">No matches found.</td>
-                            </tr>
-                        </table>
-<!--                         <ul>
-                            <li class="animate-repeat" ng-click="search(result)" ng-repeat="result in results.Hosts | limitTo: 25">{{result}}</li>
-                            <li class="autosuggest-error" ng-show="results.general_message == 'Error'">No entries found.</li>
-                        </ul> -->
-                    </div>
-                </div>
-                <div class="overlay fade-out"></div>
-                <div class="cardui" ng-view  cg-busy="{promise:promise}">
                 </div>
             </div>
-            <!-- <div class="push"></div> -->
-        </div>           
+        </div>    
         <!-- <div class="footer">Virtela OP360 Network Management System | Version 0.1 | Copyright 2015, Virtela Services Inc.</div> -->
 
 

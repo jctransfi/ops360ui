@@ -164,6 +164,23 @@ myApp.controller('initController', function($scope, $route, $filter, searchServi
 
   //event listeners
 
+  $scope.openOffCanvas = function(){
+    if($("#st-container").hasClass("st-menu-open") === true){
+      $("#st-container").removeClass("st-menu-open");
+      $("#st-container").removeClass("st-effect-9");
+    }else{
+      $("#st-container").addClass("st-menu-open");
+      $("#st-container").addClass("st-effect-9");
+    }
+  }
+
+  $scope.closeOffCanvas = function(){
+    if($("#st-container").hasClass("st-menu-open") === true){
+      $("#st-container").removeClass("st-effect-9");
+      $("#st-container").removeClass("st-menu-open");
+    }
+  }
+
   var vhid = "";
 
 	$scope.search = function (cpe){
@@ -480,6 +497,13 @@ $(".side-icon").on("click", function(){
     $(".overlay").removeClass("fade-out");
   }
 });
+
+// $(".st-content").on("click", function(){
+//   if($("#st-container").hasClass("st-menu-open") === true){
+//     $("#st-container").removeClass("st-menu-open");
+//     $("#st-container").removeClass("st-effect-9");
+//   }
+// });
 
 function totalArray(arr){
 	var total = 0;
