@@ -255,34 +255,30 @@ body {
     transition: 0.5s ease;
 }
 
-.cardui.ng-enter, .cardui.ng-leave {
+/*.cardui.ng-enter, .cardui.ng-leave {
   -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
   transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+}
+*/
+.cardui.ng-enter, .cardui.ng-leave {
+  -webkit-transition:all 0.5s ease;
+  transition:all 0.5s ease;
 }
 
 .cardui.ng-enter {
   opacity: 1;
 }
+
 .cardui.ng-enter.ng-enter-active {
   opacity: 1;
 }
+
 .cardui.ng-leave.ng-leave-active {
   opacity: 0;
 }
 
 .push {
     margin-left: 440px;
-}
-
-.overlay {
-    display: block;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    background: #222;
-    z-index: 3;
-    opacity: 0.3;
-    transition: opacity 0.5s linear;
 }
 
 .card {
@@ -356,23 +352,6 @@ body {
     text-decoration: none;
 }
 
-.icon-config {
-    background-image: url(../img/config.png);
-    background-repeat: no-repeat;
-    background-position: left;
-    padding-left: 20px;
-    color: #fff;
-    text-decoration: none;
-}
-
-.icon-tdm {
-    background-image: url(../img/tdm.png);
-    background-repeat: no-repeat;
-    background-position: left;
-    padding-left: 20px;
-    text-decoration: none;
-}
-
 .icon-tdm-active {
     background-image: url(../img/tdm-active.png);
     background-repeat: no-repeat;
@@ -408,49 +387,6 @@ body {
     border: 2px solid #fff;
     padding: 2px;
     font-size: 1.5em;
-}
-
-.vlid-select {
-    background-color: #85DB18;
-    background-repeat: no-repeat;
-    background-position: 99% 43%;
-    font-size: 0.875em;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-shadow: 1px 1px 1px #aaa; /*85DB18*/
-    width: 120px;
-    height: 17px;
-    color: #fff;
-    padding: 4px;
-    display: inline-block;
-    vertical-align: middle;
-}
-
-.wrapper-demo {
-    display: inline-block;
-    background-color: #92ED1F;
-    background-repeat: no-repeat;
-    background-position: 99% 43%;
-    font-size: 0.875em;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-shadow: 1px 1px 1px #aaa; /*85DB18*/
-    /*width: 216px;*/
-    height: 25px;
-    vertical-align: middle;
-}
-
-.dropdown {
-    margin-top: 0;
-    padding-left: 0;
-}
-
-.app-dropdown {
-
-}
-
-.app {
-
 }
 
 .padme {
@@ -871,6 +807,9 @@ body {
    ========================================================================== */
 
 .panel-container {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
     background-color: #fff;
     position: fixed;
     left: -360px;
@@ -988,100 +927,6 @@ body {
 .orange {
     background-color: #FF8000;
     color: #fff;
-}
-
-/* ==========================================================================
-   Navigation Dropdown
-   ========================================================================== */
-
-   /* DEMO 1 */
-
-.wrapper-dropdown-1 {
-    /* Size and position */
-    position: relative; /* Enable absolute positionning for children and pseudo elements */
-    /*width: 200px;*/
-    padding: 4px;
-    /*margin: 0 auto;*/
-
-    /* Styles */
-    /*background: #9bc7de;*/
-    color: #fff;
-    outline: none;
-    cursor: pointer;
-}
-
-/*.wrapper-dropdown-1:after {
-    content: "";
-    width: 0;
-    height: 0;
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    margin-top: -6px;
-    border-width: 6px 0 6px 6px;
-    border-style: solid;
-    border-color: transparent #fff;    
-}*/
-
-.wrapper-dropdown-1 .dropdown {
-    /* Size & position */
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    z-index: 9;
-
-    /* Styles */
-    background: #fff;
-    list-style: none;
-    font-weight: normal; /* Cancels previous font-weight: bold; */
-
-    /* Hiding */
-    opacity: 0;
-    pointer-events: none;
-}
-
-.wrapper-dropdown-1 .dropdown li a {
-    display: block;
-    text-decoration: none;
-    color: #fff;
-    padding: 4px;
-    background-color: #92ED1F;
-}
-
-/* Hover state */
-.wrapper-dropdown-1 .dropdown li:hover a {
-    background: #f3f8f8;
-}
-
-/* Active state */
-.wrapper-dropdown-1.active .dropdown {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-/*.wrapper-dropdown-1.active:after {
-    border-color: #fff transparent;
-    border-width: 6px 6px 0 6px ;
-    margin-top: -3px;
-}*/
-
-.wrapper-dropdown-1.active {
-
-}
-
-/* No CSS3 support */
-
-.no-opacity       .wrapper-dropdown-1 .dropdown,
-.no-pointerevents .wrapper-dropdown-1 .dropdown {
-    display: none;
-    opacity: 1; /* If opacity support but no pointer-events support */
-    pointer-events: auto; /* If pointer-events support but no pointer-events support */
-}
-
-.no-opacity       .wrapper-dropdown-1.active .dropdown,
-.no-pointerevents .wrapper-dropdown-1.active .dropdown {
-    display: block;
 }
 
 /* ==========================================================================
@@ -1337,8 +1182,8 @@ body {
     from    { opacity: 0.3; -webkit-transform: scale(0.8); }
 }
 
-.Grid-cell.ng-enter           { animation: slideInUp 0.5s both linear; z-index: 8888; }
-.Grid-cell.ng-leave           { animation: fadeOutRight 0.5s both linear; z-index: 9999; }
+/*.Grid-cell.ng-enter           { animation: slideInUp 0.5s both linear; z-index: 8888; }
+.Grid-cell.ng-leave           { animation: fadeOutRight 0.5s both linear; z-index: 9999; }*/
 
 
 /* ==========================================================================
@@ -1519,6 +1364,10 @@ body {
     display: none;
 }
 
+/*.no-csstransforms3d .st-pusher,
+.no-js .st-pusher {
+    padding-left: 300px;
+}*/
 
 /* ==========================================================================
    Web Console
@@ -1567,6 +1416,17 @@ body {
 /* ==========================================================================
    Helper classes
    ========================================================================== */
+
+.overlay {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background: #222;
+    z-index: 3;
+    opacity: 0.3;
+    transition: opacity 0.5s linear;
+}   
 
 .small-text {
     font-size: 0.875em;

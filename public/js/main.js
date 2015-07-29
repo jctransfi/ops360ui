@@ -3,6 +3,7 @@ var myApp = angular.module('myApp',['cgBusy', 'ngRoute', 'ngDropdowns', 'ngDialo
 myApp.config(function($routeProvider) {
     // activetab variable allows for highlighting of 
     // current active navigational element
+    // more discussion on http://stackoverflow.com/questions/12295983/set-active-tab-style-with-angularjs
     $routeProvider
         // route for the home page
         .when('/dashboard', {
@@ -62,6 +63,24 @@ myApp.directive('ngEnter', function () {
           }
       });
   };
+});
+
+myApp.directive('focusOn', function() {
+   return function(scope, elem, attr) {
+      scope.$on('focusOn', function(e, name) {
+        if(name === attr.focusOn) {
+          elem[0].focus();
+        }
+      });
+   };
+});
+
+myApp.factory('focus', function ($rootScope, $timeout) {
+  return function(name) {
+    $timeout(function (){
+      $rootScope.$broadcast('focusOn', name);
+    });
+  }
 });
 
 myApp.service('deviceService', function($http) {
@@ -132,12 +151,14 @@ myApp.controller('loginController', function($scope, $route, ngDialog) {
 
 myApp.controller('initController', function($scope, $route, $filter, searchService, ngDialog, autosuggestService) {
   $scope.$route = $route;
-  $scope.searchTerm = "CCPTOR20-REDHAT-RTR-1";
+  // $scope.searchTerm = "CCPTOR20-REDHAT-RTR-1";
 
-  mixpanel.identify("testuser"); // eventually place this in the event handler of login
+  var useridentity = sessionStorage.getItem("username");
+
+  mixpanel.identify(useridentity); // eventually place this in the event handler of login
   mixpanel.people.set({
-      "$first_name": "Test",
-      "$last_name": "User",
+      "$first_name": useridentity,
+      "$last_name": useridentity,
       "$role": "Super Admin"
   });
 

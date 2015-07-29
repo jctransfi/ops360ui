@@ -61,19 +61,24 @@ mixpanel.init("533e4c0adb76e40df613112607da25e3");</script><!-- end Mixpanel -->
                         <div class="navigation">
                             <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'dashboard'}"><a href="#dashboard">Dashboard</a></div>
                             <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'webconsole'}"><a href="#webconsole">Web Console</a></div>
-            <!--                 <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'about'}"><a href="#about">Tickets</a></div>
+                            <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'about'}"><a href="#about">Tickets</a></div>
                             <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'contact'}"><a href="#contact">Graphs</a></div>
                             <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'nerc'}"><a href="#contact">NERC Events</a></div>
                             <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'suppression'}"><a href="#contact">Supression</a></div>
                             <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'provisioning'}"><a href="#contact">Provisioning</a></div>
-                            <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'pst'}"><a href="#contact">PST</a></div> -->
+                            <div class="nav-icon" ng-class="{navactive: $route.current.activetab == 'pst'}"><a href="#contact">PST</a></div>
                         </div>
                         <div class="app">
+                            <!--
+                                This is the global toolbar. Any actions that are global to the entire application goes here. E.g. A search funtion
+                                that works anywhere in the application. Each "action" on the global toolbar can be further modularized through a scope function
+                                or a controller.
+                            -->
                             <div class="sidebar">
                                 <ul class="side-list">
                                     <li class="side-icon"><img src="img/search74.svg" class="side-img" /></br/>Search</li>
-            <!--                         <li class="side-icon"><img src="img/alarm31.svg" class="side-img" /></br/>Suppress Alarm</li>
-                                    <li class="side-icon"><img src="img/paper122.svg" class="side-img" /></br/>Send to Ticket</li> -->
+                                    <li class="side-icon"><img src="img/alarm31.svg" class="side-img" /></br/>Suppress Alarm</li>
+                                    <li class="side-icon"><img src="img/paper122.svg" class="side-img" /></br/>Send to Ticket</li>
                                 </ul>
                             </div>
                             <div class="panel-container">
@@ -91,14 +96,10 @@ mixpanel.init("533e4c0adb76e40df613112607da25e3");</script><!-- end Mixpanel -->
                                             <td colspan="2">No matches found.</td>
                                         </tr>
                                     </table>
-            <!--                         <ul>
-                                        <li class="animate-repeat" ng-click="search(result)" ng-repeat="result in results.Hosts | limitTo: 25">{{result}}</li>
-                                        <li class="autosuggest-error" ng-show="results.general_message == 'Error'">No entries found.</li>
-                                    </ul> -->
                                 </div>
                             </div>
                             <div class="overlay fade-out"></div>
-                            <div class="cardui" ng-view  cg-busy="{promise:promise}">
+                            <div class="cardui" ng-view cg-busy="{promise:promise}">
                             </div>
                         </div>
                         <!-- <div class="push"></div> -->
