@@ -151,6 +151,8 @@ myApp.controller('loginController', function($scope, $route, ngDialog) {
 
 myApp.controller('initController', function($scope, $route, $filter, searchService, ngDialog, autosuggestService) {
   $scope.$route = $route;
+  $scope.searchOpen = false;
+  $scope.offCanvasOpen = false;
   // $scope.searchTerm = "CCPTOR20-REDHAT-RTR-1";
 
   var useridentity = sessionStorage.getItem("username");
@@ -186,20 +188,24 @@ myApp.controller('initController', function($scope, $route, $filter, searchServi
   //event listeners
 
   $scope.openOffCanvas = function(){
-    if($("#st-container").hasClass("st-menu-open") === true){
-      $("#st-container").removeClass("st-menu-open");
-      $("#st-container").removeClass("st-effect-9");
-    }else{
-      $("#st-container").addClass("st-menu-open");
-      $("#st-container").addClass("st-effect-9");
-    }
+    $scope.offCanvasOpen = true;
+    console.log("openOC");
+    // if($("#st-container").hasClass("st-menu-open") === true){
+    //   $("#st-container").removeClass("st-menu-open");
+    //   $("#st-container").removeClass("st-effect-9");
+    // }else{
+    //   $("#st-container").addClass("st-menu-open");
+    //   $("#st-container").addClass("st-effect-9");
+    // }
   }
 
   $scope.closeOffCanvas = function(){
-    if($("#st-container").hasClass("st-menu-open") === true){
-      $("#st-container").removeClass("st-effect-9");
-      $("#st-container").removeClass("st-menu-open");
-    }
+    $scope.offCanvasOpen = false;
+    console.log("closeOC");
+    // if($("#st-container").hasClass("st-menu-open") === true){
+    //   $("#st-container").removeClass("st-effect-9");
+    //   $("#st-container").removeClass("st-menu-open");
+    // }
   }
 
   var vhid = "";
@@ -211,9 +217,10 @@ myApp.controller('initController', function($scope, $route, $filter, searchServi
 		// console.log("beep")
     mixpanel.track("Searched for " + cleanStr);
     if($route.current.activetab == 'dashboard'){
-      $scope.promise = searchService.getData("/api/v1/nms/dashboard/vhid/", cleanStr.trim()).then(function(dataResponse) {
+      $scope.promise = searchService.getData("/api/v1/nms/dashboard/vhid/", cleanStr.trim()).then(function(dataResponse, responseError) {
         console.log("Calling DASHBOARD data");
         console.log(dataResponse);
+        console.log(responseError);
         console.log(dataResponse.data);
         var strset = cleanStr.trim();
         console.log("the clean string: " + strset);
@@ -329,12 +336,23 @@ myApp.controller('initController', function($scope, $route, $filter, searchServi
             scope: $scope
           });
         }
+      }, function(error) {
+        // Do something with the error if it fails
+        console.log(error)
+        console.log("an error occurred.");
+        $scope.errormsg = "An error " + error.status + ": " + error.statusText + " occured. Please try again.";
+        ngDialog.open({ 
+          template: 'errorTemplate', 
+          className: 'ngdialog-theme-default',
+          scope: $scope
+        });       
       });
     }else if($route.current.activetab == 'webconsole'){
       console.log("Calling WEB CONSOLE data");
       var strset = cleanStr.trim();
-      $scope.promise = searchService.getData("/api/v1/nms/wc/vhid/", cleanStr.trim()).then(function(dataResponse) {
+      $scope.promise = searchService.getData("/api/v1/nms/wc/vhid/", cleanStr.trim()).then(function(dataResponse, responseError) {
         console.log(dataResponse);
+        console.log(responseError);
         console.log(dataResponse.data);
         if(!dataResponse.data.Error){
           $scope.initvars.vhidnow = strset;
@@ -392,9 +410,10 @@ myApp.controller('initController', function($scope, $route, $filter, searchServi
     console.log("Current VHID:" + $scope.initvars.vhidnow)
     console.log($scope.initvars.histogram)
     ngDialog.closeAll();
-    $(".panel-container").removeClass("panel-open");
-    $(".cardui").removeClass("push");
-    $(".overlay").addClass("fade-out");
+    $scope.searchOpen = false;
+    // $(".panel-container").removeClass("panel-open");
+    // $(".cardui").removeClass("side-push");
+    // $(".overlay").addClass("fade-out");
 
 
 	}
@@ -446,6 +465,54 @@ myApp.controller('webconsoleController', function($scope, $route, $filter, searc
 
 
     */
+});
+
+/* sidebar controllers */
+
+myApp.controller('searchPanelCtrl', function($scope, ngDialog) {
+  $scope.openSearch = function (){
+    console.log("search panel");
+
+    if($scope.$parent.searchOpen == false){
+      $scope.$parent.searchOpen = true;
+      console.log("woot");
+    }else{
+      $scope.$parent.searchOpen = false;
+      console.log("no woot");
+    }
+    
+    // if($("#searchPane").hasClass("panel-open")){
+    //   $("#searchPane").removeClass("panel-open");
+    //   // $(".cardui").removeClass("side-push");
+    //   $(".overlay").addClass("fade-out");
+    // }else{
+    //   $(".panel-container").removeClass("panel-open");
+    //   $("#searchPane").addClass("panel-open");
+    //   // $(".cardui").addClass("side-push");
+    //   $(".overlay").removeClass("fade-out");
+    // }
+
+  }
+});
+
+myApp.controller('alarmPanelCtrl', function($scope, ngDialog) {
+  $scope.openAlarm = function (){
+    $scope.panelIsOpen = true;
+
+    console.log("alarm panel");
+    
+    if($("#alarmPane").hasClass("panel-open")){
+      $("#alarmPane").removeClass("panel-open");
+      // $(".cardui").removeClass("side-push");
+      $(".overlay").addClass("fade-out");
+    }else{
+      $(".panel-container").removeClass("panel-open");
+      $("#alarmPane").addClass("panel-open");
+      // $(".cardui").addClass("side-push");
+      $(".overlay").removeClass("fade-out");
+    }
+
+  }
 });
 
 /* hanlde controllers */
@@ -506,18 +573,18 @@ myApp.controller('locsummaryController', function($scope, ngDialog) {
   }
 });
 
-$(".side-icon").on("click", function(){
-  console.log('click')
-  if($(".panel-container").hasClass("panel-open")){
-    $(".panel-container").removeClass("panel-open");
-    $(".cardui").removeClass("push");
-    $(".overlay").addClass("fade-out");
-  }else{
-    $(".panel-container").addClass("panel-open");
-    $(".cardui").addClass("push");
-    $(".overlay").removeClass("fade-out");
-  }
-});
+// $(".side-icon").on("click", function(){
+//   console.log('click')
+//   if($(".panel-container").hasClass("panel-open")){
+//     $(".panel-container").removeClass("panel-open");
+//     $(".cardui").removeClass("side-push");
+//     $(".overlay").addClass("fade-out");
+//   }else{
+//     $(".panel-container").addClass("panel-open");
+//     $(".cardui").addClass("side-push");
+//     $(".overlay").removeClass("fade-out");
+//   }
+// });
 
 // $(".st-content").on("click", function(){
 //   if($("#st-container").hasClass("st-menu-open") === true){
