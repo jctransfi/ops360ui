@@ -707,6 +707,16 @@ body {
     background-color: #c0392b;
 }
 
+.pill-gray {
+    /*background-color: #aaa;*/
+/*    border: 1px solid #a7a7a7;
+    border-radius: 2px;*/
+}
+
+.pill-gray > img {
+    width: 18px;
+    height: 18px;
+}
 .more-rows {
     font-style: italic;
     cursor: pointer;
@@ -723,6 +733,28 @@ body {
 
 .srp-click {
     cursor: pointer;
+}
+
+.dialog-table-container {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.fixed-headers {
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.fixed-headers thead tr {
+  display: block;
+  position: relative;
+}
+.fixed-headers tbody {
+  display: block;
+  overflow: auto;
+  width: 100%;
+  height: 90%;
 }
 
 
@@ -755,6 +787,13 @@ body {
     font-size: 1.25em;
     padding: 6px;
     text-shadow: 1px 1px rgba(0,0,0,0.6);
+}
+
+.login-container__error {
+    color: red;
+    font-size: 0.813em;
+    font-family: 'Roboto';
+    font-style: italic;
 }
 
 /* ==========================================================================

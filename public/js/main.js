@@ -96,6 +96,27 @@ myApp.service('deviceService', function($http) {
   }
 });
 
+myApp.service('loginService', function($http) {
+  delete $http.defaults.headers.common['X-Requested-With'];
+  this.login = function(username, password, appid, ipaddress) {
+      // $http() returns a $promise that we can add handlers with .then()
+        var urlpath = 'http://dcoeng1-ncoptst-2:8080/VirtelaAccountWS/rest/account/v1.0/user/login';
+        var urlpathprod = 'http://dcoeng1-ncopws-1:8080/VirtelaAccountWS/rest/account/v1.0/user/login';
+        console.log(urlpath);
+      return $http({
+        method: "post",
+        url: urlpath,
+        // transformRequest: transformRequestAsFormPost,
+        data: {
+          "username": username,
+          "password": password,
+          "applicationId": appid,
+          "ipAddress": ipaddress
+        }
+       });
+  }
+});
+
 myApp.service('searchService', function($http) {
     delete $http.defaults.headers.common['X-Requested-With'];
     this.getData = function(apiURL, searchTerm) {
@@ -131,36 +152,63 @@ myApp.controller('aboutController', function($scope, $route) {
   $scope.$route = $route;
 });
 
-myApp.controller('loginController', function($scope, $route, ngDialog) {
+myApp.controller('loginController', function($scope, $route, ngDialog, loginService) {
   // $scope.$route = $route;
+
   $scope.login = function (cpe){
     // call web service and pass un/pw
 
-    //set session
-    sessionStorage.setItem("authToken", "authorized");
-    sessionStorage.setItem("username", $scope.username);
-    sessionStorage.setItem("role", "Super Admin");
-    //TODO: also add cookie option
+    $scope.userInfo = {};
 
-    $scope.$parent.fullname = $scope.username;
-    $scope.$parent.role = 'Super Admin';
+    loginService.login($scope.username, $scope.password, 25, "172.168.1.16").then(function(dataResponse) {
+      console.log(dataResponse);
+      console.log(dataResponse.data);
+      $scope.userInfo = dataResponse.data;
 
-    ngDialog.closeAll();
+      //set session
+      sessionStorage.setItem("authToken", $scope.userInfo.securityToken);
+      sessionStorage.setItem("firstName", $scope.userInfo.firstName);
+      sessionStorage.setItem("lastName", $scope.userInfo.lastName);
+      sessionStorage.setItem("email", $scope.userInfo.emailAddress);
+      sessionStorage.setItem("role", "Super Admin");
+
+      //TODO: also add cookie option
+
+      $scope.$parent.fullname = $scope.userInfo.firstName + " " + $scope.userInfo.lastName;
+      $scope.$parent.role = 'Super Admin';
+
+      ngDialog.closeAll();
+    }, function(error) {
+      // Do something with the error if it fails
+      console.log(error)
+      console.log("an error occurred.");
+      if(error.status === 406){
+        $scope.login.error = "Your username or password is incorrect. Please check and try again.";
+      }else{
+        $scope.login.error = "An error " + error.status + ": " + error.statusText + " occured. Please try again.";  
+      }
+    });
   }
 });
 
-myApp.controller('initController', function($scope, $route, $filter, searchService, ngDialog, autosuggestService) {
+
+
+myApp.controller('initController', function($scope, $route, $filter, searchService, ngDialog, autosuggestService, loginService) {
   $scope.$route = $route;
   $scope.searchOpen = false;
   $scope.offCanvasOpen = false;
   // $scope.searchTerm = "CCPTOR20-REDHAT-RTR-1";
 
-  var useridentity = sessionStorage.getItem("username");
+  $scope.useridentity = {
+    "email" : sessionStorage.getItem("email"),
+    "fname" : sessionStorage.getItem("firstName"),
+    "lname" : sessionStorage.getItem("lastName")
+  }
 
-  mixpanel.identify(useridentity); // eventually place this in the event handler of login
+  mixpanel.identify($scope.useridentity.email); // eventually place this in the event handler of login
   mixpanel.people.set({
-      "$first_name": useridentity,
-      "$last_name": useridentity,
+      "$first_name": $scope.useridentity.fname,
+      "$last_name": $scope.useridentity.lname,
       "$role": "Super Admin"
   });
 
@@ -172,7 +220,7 @@ myApp.controller('initController', function($scope, $route, $filter, searchServi
   //Login check - turn this into a service for reusability
   if(sessionStorage.getItem('authToken')){
     //no op
-    $scope.fullname = sessionStorage.getItem('username');
+    $scope.fullname = sessionStorage.getItem("firstName") + " " + sessionStorage.getItem("lastName");
     $scope.role = sessionStorage.getItem('role');
   }else {
     ngDialog.open({ 
@@ -323,7 +371,7 @@ myApp.controller('initController', function($scope, $route, $filter, searchServi
           $scope.errormsg = "The VHID you are trying to load is either invalid or no data was avaiable. You can try again or search for a different device.";
           ngDialog.open({ 
             template: 'errorTemplate', 
-            className: 'ngdialog-theme-default',
+            className: 'ngdialog-theme-error',
             scope: $scope
           });
         }else {
@@ -343,7 +391,7 @@ myApp.controller('initController', function($scope, $route, $filter, searchServi
         $scope.errormsg = "An error " + error.status + ": " + error.statusText + " occured. Please try again.";
         ngDialog.open({ 
           template: 'errorTemplate', 
-          className: 'ngdialog-theme-default',
+          className: 'ngdialog-theme-error',
           scope: $scope
         });       
       });
@@ -391,7 +439,7 @@ myApp.controller('initController', function($scope, $route, $filter, searchServi
           $scope.errormsg = "This device does not appear to be monitored by NG-NMS.";
           ngDialog.open({ 
             template: 'errorTemplate', 
-            className: 'ngdialog-theme-default',
+            className: 'ngdialog-theme-error',
             scope: $scope
           });
         }else {
