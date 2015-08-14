@@ -15,7 +15,6 @@
         <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,600' rel='stylesheet' type='text/css'> -->
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
-        <!--<link rel="stylesheet" href="css/bootstrap.css">-->
         <link rel="stylesheet" href="css/flexiblegs.css">
         <link rel="stylesheet" href="css/angular-busy.css">
         <link rel="stylesheet" href="css/angular-dropdowns.css">
@@ -37,10 +36,10 @@ mixpanel.init("533e4c0adb76e40df613112607da25e3");</script><!-- end Mixpanel -->
         <!-- Add your site or application content here -->
         <div id="st-container" class="st-container" ng-class="{'st-menu-open': offCanvasOpen == true, 'st-effect-9': offCanvasOpen == true}">
                 <nav class="st-menu st-effect-9" id="menu-9">
-                <h2 class="icon icon-lab">Applications Menu</h2>
+                <h2>Applications Menu</h2>
                 <ul>
-                    <li><a class="icon" href="#/dashboard">OPS360 NMS</a></li>
-                    <li>Predictive Analytics</li>
+                    <li class="icon icon-ops"><a href="#/dashboard">OPS360 NMS</a></li>
+                    <li class="icon icon-pa">Predictive Analytics</li>
                     <li ng-click="closeOffCanvas()">Close</li>
                 </ul>
             </nav>
@@ -84,12 +83,12 @@ mixpanel.init("533e4c0adb76e40df613112607da25e3");</script><!-- end Mixpanel -->
                             </div>
                             <div id="searchPane" class="panel-container" ng-class="{'panel-open': searchOpen == true}">
                                 <div class="filter-box__form-element">
-                                    <input ng-model="searchTerm" ng-change="autosuggest('25');" ng-enter="search(searchTerm);" class="filter-box__text-input search-box" type="text" placeholder="CABRCV1-CROCS-RTR-1" />
+                                    <input ng-model="searchTerm" ng-change="autosuggest('25');" ng-enter="search(searchTerm, 'onEnter');" class="filter-box__text-input search-box" type="text" placeholder="CABRCV1-CROCS-RTR-1" />
                                 </div><!--
                                 --><button class="btn-red" ng-click="search(searchTerm)">SEARCH</button>
                                 <div class="panel-results" cg-busy="{promise:aspromise}">
                                     <table class="srp-table">
-                                        <tr class="srp-click" ng-click="search(value.vhid)" ng-repeat="(key, value) in results | limitTo: 25">
+                                        <tr class="srp-click" ng-click="search(value.vhid, 'Auto Suggest')" ng-repeat="(key, value) in results | limitTo: 25">
                                             <td><span class="mini-pill" ng-class="{pillgreen: value.status == 'UP', pillred: value.status == 'DOWN'}">{{value.status}}</span></td>
                                             <td>{{value.vhid}}</td>
                                         </tr>
@@ -125,13 +124,12 @@ mixpanel.init("533e4c0adb76e40df613112607da25e3");</script><!-- end Mixpanel -->
         <script src="js/vendor/moment.min.js"></script>
         <script src="js/vendor/angular-dropdowns.js"></script>
         <script src="js/vendor/ngDialog.js"></script>
-        <!--<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.0.js"></script>
-        <script src="http://code.highcharts.com/modules/data.js"></script>
+        <script src="js/vendor/jquery.floatThead.min.js"></script>
+        <!--<script src="http://code.highcharts.com/modules/data.js"></script>
         <script src="http://code.highcharts.com/modules/no-data-to-display.js"></script>-->
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
         <script src="js/sampleJSON.js"></script>
-
         <!-- templates -->
         <script type="text/ng-template" id="templateId">
             <h1>Template heading</h1>

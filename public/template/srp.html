@@ -4,7 +4,7 @@
 <!-- 	<input type="checkbox" /><label>Show me DOWN only.</label> -->
 
 	<table class="srp-table">
-	    <tr class="srp-click" ng-click="search(value.vhid)" ng-repeat="(key, value) in results">
+	    <tr class="srp-click" ng-click="search(value.vhid, 'Search Dialog')" ng-repeat="(key, value) in results">
 	        <td><span class="mini-pill" ng-class="{pillgreen: value.status == 'UP', pillred: value.status == 'DOWN'}">{{value.status}}</span></td>
 	        <td>{{value.vhid}}</td>
 	    </tr>

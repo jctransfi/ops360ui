@@ -1,5 +1,20 @@
 <div class="info-bar" ng-show="initvars.errors > 2">{{initvars.errormsg}}</div>
 
+<div class="Grid">
+    <div class="Grid-cell">
+        <div class="Grid Grid--gutters Grid--flexCells u-nested-full">
+            <div class="Grid-cell ">
+                <div class="current"><!--
+                    --><span class="current-icon"><img src="img/eye109.svg"></span><span class="history--current">{{initvars.vhidnow}}</span><!--
+                --></div><!--
+                --><div class="history"><!--
+                    --><span class="hist-icon"><img src="img/history6.svg"></span><span ng-repeat="hist in initvars.histogram | unique:'vhid' | orderBy:'date' | limitTo: 5" ng-click="search(hist.vhid, 'History Bar')">{{hist.vhid}}</span><!--
+                --></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Flexbox Grid System -->
 
 <div class="Grid">
@@ -44,7 +59,7 @@
                             </tr>
                             <tr>
                                 <td>{{siteinfo.vlid}}</td>
-                                <td><select ng-model="selectedVHID" ng-change="search(selectedVHID)"><option ng-repeat="vhid in vhids | unique:'vhids' track by $index">{{vhid}}</option></select></td>
+                                <td><select ng-model="selectedVHID" ng-change="search(selectedVHID, 'Dashboard VHID')"><option ng-repeat="vhid in vhids">{{vhid}}</option></select></td>
                             </tr>
                         </table>
                     </div>
@@ -115,21 +130,28 @@
             </div>
             <div class="Grid-cell">
                 <div class="card-flex">
-                    <h4>Interface Information</h4>
-                    <table class="interface-table">
-                        <tr class="belieze-hole">
-                            <th>Index</th>
-                            <th>IF Alias</th>
-                            <th>Mgt Status</th>
-                            <th>IP</th>
-                        </tr>
-                        <tr ng-repeat="interface in interfaces | limitTo: 5" ng-class-even="'even'">
-                            <td width="6%">{{interface.IFINDEX}}</td>
-                            <td>{{interface.IFALIAS}}</td>
-                            <td>{{interface.MANAGEMENT_STATE}}</td>
-                            <td>{{interface.ip}}</td>
-                        </tr>
-                    </table>
+                    <div class="card-header">
+                        <h4>Interface Information</h4>
+                        <!-- <div class="card-expand"></div> -->
+                        <a href="#/webconsole" class="card-handle--link"><img src="img/upper8.svg" class="card-handle" title="Open in Web Console" /></a>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="card-content">                
+                        <table class="interface-table">
+                            <tr class="belieze-hole">
+                                <th>Index</th>
+                                <th>IF Alias</th>
+                                <th>Mgt Status</th>
+                                <th>IP</th>
+                            </tr>
+                            <tr ng-repeat="interface in interfaces | limitTo: 5" ng-class-even="'even'">
+                                <td width="6%">{{interface.IFINDEX}}</td>
+                                <td>{{interface.IFALIAS}}</td>
+                                <td>{{interface.MANAGEMENT_STATE}}</td>
+                                <td>{{interface.ip}}</td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -221,7 +243,7 @@
         </div>
 
     </div>
-    <div class="Grid-cell u-1of4">
+    <!--<div class="Grid-cell u-1of4">
         <div class="Grid-full Grid--gutters u-nested-full">
             <div class="Grid-cell">
                 <div class="card-flex">Graph 1</div>
@@ -245,7 +267,7 @@
                             <div class="comment-text">{{comment.comment}}</div>
                             <div class="comment-details">Posted by: <strong>{{comment.user_name}}</strong> on <i>{{comment.date_added | date:'d-MMM-yy'}}</i></div>
                         </div>
-                        <!-- <table class="comments-table">
+                        table class="comments-table">
                             <tr class="peter-river">
                                 <th width="20%">Date</th>
                                 <th>Comment</th>
@@ -256,7 +278,7 @@
                                 <td>{{comment.comment}}</td>
                                 <td>{{comment.user}}</td>
                             </tr>
-                        </table> -->
+                        </table>
                         <div class="add-comment">
                             <textarea class="comment-box" ng-model="newcomment"></textarea>
                             <button class="btn orange btn-comment" ng-click="addComment(newcomment)">Add</button>
@@ -286,11 +308,12 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 </div>
 
 <script type="text/ng-template" id="nercExpand">
     <h4>NERC EVENTS</h4>
+    <div class="expand-container">
     <table class="interface-table">
         <tr class="peter-river">
             <th>VHID</th>
@@ -311,10 +334,12 @@
             <!-- <td>{{nerc.ticketno}}</td> -->
         </tr>
     </table>
+    </div>
 </script>
 
 <script type="text/ng-template" id="ticketsExpand">
     <h4>Maintenance Tickets</h4>
+    <div class="expand-container">
     <table class="interface-table">
         <tr class="peter-river">
             <th>Ticket Number</th>
@@ -335,6 +360,7 @@
             <td>{{maintenance.SR_SEV_CD}}</td>
         </tr>
     </table>
+    </div>
 </script>
 
 <script type="text/ng-template" id="escalationExpand">

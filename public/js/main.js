@@ -49,6 +49,19 @@ myApp.filter('unique', function() {
    };
 });
 
+myApp.filter('momentdate', function() {
+   return function(dateString, dateFormat, outputFormat) {
+      var output = "";
+      if(dateString == 'nil' || dateString == 'Unknown'){
+        output = "Unknown";
+      }else {
+        output = moment(dateString, dateFormat).format(outputFormat);
+      }
+
+      return output;
+   };
+});
+
 myApp.directive('ngEnter', function () {
   // this directive is attribute to 
   // http://stackoverflow.com/questions/17470790/how-to-use-a-keypress-event-in-angularjs
@@ -101,11 +114,11 @@ myApp.service('loginService', function($http) {
   this.login = function(username, password, appid, ipaddress) {
       // $http() returns a $promise that we can add handlers with .then()
         var urlpath = 'http://dcoeng1-ncoptst-2:8080/VirtelaAccountWS/rest/account/v1.0/user/login';
-        var urlpathprod = 'http://dcoeng1-ncopws-1:8080/VirtelaAccountWS/rest/account/v1.0/user/login';
+        var urlpathprod = 'http://dcoeng1-ncopws-1.tnc.virtela.cc:8080/VirtelaAccountWS/rest/account/v1.0/user/login';
         console.log(urlpath);
       return $http({
         method: "post",
-        url: urlpath,
+        url: urlpathprod,
         // transformRequest: transformRequestAsFormPost,
         data: {
           "username": username,
@@ -238,32 +251,24 @@ myApp.controller('initController', function($scope, $route, $filter, searchServi
   $scope.openOffCanvas = function(){
     $scope.offCanvasOpen = true;
     console.log("openOC");
-    // if($("#st-container").hasClass("st-menu-open") === true){
-    //   $("#st-container").removeClass("st-menu-open");
-    //   $("#st-container").removeClass("st-effect-9");
-    // }else{
-    //   $("#st-container").addClass("st-menu-open");
-    //   $("#st-container").addClass("st-effect-9");
-    // }
   }
 
   $scope.closeOffCanvas = function(){
     $scope.offCanvasOpen = false;
     console.log("closeOC");
-    // if($("#st-container").hasClass("st-menu-open") === true){
-    //   $("#st-container").removeClass("st-effect-9");
-    //   $("#st-container").removeClass("st-menu-open");
-    // }
   }
 
   var vhid = "";
 
-	$scope.search = function (cpe){
+	$scope.search = function (cpe, searchLoc){
     console.log($route.current.activetab);
     var cleanStr = "";
     cleanStr += cpe;
 		// console.log("beep")
-    mixpanel.track("Searched for " + cleanStr);
+    mixpanel.track("Search", {
+    "Search Type": searchLoc,
+    "ID": cleanStr
+    });
     if($route.current.activetab == 'dashboard'){
       $scope.promise = searchService.getData("/api/v1/nms/dashboard/vhid/", cleanStr.trim()).then(function(dataResponse, responseError) {
         console.log("Calling DASHBOARD data");
@@ -287,6 +292,7 @@ myApp.controller('initController', function($scope, $route, $filter, searchServi
           $scope.siteinfo = dataResponse.data.siteinfo;
           try {
             $scope.vhids = dataResponse.data.siteinfo.vhid;  
+            $scope.selectedVHID = cleanStr;
             console.log($scope.vhids);
           }catch(e){
             console.log("error fetching vhids")
@@ -362,6 +368,12 @@ myApp.controller('initController', function($scope, $route, $filter, searchServi
 
           $scope.escalation = dataResponse.data.escalation_text;
 
+          mixpanel.track("Data Loaded", {
+              "Screen": "Dashboard",
+              "Search Type": searchLoc,
+              "ID": cleanStr
+          });
+
 
           /* assign result to a main object in $scope then access through the controllers via
              $scope.mainObj.property
@@ -369,6 +381,12 @@ myApp.controller('initController', function($scope, $route, $filter, searchServi
         }else if(dataResponse.data.Error === "Invalid vhid") {
           // alert("Invalid VHID");
           $scope.errormsg = "The VHID you are trying to load is either invalid or no data was avaiable. You can try again or search for a different device.";
+          mixpanel.track("Error", {
+              "Screen": "Dashboard",
+              "ID": cleanStr,
+              "Search Type": searchLoc,
+              "Error Type": "Invalid VHID"
+          });
           ngDialog.open({ 
             template: 'errorTemplate', 
             className: 'ngdialog-theme-error',
@@ -389,6 +407,13 @@ myApp.controller('initController', function($scope, $route, $filter, searchServi
         console.log(error)
         console.log("an error occurred.");
         $scope.errormsg = "An error " + error.status + ": " + error.statusText + " occured. Please try again.";
+        mixpanel.track("Error", {
+            "Screen": "Dashboard",
+            "ID": cleanStr,
+            "Search Type": searchLoc,
+            "Error Type": "Server Error",
+            "Error Code": error.status
+        });
         ngDialog.open({ 
           template: 'errorTemplate', 
           className: 'ngdialog-theme-error',
@@ -434,9 +459,27 @@ myApp.controller('initController', function($scope, $route, $filter, searchServi
           $scope.locations = location_arr;
           $scope.intinfo = dataResponse.data.info;
           $scope.intstatus = dataResponse.data.status;
+
+          if($scope.intinfo.last_transition_time !== 'Unknown'){
+            $scope.intinfo.lastTransition = moment(dataResponse.data.info.last_transition_time, "YYYY-MM-DD HH:mm:ss ZZ").format("d-MMM-YY HH:mm:ss ZZ");
+          }else{
+            $scope.intinfo.lastTransition = "Unknown"
+          }
+
+          mixpanel.track("Data Loaded", {
+              "Screen": "Web Console",
+              "Search Type": searchLoc,
+              "ID": cleanStr
+          });
         }else if(dataResponse.data.Error === "Invalid vhid") {
           // alert("Invalid VHID");
           $scope.errormsg = "This device does not appear to be monitored by NG-NMS.";
+          mixpanel.track("Error", {
+              "Screen": "Dashboard",
+              "ID": cleanStr,
+              "Search Type": searchLoc,
+              "Error Type": "Invalid VHID"
+          });
           ngDialog.open({ 
             template: 'errorTemplate', 
             className: 'ngdialog-theme-error',
@@ -452,6 +495,23 @@ myApp.controller('initController', function($scope, $route, $filter, searchServi
             scope: $scope
           });
         }
+      }, function(error) {
+        // Do something with the error if it fails
+        console.log(error)
+        console.log("an error occurred.");
+        $scope.errormsg = "An error " + error.status + ": " + error.statusText + " occured. Please try again.";
+        mixpanel.track("Error", {
+            "Screen": "Dashboard",
+            "ID": cleanStr,
+            "Search Type": searchLoc,
+            "Error Type": "Server Error",
+            "Error Code": error.status
+        });
+        ngDialog.open({ 
+          template: 'errorTemplate', 
+          className: 'ngdialog-theme-error',
+          scope: $scope
+        });       
       });
     }
   
@@ -490,7 +550,7 @@ myApp.controller('dashboardController', function($scope, $route, $filter, search
   $scope.$route = $route;
   console.log($scope.$parent.initvars);
   if($scope.$parent.initvars.vhidnow != null) {
-    $scope.$parent.search($scope.$parent.initvars.vhidnow);
+    $scope.$parent.search($scope.$parent.initvars.vhidnow, 'Dashboard On Load');
   }
   // $scope.search($scope.$parent.initvars.vhidnow)
 });
@@ -499,7 +559,7 @@ myApp.controller('webconsoleController', function($scope, $route, $filter, searc
     $scope.$route = $route;
     // console.log($scope.$parent.initvars);
     if($scope.$parent.initvars.vhidnow != null) {
-      $scope.$parent.search($scope.$parent.initvars.vhidnow);
+      $scope.$parent.search($scope.$parent.initvars.vhidnow, 'WC On Load');
     }
 
     /*
@@ -585,6 +645,9 @@ myApp.controller('commentController', function($scope, ngDialog) {
 myApp.controller('nercController', function($scope, ngDialog) {
   $scope.handle = function (){
     console.log("nerc handle");
+    mixpanel.track("Expand", {
+      "Dialog": "NERC"
+    });
     ngDialog.open({ template: 'nercExpand', className: 'ngdialog-theme-default', scope: $scope.$parent });
   }
 });
@@ -592,6 +655,9 @@ myApp.controller('nercController', function($scope, ngDialog) {
 myApp.controller('escalController', function($scope, ngDialog) {
   $scope.handle = function (){
     console.log("escal handle");
+    mixpanel.track("Expand", {
+      "Dialog": "Escalation"
+    });
     ngDialog.open({ template: 'escalationExpand', className: 'ngdialog-theme-default', scope: $scope.$parent });
   }
 });
@@ -599,6 +665,9 @@ myApp.controller('escalController', function($scope, ngDialog) {
 myApp.controller('ticketController', function($scope, ngDialog) {
   $scope.handle = function (){
     console.log("tix handle");
+    mixpanel.track("Expand", {
+      "Dialog": "Tickets"
+    });
     ngDialog.open({ template: 'ticketsExpand', className: 'ngdialog-theme-webconsole', scope: $scope.$parent });
   }
 });
@@ -608,7 +677,15 @@ myApp.controller('wcintController', function($scope, ngDialog) {
   $scope.sortReverse  = false;  // set the default sort order
   $scope.handle = function (){
     console.log("interface web console handle");
-    ngDialog.open({ template: 'devicesExpand', className: 'ngdialog-theme-webconsole', scope: $scope.$parent });
+    mixpanel.track("Expand", {
+      "Dialog": "Device Information"
+    });
+          //     ngDialog.open({ 
+          //   template: 'template/srp.html', 
+          //   className: 'ngdialog-theme-default',
+          //   scope: $scope
+          // });
+    ngDialog.open({ template: 'template/interface-details.html', className: 'ngdialog-theme-webconsole', scope: $scope.$parent });
   }
 });
 
@@ -617,29 +694,12 @@ myApp.controller('locsummaryController', function($scope, ngDialog) {
   $scope.sortReverse  = false;  // set the default sort order
   $scope.handle = function (){
     console.log("interface web console handle");
+    mixpanel.track("Expand", {
+      "Dialog": "Location Summary"
+    });
     ngDialog.open({ template: 'locationExpand', className: 'ngdialog-theme-default', scope: $scope.$parent });
   }
 });
-
-// $(".side-icon").on("click", function(){
-//   console.log('click')
-//   if($(".panel-container").hasClass("panel-open")){
-//     $(".panel-container").removeClass("panel-open");
-//     $(".cardui").removeClass("side-push");
-//     $(".overlay").addClass("fade-out");
-//   }else{
-//     $(".panel-container").addClass("panel-open");
-//     $(".cardui").addClass("side-push");
-//     $(".overlay").removeClass("fade-out");
-//   }
-// });
-
-// $(".st-content").on("click", function(){
-//   if($("#st-container").hasClass("st-menu-open") === true){
-//     $("#st-container").removeClass("st-menu-open");
-//     $("#st-container").removeClass("st-effect-9");
-//   }
-// });
 
 function totalArray(arr){
 	var total = 0;

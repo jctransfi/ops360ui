@@ -7,7 +7,7 @@
                     --><span class="current-icon"><img src="img/eye109.svg"></span><span class="history--current">{{initvars.vhidnow}}</span><!--
                 --></div><!--
                 --><div class="history"><!--
-                    --><span class="hist-icon"><img src="img/history6.svg"></span><span ng-repeat="hist in initvars.histogram | unique:'vhid' | orderBy:'date' | limitTo: 5" ng-click="search(hist.vhid)">{{hist.vhid}}</span><!--
+                    --><span class="hist-icon"><img src="img/history6.svg"></span><span ng-repeat="hist in initvars.histogram | unique:'vhid' | orderBy:'date' | limitTo: 5" ng-click="search(hist.vhid, 'History Bar')">{{hist.vhid}}</span><!--
                 --></div>
             </div>
         </div>
@@ -53,7 +53,7 @@
                             </tr>
                             <tr>
                                 <td>{{intinfo.localtime}}</td>
-                                <td>{{intinfo.last_transition_time}}</td>
+                                <td>{{intinfo.last_transition_time | momentdate:'YYYY-MM-DD HH:mm:ss ZZ':'D-MMM-YY HH:mm:ss ZZ'}}</td>
                             </tr>
                         </table>
                     </div>
@@ -67,25 +67,28 @@
                     </div>
                     <div class="clear"></div>
                     <div class="card-content">
-                        <table class="comments-table">
+                        <table class="locations-table table-loose">
+                        <thead>
                             <tr class="peter-river">
-                                <th>Status</th>
-                                <th><span class="sortable" ng-click="sortType = 'vhid';sortReverse = !sortReverse">VHID</span><span ng-show="sortType == 'vhid' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'vhid' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
-                                <th>IP Address</th>
-                                <th>SNMP String</th>
+                                <th width="5%">Status</th>
+                                <th width="35%"><span class="sortable" ng-click="sortType = 'vhid';sortReverse = !sortReverse">VHID</span><span ng-show="sortType == 'vhid' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'vhid' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
+                                <th width="15%">IP Address</th>
+                                <th width="19%">SNMP String</th>
+                                <th width="25%">Last Transition</th>
                             </tr>
-                            <tr ng-repeat="status in locations | orderBy:sortType:sortReverse | limitTo: 8" ng-class-even="'even'">
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="status in locations | orderBy:sortType:sortReverse | limitTo: 4">
                                 <td><span class="mini-pill" ng-class="{pillgreen: status.status == 'UP', pillred: status.status == 'DOWN'}">{{status.status}}</span></td>
-                                <td><span class="small-vhid-link" ng-click="search(status.vhid)">{{status.vhid}}</span></td>
+                                <td><span class="small-vhid-link" ng-click="search(status.vhid, 'Location Summary')">{{status.vhid}}</span></td>
                                 <td>{{status.ipaddresss}}</td>
                                 <td>{{status.commstring}}</td>
+                                <td>{{status.last_transition_time | momentdate:'YYYY-MM-DD HH:mm:ss ZZ':'D-MMM-YY HH:mm:ss ZZ'}}</td>
                             </tr>
-                            <tr ng-show="locations.length > 8">
-                                <td colspan="4" class="text-center more-rows" ng-click="handle()">{{locations.length-8 | number: 0}} more devices hidden. Click to expand.</td>
+                            <tr ng-if="locations.length > 4">
+                                <td colspan="5" class="text-center more-rows" ng-click="handle()">{{locations.length-4 | number: 0}} more devices hidden. Click to expand.</td>
                             </tr>
-                            <!-- <tr ng-show="locations.length > 8">
-                                <td colspan="4" class="text-center" ng-click="handle()">More data available. Click to expand.</td>
-                            </tr> -->
+                        </tbody>
                         </table>
                     </div>
                 </div>
@@ -102,21 +105,22 @@
                     </div>
                     <div class="clear"></div>
                     <div class="card-content">
-                        <table class="circuit-table">
+                        <table class="interfaceinfo-table table-loose">
+                            <thead>
                             <tr class="belieze-hole">
-                                <th width="8%"><span class="sortable" ng-click="sortType = 'ifstatus';sortReverse = !sortReverse">Status<br/>Info</span><span ng-show="sortType == 'ifstatus' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifstatus' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
+                                <th width="7%"><span class="sortable" ng-click="sortType = 'ifstatus';sortReverse = !sortReverse">Status Info</span><span ng-show="sortType == 'ifstatus' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifstatus' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
 
-                                <th width="8%"><span class="sortable" ng-click="sortType = 'ifadminstatus';sortReverse = !sortReverse">IF Admin<br/>Status</span><span ng-show="sortType == 'ifadminstatus' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifadminstatus' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
+                                <th width="8%"><span class="sortable" ng-click="sortType = 'ifadminstatus';sortReverse = !sortReverse">Admin Status</span><span ng-show="sortType == 'ifadminstatus' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifadminstatus' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
 
-                                <th width="8%"><span class="sortable" ng-click="sortType = 'ifopr';sortReverse = !sortReverse">If Oper<br/>Status</span><span ng-show="sortType == 'ifopr' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifopr' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
+                                <th width="7%"><span class="sortable" ng-click="sortType = 'ifopr';sortReverse = !sortReverse">Oper Status</span><span ng-show="sortType == 'ifopr' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifopr' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
 
                                 <th width="4%"><span class="sortable" ng-click="sortType = 'ifindex';sortReverse = !sortReverse">Index</span><span ng-show="sortType == 'ifindex' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifindex' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
 
-                                <th width="10%"><span class="sortable" ng-click="sortType = 'ifname';sortReverse = !sortReverse">IF Name</span><span ng-show="sortType == 'ifname' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifname' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
+                                <th width="12%"><span class="sortable" ng-click="sortType = 'ifname';sortReverse = !sortReverse">IF Name</span><span ng-show="sortType == 'ifname' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifname' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
 
-                                <th width="20%"><span class="sortable" ng-click="sortType = 'ifalias';sortReverse = !sortReverse">IF Alias</span><span ng-show="sortType == 'ifalias' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifalias' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
+                                <th width="19%"><span class="sortable" ng-click="sortType = 'ifalias';sortReverse = !sortReverse">IF Alias</span><span ng-show="sortType == 'ifalias' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifalias' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
 
-                                <th width="11%"><span class="sortable" ng-click="sortType = 'ifdesc';sortReverse = !sortReverse">IF Desc</span><span ng-show="sortType == 'ifdesc' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifdesc' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
+                                <th width="12%"><span class="sortable" ng-click="sortType = 'ifdesc';sortReverse = !sortReverse">IF Desc</span><span ng-show="sortType == 'ifdesc' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifdesc' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
 
                                 <th width="11%"><span class="sortable" ng-click="sortType = 'iftype';sortReverse = !sortReverse">IF Type</span><span ng-show="sortType == 'iftype' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'iftype' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
 
@@ -124,21 +128,25 @@
 
                                 <th width="10%"><span class="sortable" ng-click="sortType = 'netmask';sortReverse = !sortReverse">Netmask</span><span ng-show="sortType == 'netmask' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'netmask' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
                             </tr>
-                            <tr ng-repeat="devices in interfacedevices | orderBy:sortType:sortReverse | limitTo: 15" ng-class-even="'even'">
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="devices in interfacedevices | orderBy:sortType:sortReverse | limitTo: 15">
                                 <td>
-                                    <span class="mini-pill" ng-if="devices.ifstatus == 'OK' || devices.ifstatus =='DOWN' || devices.ifstatus == 'CRITICAL' || devices.ifstatus == 'MANAGED'" ng-class="{pillgreen: devices.ifstatus == 'OK', pillred: devices.ifstatus == 'DOWN', pillred: devices.ifstatus == 'CRITICAL'}">{{devices.ifstatus}}</span>
-                                    <span ng-if="devices.ifstatus == 'UNMANAGED' || devices.ifstatus =='UNKNOWN'" class="mini-pill pill-gray">-</td>
+                                    <span class="mini-pill" ng-if="devices.ifstatus == 'OK' || devices.ifstatus =='DOWN' || devices.ifstatus == 'CRITICAL'" ng-class="{pillgreen: devices.ifstatus == 'OK', pillred: devices.ifstatus == 'DOWN', pillred: devices.ifstatus == 'CRITICAL'}">{{devices.ifstatus}}</span>
+                                    <span ng-if="devices.ifstatus == 'UNMANAGED'" class="mini-pill pill-gray">UNMGD</span>
+                                    <span ng-if="devices.ifstatus =='UNKNOWN'" class="mini-pill pill-gray">UNKWN</span>
+                                    <span ng-if="devices.ifstatus =='MANAGED'" class="mini-pill pillgreen">MGD</span>
 
                                 <td>
                                     <span class="mini-pill" ng-if="devices.ifadminstatus == 'OK' || devices.ifadminstatus =='DOWN' || devices.ifadminstatus == 'CRITICAL'" ng-class="{pillgreen: devices.ifadminstatus == 'OK', pillred: devices.ifadminstatus == 'DOWN', pillred: devices.ifadminstatus == 'CRITICAL'}">{{devices.ifadminstatus}}</span>
-                                    <span ng-if="devices.ifadminstatus == 'UNMANAGED'" class="mini-pill pill-gray">-</span>
-                                    <span ng-if="devices.ifadminstatus =='UNKNOWN'" class="mini-pill pill-gray"><img src="img/question11.svg"></span>
+                                    <span ng-if="devices.ifadminstatus == 'UNMANAGED'" class="mini-pill pill-gray">UNMGD</span>
+                                    <span ng-if="devices.ifadminstatus =='UNKNOWN'" class="mini-pill pillgreen">OK</span>
                                 </td>
 
                                 <td>
                                     <span class="mini-pill" ng-if="devices.ifopr == 'OK' || devices.ifopr =='DOWN' || devices.ifopr == 'CRITICAL'" ng-class="{pillgreen: devices.ifopr == 'OK', pillred: devices.ifopr == 'DOWN', pillred: devices.ifopr == 'CRITICAL'}">{{devices.ifopr}}</span>
-                                    <span ng-if="devices.ifopr == 'UNMANAGED'" class="mini-pill pill-gray">-</span>
-                                    <span ng-if="devices.ifadminstatus =='UNKNOWN'" class="mini-pill pill-gray"><img src="img/question11.svg"></span>
+                                    <span ng-if="devices.ifopr == 'UNMANAGED'" class="mini-pill pill-gray">UNMGD</span>
+                                    <span ng-if="devices.ifadminstatus =='UNKNOWN'" class="mini-pill pillgreen">OK</span>
                                 </td>
                                 <td>{{devices.ifindex}}</td>
                                 <td>{{devices.ifname}}</td>
@@ -148,85 +156,55 @@
                                 <td>{{devices.ipaddress}}</td>
                                 <td>{{devices.netmask}}</td>
                             </tr>
-                            <tr ng-show="interfacedevices.length > 15">
+                            <tr ng-if="interfacedevices.length > 15">
                                 <td colspan="10" class="text-center more-rows" ng-click="handle()">{{interfacedevices.length-15 | number: 0}} more interfaces hidden. Click to expand.</td>
                             </tr>
                             </tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="Grid Grid--gutters Grid--flexCells u-nested-full">
+<!--         <div class="Grid Grid--gutters Grid--flexCells u-nested-full">
             <div class="Grid-cell ">
                 <div class="card-flex">
                     <h4>Management Path Information</h4>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 
 <script type="text/ng-template" id="locationExpand">
     <h4>Location Summary</h4>
-    <table class="comments-table">
+    <div class="expand-container">
+    <table class="locations-table table-loose table-loose--expanded">
+    <thead>        
         <tr class="peter-river">
             <th>Status</th>
             <th><span class="sortable" ng-click="sortType = 'vhid';sortReverse = !sortReverse">VHID</span><span ng-show="sortType == 'vhid' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'vhid' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
             <th>IP Address</th>
             <th>SNMP String</th>
+            <th>Last Transition</th>
         </tr>
-        <tr ng-repeat="status in locations | orderBy:sortType:sortReverse" ng-class-even="'even'">
+    </thead>
+    <tbody>
+        <tr ng-repeat="status in locations | orderBy:sortType:sortReverse">
             <td><span class="mini-pill" ng-class="{pillgreen: status.status == 'UP', pillred: status.status == 'DOWN'}">{{status.status}}</span></td>
-            <td><span class="small-vhid-link" ng-click="search(status.vhid)">{{status.vhid}}</span></td>
+            <td><span class="small-vhid-link" ng-click="search(status.vhid, 'Location Summary Dialog')">{{status.vhid}}</span></td>
             <td>{{status.ipaddresss}}</td>
             <td>{{status.commstring}}</td>
+            <td>{{status.last_transition_time | momentdate:'YYYY-MM-DD HH:mm:ss ZZ':'d-MMM-YY HH:mm:ss ZZ'}}</td>
         </tr>
+    </tbody>
     </table>
+    </div>
 </script>
 
 
 
 <script type="text/ng-template" id="devicesExpand">
-    <h4>Interface Status Information</h4>
-    <table class="circuit-table fixed-headers">
-        <thead>
-        <tr class="belieze-hole">
-            <th width="8%"><span class="sortable" ng-click="sortType = 'ifstatus';sortReverse = !sortReverse">Status<br/>Info</span><span ng-show="sortType == 'ifstatus' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifstatus' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
 
-            <th width="8%"><span class="sortable" ng-click="sortType = 'ifadminstatus';sortReverse = !sortReverse">IF Admin<br/>Status</span><span ng-show="sortType == 'ifadminstatus' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifadminstatus' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
-
-            <th  width="8%"><span class="sortable" ng-click="sortType = 'ifopr';sortReverse = !sortReverse">If Oper<br/>Status</span><span ng-show="sortType == 'ifopr' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifopr' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
-
-            <th width="4%"><span class="sortable" ng-click="sortType = 'ifindex';sortReverse = !sortReverse">IF Index</span><span ng-show="sortType == 'ifindex' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifindex' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
-
-            <th width="10%"><span class="sortable" ng-click="sortType = 'ifname';sortReverse = !sortReverse">IF Name</span><span ng-show="sortType == 'ifname' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifname' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
-
-            <th width="20%"><span class="sortable" ng-click="sortType = 'ifalias';sortReverse = !sortReverse">IF Alias</span><span ng-show="sortType == 'ifalias' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifalias' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
-
-            <th width="11%"><span class="sortable" ng-click="sortType = 'ifdesc';sortReverse = !sortReverse">IF Desc</span><span ng-show="sortType == 'ifdesc' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifdesc' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
-
-            <th width="11%"><span class="sortable" ng-click="sortType = 'iftype';sortReverse = !sortReverse">IF Type</span><span ng-show="sortType == 'iftype' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'iftype' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
-
-            <th width="10%"><span class="sortable" ng-click="sortType = 'ipaddress';sortReverse = !sortReverse">IP Address</span><span ng-show="sortType == 'ipaddress' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ipaddress' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
-
-            <th width="10%"><span class="sortable" ng-click="sortType = 'netmask';sortReverse = !sortReverse">Netmask</span><span ng-show="sortType == 'netmask' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'netmask' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
-        </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="devices in interfacedevices | orderBy:sortType:sortReverse" ng-class-even="'even'">
-                <td width="8%"><span class="mini-pill" ng-class="{pillgreen: devices.ifstatus == 'OK', pillred: devices.ifstatus == 'DOWN', pillred: devices.ifstatus == 'CRITICAL'}">{{devices.ifstatus}}</td>
-                <td width="8%"><span class="mini-pill" ng-class="{pillgreen: devices.ifadminstatus == 'OK', pillred: devices.ifadminstatus == 'DOWN', pillred: devices.ifadminstatus == 'CRITICAL'}">{{devices.ifadminstatus}}</td>
-                <td width="8%"><span class="mini-pill" ng-class="{pillgreen: devices.ifopr == 'OK', pillred: devices.ifopr == 'DOWN', pillred: devices.ifopr == 'CRITICAL'}">{{devices.ifopr}}</td>
-                <td width="4%">{{devices.ifindex}}</td>
-                <td width="10%">{{devices.ifname}}</td>
-                <td width="20%">{{devices.ifalias}}</td>
-                <td width="11%">{{devices.ifdesc}}</td>
-                <td width="11%">{{devices.iftype}}</td>
-                <td width="10%">{{devices.ipaddress}}</td>
-                <td width="10%">{{devices.netmask}}</td>
-            </tr>
-        </tbody>
-        </table>
 </script>

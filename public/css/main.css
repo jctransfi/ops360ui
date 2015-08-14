@@ -330,6 +330,15 @@ body {
     position: relative;
 }
 
+.card-handle--link {
+    float: right;
+}
+
+.card-handle--link > img {
+    width: 12px;
+    height: 12px;
+}
+
 .card-expand {
     float: right;
     width: 12px;
@@ -455,10 +464,6 @@ body {
     cursor: pointer;
 }
 
-#line-chart {
-    /*margin-top: 8px;*/
-}
-
 .data-grid {
     width: 71%;
     float: left;
@@ -479,6 +484,50 @@ body {
     font-size: 11px;
     width: 100%;
     text-align: left;
+}
+
+.table-loose {
+    width: 100%;
+    text-align: left;
+}
+
+.table-loose td {
+    padding: 4px !important;
+}
+
+.table-loose thead th {
+    padding: 4px !important;
+    font-size: 12px !important;
+}
+
+.table-loose tbody tr {
+    border-bottom: 1px solid #ddd;
+    font-size: 12px !important;
+}
+
+.interfaceinfo-table tbody tr:nth-child(15) {
+    border-bottom: none;
+}
+
+.locations-table tbody tr:nth-child(8) {
+    border-bottom: none;
+}
+
+.table-loose tbody tr:hover {
+    background: rgba(230, 126, 34,0.2);
+    /*background: rgba(211, 84, 0,0.);*/
+    /*border: none;*/
+}
+
+.table-loose tbody tr:last-child {
+    border-bottom: none;
+    background: transparent !important;
+}
+
+.table-loose--expanded tbody tr:hover {
+    background: rgba(230, 126, 34,0.2) !important;
+    /*background: rgba(211, 84, 0,0.);*/
+    /*border: none;*/
 }
 
 .comments-table td {
@@ -547,11 +596,6 @@ body {
     border-top: 1px solid #ddd;
     margin-top: 8px;
     padding-top: 8px;
-}
-
-#grid1 {
-    width: 100%;
-    height: 400px;
 }
 
 .btn {
@@ -708,12 +752,13 @@ body {
 }
 
 .pill-gray {
-    /*background-color: #aaa;*/
+    background-color: #aaa;
+    color: #fff;
 /*    border: 1px solid #a7a7a7;
     border-radius: 2px;*/
 }
 
-.pill-gray > img {
+.mini-pill > img {
     width: 18px;
     height: 18px;
 }
@@ -741,6 +786,12 @@ body {
     overflow-y: scroll;
 }
 
+.expand-container {
+    height: 90%;
+    /*overflow-y: scroll;*/
+    overflow: auto;
+}
+
 .fixed-headers {
     table-layout: fixed;
     border-collapse: collapse;
@@ -757,6 +808,9 @@ body {
   height: 90%;
 }
 
+.twrapper {
+    overflow: auto;
+}
 
 /* ==========================================================================
    Login classes
@@ -1339,6 +1393,24 @@ body {
     transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
 }
 
+.icon {
+    padding-left: 54px !important;
+}
+
+.icon-ops {
+    background-image: url(../img/hexagon2.svg);
+    background-repeat: no-repeat;
+    background-size: 36px;
+    background-position: 6px;
+}
+
+.icon-pa {
+    background-image: url(../img/magnifying-glass76.svg);
+    background-repeat: no-repeat;
+    background-size: 36px;
+    background-position: 6px;
+}
+
 /* content style */
 
 .st-menu ul {
@@ -1386,11 +1458,11 @@ body {
     text-decoration: none;
 }
 
-.st-menu ul li:hover {
+/*.st-menu ul li:hover {
     background: rgba(255,255,255,0.2);
-    /*box-shadow: inset 0 -1px rgba(0,0,0,0);*/
+    box-shadow: inset 0 -1px rgba(0,0,0,0);
     color: #fff;
-}
+}*/
 
 /* scale down and push */
 
@@ -1505,7 +1577,7 @@ body {
 
 .sortable {
     cursor: pointer;
-    text-decoration: underline;
+    /*text-decoration: underline;*/
     -webkit-user-select: none; /* webkit (safari, chrome) browsers */
     -moz-user-select: none; /* mozilla browsers */
     -khtml-user-select: none; /* webkit (konqueror) browsers */
