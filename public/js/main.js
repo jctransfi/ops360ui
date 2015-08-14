@@ -1,3 +1,4 @@
+// change myApp to appropriate application name
 var myApp = angular.module('myApp',['cgBusy', 'ngRoute', 'ngDropdowns', 'ngDialog', 'ngAnimate']);
 
 myApp.config(function($routeProvider) {
@@ -208,8 +209,6 @@ myApp.controller('loginController', function($scope, $route, ngDialog, loginServ
     });
   }
 });
-
-
 
 myApp.controller('initController', function($scope, $route, $filter, searchService, ngDialog, autosuggestService, loginService) {
   $scope.$route = $route;
