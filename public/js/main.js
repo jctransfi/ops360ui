@@ -49,6 +49,11 @@ myApp.filter('unique', function() {
    };
 });
 
+// a formatter for dates stored or passed as plain strings.
+// uses MomentJS for JS date formatting.
+// pass the date string, the format of the stringified data
+// and the desired date output format available in moment.
+// TO DO: add default dateFormat if not specified
 myApp.filter('momentdate', function() {
    return function(dateString, dateFormat, outputFormat) {
       var output = "";
