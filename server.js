@@ -1,8 +1,3 @@
-function searchVHID(searchTerm) {
-  // do fetch here
-  // return results object above
-}
-
 /*
   ACTUAL server code
 */
