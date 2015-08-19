@@ -7,7 +7,7 @@
                     --><span class="current-icon"><img src="img/eye109.svg"></span><span class="history--current">{{initvars.vhidnow}}</span><!--
                 --></div><!--
                 --><div class="history"><!--
-                    --><span class="hist-icon"><img src="img/history6.svg"></span><span ng-repeat="hist in initvars.histogram | unique:'vhid' | limitTo: 5" ng-click="search(hist.vhid, 'History Bar')">{{hist.vhid}}</span><!--
+                    --><span class="hist-icon"><img src="img/history6.svg"></span><span ng-repeat="hist in initvars.histogram | unique:'vhid' | orderBy:'-date' | limitTo: 5" ng-click="search(hist.vhid, 'History Bar')">{{hist.vhid}}</span><!--
                 --></div>
             </div>
         </div>

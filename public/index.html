@@ -14,6 +14,7 @@
         <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,900' rel='stylesheet' type='text/css'>
         <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,600' rel='stylesheet' type='text/css'> -->
         <link rel="stylesheet" href="css/normalize.css">
+        <!-- <link rel="stylesheet" href="css/scrollable-table.css"> -->
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/flexiblegs.css">
         <link rel="stylesheet" href="css/angular-busy.css">
@@ -32,7 +33,7 @@ mixpanel.init("533e4c0adb76e40df613112607da25e3");</script><!-- end Mixpanel -->
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-
+    
         <!-- for github - test for github -->
 
         <!-- Add your site or application content here -->
@@ -85,7 +86,7 @@ mixpanel.init("533e4c0adb76e40df613112607da25e3");</script><!-- end Mixpanel -->
                             </div>
                             <div id="searchPane" class="panel-container" ng-class="{'panel-open': searchOpen == true}">
                                 <div class="filter-box__form-element">
-                                    <input ng-model="searchTerm" ng-change="autosuggest('25');" ng-enter="search(searchTerm, 'onEnter');" class="filter-box__text-input search-box" type="text" placeholder="CABRCV1-CROCS-RTR-1" />
+                                    <input ng-model="searchTerm" ng-change="autosuggest('25');" ng-enter="search(searchTerm, 'onEnter');" class="filter-box__text-input search-box" type="text" placeholder="CABRCV1-CROCS-RTR-1" autofocus />
                                 </div><!--
                                 --><button class="btn-red" ng-click="search(searchTerm)">SEARCH</button>
                                 <div class="panel-results" cg-busy="{promise:aspromise}">
@@ -124,13 +125,13 @@ mixpanel.init("533e4c0adb76e40df613112607da25e3");</script><!-- end Mixpanel -->
         <script src="js/vendor/angular-busy.js"></script>
         <script src="js/vendor/highcharts.js"></script>
         <script src="js/vendor/moment.min.js"></script>
-        <script src="js/vendor/angular-dropdowns.js"></script>
         <script src="js/vendor/ngDialog.js"></script>
-        <script src="js/vendor/jquery.floatThead.min.js"></script>
+        <script src="js/vendor/angular-scrollable-table.js"></script>
         <!--<script src="http://code.highcharts.com/modules/data.js"></script>
         <script src="http://code.highcharts.com/modules/no-data-to-display.js"></script>-->
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
+        <script src="js/controllers/login.js"></script>
         <script src="js/sampleJSON.js"></script>
         <!-- templates -->
         <script type="text/ng-template" id="templateId">

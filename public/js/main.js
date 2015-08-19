@@ -1,5 +1,5 @@
 // change myApp to appropriate application name
-var myApp = angular.module('myApp',['cgBusy', 'ngRoute', 'ngDropdowns', 'ngDialog', 'ngAnimate']);
+var myApp = angular.module('myApp',['cgBusy', 'ngRoute', 'ngDialog', 'ngAnimate', 'scrollable-table']);
 
 myApp.config(function($routeProvider) {
     // activetab variable allows for highlighting of 
@@ -166,49 +166,7 @@ myApp.service('autosuggestService', function($http) {
     }
 });
 
-myApp.controller('aboutController', function($scope, $route) {
-  $scope.message = 'Ticket Suppression';
-  $scope.$route = $route;
-});
 
-myApp.controller('loginController', function($scope, $route, ngDialog, loginService) {
-  // $scope.$route = $route;
-
-  $scope.login = function (cpe){
-    // call web service and pass un/pw
-
-    $scope.userInfo = {};
-
-    loginService.login($scope.username, $scope.password, 25, "172.168.1.16").then(function(dataResponse) {
-      console.log(dataResponse);
-      console.log(dataResponse.data);
-      $scope.userInfo = dataResponse.data;
-
-      //set session
-      sessionStorage.setItem("authToken", $scope.userInfo.securityToken);
-      sessionStorage.setItem("firstName", $scope.userInfo.firstName);
-      sessionStorage.setItem("lastName", $scope.userInfo.lastName);
-      sessionStorage.setItem("email", $scope.userInfo.emailAddress);
-      sessionStorage.setItem("role", "Super Admin");
-
-      //TODO: also add cookie option
-
-      $scope.$parent.fullname = $scope.userInfo.firstName + " " + $scope.userInfo.lastName;
-      $scope.$parent.role = 'Super Admin';
-
-      ngDialog.closeAll();
-    }, function(error) {
-      // Do something with the error if it fails
-      console.log(error)
-      console.log("an error occurred.");
-      if(error.status === 406){
-        $scope.login.error = "Your username or password is incorrect. Please check and try again.";
-      }else{
-        $scope.login.error = "An error " + error.status + ": " + error.statusText + " occured. Please try again.";  
-      }
-    });
-  }
-});
 
 myApp.controller('initController', function($scope, $route, $filter, searchService, ngDialog, autosuggestService, loginService) {
   $scope.$route = $route;
@@ -221,13 +179,6 @@ myApp.controller('initController', function($scope, $route, $filter, searchServi
     "fname" : sessionStorage.getItem("firstName"),
     "lname" : sessionStorage.getItem("lastName")
   }
-
-  mixpanel.identify($scope.useridentity.email); // eventually place this in the event handler of login
-  mixpanel.people.set({
-      "$first_name": $scope.useridentity.fname,
-      "$last_name": $scope.useridentity.lname,
-      "$role": "Super Admin"
-  });
 
   $scope.initvars = {
     "histogram" : [],
@@ -565,18 +516,6 @@ myApp.controller('webconsoleController', function($scope, $route, $filter, searc
     if($scope.$parent.initvars.vhidnow != null) {
       $scope.$parent.search($scope.$parent.initvars.vhidnow, 'WC On Load');
     }
-
-    /*
-      there will have to be two actions to load the data for the entire dashboard
-
-      first, if on web console and vhid is exact search, then load data immediately
-      second, if partial search load only happens when the actual vhid from results is clicked
-      
-      in both cases, do not attach promise tracker to dashboard call; sort of "lazy load" it
-      in the background regardless of webconsole results;
-
-
-    */
 });
 
 /* sidebar controllers */

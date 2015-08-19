@@ -8,7 +8,7 @@
                     --><span class="current-icon"><img src="img/eye109.svg"></span><span class="history--current">{{initvars.vhidnow}}</span><!--
                 --></div><!--
                 --><div class="history"><!--
-                    --><span class="hist-icon"><img src="img/history6.svg"></span><span ng-repeat="hist in initvars.histogram | unique:'vhid' | orderBy:'date' | limitTo: 5" ng-click="search(hist.vhid, 'History Bar')">{{hist.vhid}}</span><!--
+                    --><span class="hist-icon"><img src="img/history6.svg"></span><span ng-repeat="hist in initvars.histogram | unique:'vhid' | orderBy:'-date' | limitTo: 5" ng-click="search(hist.vhid, 'History Bar')">{{hist.vhid}}</span><!--
                 --></div>
             </div>
         </div>
@@ -228,7 +228,7 @@
                                 <th>Source</th>
                                 <!-- <th>Ticket</th> -->
                             </tr>
-                            <tr ng-repeat="nerc in nerc | limitTo:-4" ng-class-even="'even'">
+                            <tr ng-repeat="nerc in nerc | orderBy: '-date' | limitTo:4" ng-class-even="'even'">
                                 <!-- <td>{{nerc.vhid}}</td> -->
                                 <td width="15%">{{nerc.date | date:'d-MMM-yy'}}</td>
                                 <td>{{nerc.evtype}}</td>
@@ -316,7 +316,6 @@
     <div class="expand-container">
     <table class="interface-table">
         <tr class="peter-river">
-            <th>VHID</th>
             <th>W #</th>
             <th>Date</th>
             <th>Type</th>
@@ -324,8 +323,7 @@
             <th>Source</th>
             <!-- <th>Ticket</th> -->
         </tr>
-        <tr ng-repeat="nerc in nerc" ng-class-even="'even'">
-            <td>{{nerc.vhid}}</td>
+        <tr ng-repeat="nerc in nerc | orderBy: '-date'" ng-class-even="'even'">
             <td>{{nerc.NMSWNum}}</td>
             <td width="15%">{{nerc.date | date:'d-MMM-yy'}}</td>
             <td>{{nerc.evtype}}</td>

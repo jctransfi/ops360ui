@@ -1,6 +1,7 @@
 <h4>Interface Status Information</h4>
 <div class="expand-container">
-<table class="circuit-table table-loose table-loose--expanded">
+<scrollable-table>
+<table class="circuit-table table-loose table-loose--expanded table">
     <thead>
         <tr class="belieze-hole">
             <th width="7%"><span class="sortable" ng-click="sortType = 'ifstatus';sortReverse = !sortReverse">Status Info</span><span ng-show="sortType == 'ifstatus' && !sortReverse" class="sort-icon"><img src="img/sortdown.svg"/></span><span ng-show="sortType == 'ifstatus' && sortReverse" class="sort-icon"><img src="img/sortup.svg"/></span></th>
@@ -53,4 +54,5 @@
         </tr>
     </tbody>
 </table>
+</scrollable-table>
 </div>
