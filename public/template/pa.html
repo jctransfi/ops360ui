@@ -160,7 +160,7 @@
             <div class="Grid-cell " ng-controller="ticketController">
                 <div class="card-flex">
                     <div class="card-header">
-                        <h4>Maintenance Tickets</h4>
+                        <h4>Tickets</h4>
                         <div class="card-expand" ng-click="handle()"></div>
                     </div>
                     <div class="clear"></div>
@@ -174,6 +174,7 @@
                                 <th>Area</th>
                                 <th>Sub-area</th>
                                 <th>Severity</th>
+                                <th>Status</th>
                             </tr>
                             <tr ng-repeat="maintenance in maintenance | limitTo: 5" ng-class-even="'even'">
                                 <td>{{maintenance.SR_NUM}}</td>
@@ -183,6 +184,7 @@
                                 <td>{{maintenance.SR_AREA}}</td>
                                 <td>{{maintenance.SR_SUB_AREA}}</td>
                                 <td>{{maintenance.SR_SEV_CD}}</td>
+                                <td>{{maintenance.SR_STAT_ID}}</td>
                             </tr>
                         </table>
                     </div>
@@ -198,14 +200,14 @@
                         <tr class="peter-river">
                             <!-- <th>VHID</th> -->
                             <th>Number</th>
-                            <th>Comments</th>
-                            <th>Last Status</th>
+                            <th width="50%">Comments</th>
+                            <th width="25%">Last Status</th>
                         </tr>
                         <tr ng-repeat="oob in oob" ng-class-even="'even'">
                             <!-- <td>{{oob.vhid}}</td> -->
-                            <td>{{oob.number}}</td>
-                            <td width="38%">{{oob.comments}}</td>
-                            <td width="12%">{{oob.lastdatetested | date:'d-MMM-yy HH:mm:ss Z'}}</td>
+                            <td>{{oob.oobid}}</td>
+                            <td>{{oob.comments}}</td>
+                            <td>{{oob.lastdatetested | date:'d-MMM-yy HH:mm:ss Z'}}</td>
                         </tr>
                     </table>
                 </div>
@@ -314,49 +316,59 @@
 <script type="text/ng-template" id="nercExpand">
     <h4>NERC EVENTS</h4>
     <div class="expand-container">
-    <table class="interface-table">
-        <tr class="peter-river">
-            <th>W #</th>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Subtype</th>
-            <th>Source</th>
-            <!-- <th>Ticket</th> -->
-        </tr>
-        <tr ng-repeat="nerc in nerc | orderBy: '-date'" ng-class-even="'even'">
-            <td>{{nerc.NMSWNum}}</td>
-            <td width="15%">{{nerc.date | date:'d-MMM-yy'}}</td>
-            <td>{{nerc.evtype}}</td>
-            <td>{{nerc.evsubtype}}</td>
-            <td>{{nerc.sourceserv}}</td>
-            <!-- <td>{{nerc.ticketno}}</td> -->
-        </tr>
+    <table class="interface-table table-loose">
+        <thead>
+            <tr class="peter-river">
+                <th>W #</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Subtype</th>
+                <th>Source</th>
+                <!-- <th>Ticket</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="nerc in nerc | orderBy: '-date'" ng-class-even="'even'">
+                <td>{{nerc.NMSWNum}}</td>
+                <td width="15%">{{nerc.date | date:'d-MMM-yy'}}</td>
+                <td>{{nerc.evtype}}</td>
+                <td>{{nerc.evsubtype}}</td>
+                <td>{{nerc.sourceserv}}</td>
+                <!-- <td>{{nerc.ticketno}}</td> -->
+            </tr>
+        </tbody
     </table>
     </div>
 </script>
 
 <script type="text/ng-template" id="ticketsExpand">
-    <h4>Maintenance Tickets</h4>
+    <h4>Tickets</h4>
     <div class="expand-container">
-    <table class="interface-table">
-        <tr class="peter-river">
-            <th>Ticket Number</th>
-            <th>Title</th>
-            <th>Type</th>
-            <th>Source</th>
-            <th>Area</th>
-            <th>Sub-area</th>
-            <th>Severity</th>
-        </tr>
-        <tr ng-repeat="maintenance in maintenance" ng-class-even="'even'">
-            <td>{{maintenance.SR_NUM}}</td>
-            <td>{{maintenance.SR_TITLE}}</td>
-            <td>{{maintenance.TT_TYPE_CD}}</td>
-            <td>{{maintenance.SOURCE_TYP_CDCE}}</td>
-            <td>{{maintenance.SR_AREA}}</td>
-            <td>{{maintenance.SR_SUB_AREA}}</td>
-            <td>{{maintenance.SR_SEV_CD}}</td>
-        </tr>
+    <table class="interface-table table-loose">
+        <thead>
+            <tr class="peter-river">
+                <th>Ticket Number</th>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Source</th>
+                <th>Area</th>
+                <th>Sub-area</th>
+                <th>Severity</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="maintenance in maintenance" ng-class-even="'even'">
+                <td>{{maintenance.SR_NUM}}</td>
+                <td>{{maintenance.SR_TITLE}}</td>
+                <td>{{maintenance.TT_TYPE_CD}}</td>
+                <td>{{maintenance.SOURCE_TYP_CDCE}}</td>
+                <td>{{maintenance.SR_AREA}}</td>
+                <td>{{maintenance.SR_SUB_AREA}}</td>
+                <td>{{maintenance.SR_SEV_CD}}</td>
+                <td>{{maintenance.SR_STAT_ID}}</td>
+            </tr>
+        </tbody>
     </table>
     </div>
 </script>

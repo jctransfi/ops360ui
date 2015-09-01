@@ -84,24 +84,6 @@ myApp.directive('ngEnter', function () {
   };
 });
 
-myApp.directive('focusOn', function() {
-   return function(scope, elem, attr) {
-      scope.$on('focusOn', function(e, name) {
-        if(name === attr.focusOn) {
-          elem[0].focus();
-        }
-      });
-   };
-});
-
-myApp.factory('focus', function ($rootScope, $timeout) {
-  return function(name) {
-    $timeout(function (){
-      $rootScope.$broadcast('focusOn', name);
-    });
-  }
-});
-
 myApp.service('deviceService', function($http) {
   delete $http.defaults.headers.common['X-Requested-With'];
   this.getData = function() {
@@ -628,7 +610,7 @@ myApp.controller('wcintController', function($scope, ngDialog) {
           //   className: 'ngdialog-theme-default',
           //   scope: $scope
           // });
-    ngDialog.open({ template: 'template/interface-details.html', className: 'ngdialog-theme-webconsole', scope: $scope.$parent });
+    ngDialog.open({ template: 'template/interface-details.html', className: 'ngdialog-theme-webconsole', controller: 'wcintController', scope: $scope.$parent });
   }
 });
 
@@ -640,7 +622,7 @@ myApp.controller('locsummaryController', function($scope, ngDialog) {
     mixpanel.track("Expand", {
       "Dialog": "Location Summary"
     });
-    ngDialog.open({ template: 'locationExpand', className: 'ngdialog-theme-default', scope: $scope.$parent });
+    ngDialog.open({ template: 'locationExpand', className: 'ngdialog-theme-default', controller: 'locsummaryController', scope: $scope.$parent});
   }
 });
 

@@ -1,15 +1,25 @@
 <div cg-busy="{promise:aspromise}">
 	<h3>Search Results</h3>
 	<p>Your search came up with {{aslength}} matches. Click on any result below to load more information.</p>
-<!-- 	<input type="checkbox" /><label>Show me DOWN only.</label> -->
+	<input type="checkbox" id="downOnly" ng-model="downCheck"/><label for="downOnly">show <span class="mini-pill pillred">DOWN</span> only</label>
 
-	<table class="srp-table">
-	    <tr class="srp-click" ng-click="search(value.vhid, 'Search Dialog')" ng-repeat="(key, value) in results | orderBy: 'value.vhid'">
+	<table class="srp-table table-loose" width="100%">
+		<thead>
+			<tr class="peter-river">
+		        <th width="8%">Status</th>
+		        <th>VHID</th>
+		        <th>Last Transition</th>
+		        <th>IP Address</th>
+		    </tr>
+		</thead>
+	    <tr class="srp-click" ng-click="search(value.vhid, 'Search Dialog')" ng-repeat="(key, value) in results | orderBy: 'value.vhid'" ng-hide="downCheck == true && value.status == 'UP'">
 	        <td><span class="mini-pill" ng-class="{pillgreen: value.status == 'UP', pillred: value.status == 'DOWN'}">{{value.status}}</span></td>
 	        <td>{{value.vhid}}</td>
+	        <td>{{value.last_transition_time | momentdate:'YYYY-MM-DD HH:mm:ss ZZ':'D-MMM-YY HH:mm:ss ZZ'}}</td>
+	        <td>{{value.ipAddress}}</td>
 	    </tr>
 	    <tr ng-show="results.general_message == 'Error'">
-	        <td colspan="2">No matches found.</td>
+	        <td colspan="3">No matches found.</td>
 	    </tr>
 	</table>
 </div>
